@@ -1,0 +1,20 @@
+This directory includes the norm conserving pseudopotentials for all the elements except the rare earths elements
+with f state electrons (which are not supported by the current released version of PEtot). 
+
+The pseudopotentials are generated using Dr. Jose Luis Martins's pseudopotential package:
+ http://bohr.inesc-mn.pt/~jlm/jlm.html
+ http://bohr.inesc-mn.pt/~jlm/pseudo.html
+
+The pseudopotentials are generated from the atom_table.input parameters without any changes. 
+
+There has been no systematic testing for these pseudopotentials, thus you need to use them with 
+cautious. There is no guarantee they are the optimized pseudopotentials, and they will not produce
+errors. 
+
+The suggested plane wave energy cutoff for each pseudopotential is written in the first line of 
+the pseudopotential file. 
+
+
+Lin-Wang Wang 
+lwwang@lbl.gov
+Lawrence Berkeley National Laboratory  

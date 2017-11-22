@@ -1,0 +1,52 @@
+------------------------------
+Author and contact information
+------------------------------
+
+David Vanderbilt
+dhv@physics.rutgers.edu
+July 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in neutral s2 configuration; semicore sp shells included.
+
+This Sr potential was generated in the early 1990's by some member
+of my group, probably D. King-Smith.  I believe it has been used
+successfully in a number of studies including those on SrTiO3.
+
+Thanks to Davide Ceresoli for help with installing this potential
+in the library.
+
+--------------------
+Intended environment
+--------------------
+
+Mostly for Sr in oxides where it is in the 2+ formal oxidation
+state.  It should probably be OK for metallic Sr too, but I don't
+think we ever tried it for that.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+There is a test for the s1 configuration in the distribution:
+
+   nlm    all-elec      pseudo        diff
+
+   400   -3.477981   -3.477840   -0.000141
+   410   -2.147436   -2.147419   -0.000017
+   500   -0.631142   -0.631117   -0.000024
+
+-----------------
+Solid-state tests
+-----------------
+
+Nothing to report.
+
+-------------
+Miscellaneous
+-------------
+
+Nothing to report.

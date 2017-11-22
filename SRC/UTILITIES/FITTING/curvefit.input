@@ -1,0 +1,5 @@
+5.504923276479627 !E_F, Fermi energy in eV
+1.0	!dV, bias voltage in eV
+1.0	!alpha, parameter for interpolation
+7.5	!E1, highest energy in eV
+4.5	!E2, lowest energy in eV

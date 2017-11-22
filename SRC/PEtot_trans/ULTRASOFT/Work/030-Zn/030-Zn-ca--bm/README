@@ -1,0 +1,54 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Bernd Meyer
+bernd.meyer@theochem.ruhr-uni-bochum.de
+July 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in neutral d10s2 configuration.
+
+Potential is optimized for a plane wave cut-off of 25 Ry and was generated
+in November 2000.
+
+--------------------
+Intended environment
+--------------------
+
+Ionic compounds, but should be pretty general, I suppose.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Nothing to report.
+
+-----------------
+Solid-state tests
+-----------------
+
+ZnO in different crystal structures (E_pw = 25 Ry).
+Oxygen potential used: 008-O-ca--vdb.
+
+NaCl structure (B1):       lattice constant:    a = 7.977 bohr
+                           bulk modulus:        B = 207 GPa
+
+Zincblende structure (B3): lattice constant:    a = 8.498 bohr
+                           bulk modulus:        B = 162 GPa
+
+Wurtzite structure (B4):   lattice constant:    a = 6.030 bohr
+                                                c = 9.750 bohr
+                           internal coordinate: u = 0.3783
+                           bulk modulus:        B = 162 GPa
+
+Transition pressure (B1) <--> (B4): 9.4 GPa
+
+-------------
+Miscellaneous
+-------------
+
+Nothing to report.

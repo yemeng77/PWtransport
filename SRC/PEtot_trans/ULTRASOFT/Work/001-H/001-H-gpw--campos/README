@@ -1,0 +1,56 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for H.
+The pseudopotential have been generated using 2 s non-local projectors, 
+and p as the local potential.
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+H_ps.out:  comparison of all-electron and pseudo eigenvalues (Ry)
+H_ps.out:   nlm    all-elec      pseudo        diff
+H_ps.out:   100   -0.481059   -0.481059    0.000000
+
+H_test_1.out:   nlm    all-elec      pseudo        diff
+H_test_1.out:   100   -0.655934   -0.655899   -0.000035
+
+H_test_2.out:   nlm    all-elec      pseudo        diff
+H_test_2.out:   100   -0.841292   -0.841184   -0.000107
+
+
+
+-----------------
+Solid-state tests
+-----------------
+
+Dimer test: (BE: molecular binding energy/per molecule eV)
+Name          Ecut (Ryd)   a0       e0(eV)    BE     hw (1/cm)   M (Bohr magn.)
+ch_e9g4_7.3.4  15        0.7562  -31.6647  -4.5548  4593.389   0.000
+ch_e9g4_7.3.4  19        0.7564  -31.7589  -4.5560  4542.638   0.000
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/H/PW91/ch_e9g4_7.3.4.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/H/PW91/ch_e9g4_7.3.4.pseudo.html

@@ -1,0 +1,58 @@
+------------------------------
+Author and contact information
+------------------------------
+
+David Vanderbilt
+dhv@physics.rutgers.edu
+January 2002
+
+**************************************************************
+Warning:
+
+   Due to an oversight, the Ti potential included in distribution
+   uspp-733 was not precisely the intended one.
+   
+   The potential `022-Ti-ca-sp-vgrp' in uspp-733 has been renamed
+   `022-Ti-ca-sp-vgrp_alt' in uspp-734 and subsequent versions;
+   it is generated in the neutral configuration.
+   
+   The potential `022-Ti-ca-sp-vgrp' in uspp-734 and subsequent
+   versions is the intended one: it is generated in the +1 ionic
+   configuration.
+
+   DV 7/10/02
+**************************************************************
+
+------------------------
+Introductory information
+------------------------
+
+Generated in neutral s2d2 configuration; semicore sp shells included.
+
+See warning above.  I think this potential may be of almost equal
+quality to the one generated in the ionic configuration, but it
+has not been extensively tested.
+
+--------------------
+Intended environment
+--------------------
+
+See warning above.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+There is a test for the s2d1 configuration in the distribution.
+
+-----------------
+Solid-state tests
+-----------------
+
+Nothing to report.
+
+-------------
+Miscellaneous
+-------------
+
+Nothing to report.

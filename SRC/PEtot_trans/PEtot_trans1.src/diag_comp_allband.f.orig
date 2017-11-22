@@ -1,0 +1,168 @@
+      subroutine diag_comp_allband(ilocal,E_st,err_st,vr,workr_n,
+     &    kpt,iislda)
+*************************************************
+cc     Written by Lin-Wang Wang, March 30, 2001.  
+*************************************************************************
+**  copyright (c) 2003, The Regents of the University of California,
+**  through Lawrence Berkeley National Laboratory (subject to receipt of any
+**  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
+
+******************************************
+***  Note for subspace diagonalization, the purpose is to make:
+****  ug_m1 * H * ug_m2 = delta_m1,m2. 
+****  as a result, the S operation is not really needed here. 
+****  We will diagonalize h(m1,m2), find U.  We don't need to call the
+****  general eigen vector solver for h*psi=e s*psi
+
+
+      use fft_data
+      use load_data
+      use data
+
+      implicit double precision (a-h,o-z)
+
+      parameter (lwork=6000)
+
+      include 'mpif.h'
+      include 'param.escan_real'
+
+      complex*16 ugh(mg_nx),ugh_m(mg_nx,mx), ugh_m_tmp(mg_nx,mx)
+      complex*16 h(mst,mst),hh(mst,mst)
+      real*8 E_st(mst),err_st(mst)
+      complex*16 workx(lwork)
+      real*8 workrx(3*mst)
+
+      real*8 vr(mr_n)
+      complex*16 workr_n(mr_n)
+
+      real*8 Dij0(32,32,mtype),Qij(32,32,mtype)
+      integer isNLa(9,matom),ipsp_type(mtype)
+      complex*16 sumdum(32,natom),sumdum_m(32,natom,mx)
+      complex*16, allocatable, dimension(:,:) :: ug_n_tmp
+
+
+
+******* extra due to djacobi()
+      integer ind(mst)
+
+
+      complex*16 ctmp(mst),c,c_one,c_zero
+
+      common /comisNLa/isNLa,Dij0,Qij,ipsp_all,ipsp_type
+
+      complex*16 sss, crazy
+
+**********************************************
+**** prepare the matrix
+**********************************************
+      ng_n=ngtotnod(inode,kpt)
+
+
+c$$$      call Hpsi_comp_AllBand(ug_n(1,1),ugh_m(1,1),mx,
+c$$$     &    ilocal,vr,workr_n,kpt,1,sumdum_m,iislda)
+
+      mstart = band_dis(1)
+      nblock = band_dis(2) - band_dis(1) + 1
+
+c$$$! Sanity check
+c$$$      c_one=dcmplx(1.d0,0.d0)
+c$$$      c_zero=dcmplx(0.d0,0.d0)
+c$$$      CALL zgemm('c','n',mst,mst,ng_n,c_one,ug_n,mg_nx,ug_n,
+c$$$     &   mg_nx,c_zero,h,mst)
+c$$$
+c$$$      CALL mpi_allreduce(h,hh,mst*mst,MPI_DOUBLE_COMPLEX,
+c$$$     &   MPI_SUM,MPI_COMM_K,ierr)
+c$$$
+c$$$      h=hh*vol
+c$$$
+c$$$      if (ikey_k==0) then
+c$$$         do i=1, mst
+c$$$            write(500+icolor_k,*) h(i,:)
+c$$$         enddo
+c$$$         call system_flush(500+icolor_k)
+c$$$      endif
+c$$$
+c$$$      call mpi_barrier(mpi_comm_world,ierr)
+c$$$! end of sanity check
+
+      ugh_m_tmp = 0.d0
+      call Hpsi_comp_AllBandBP(ug_n(1,mstart),ugh_m_tmp(1,mstart),
+     &     nblock,ilocal,vr,workr_n,kpt,1,sumdum_m,iislda)
+
+!      do i=band_dis(1), band_dis(2)
+!         ugh_m_tmp(:,i) = ug_n(:,i)
+!      enddo
+ 
+      call mpi_allreduce(ugh_m_tmp,ugh_m,mg_nx*mx,
+     &     MPI_DOUBLE_COMPLEX,MPI_SUM,MPI_COMM_B2,ierr)
+
+!      do i=1, mx
+!         crazy = dot_product(ugh_m(:,i),ugh_m(:,i))
+!         write(400+inode_tot,*) i, crazy
+!         crazy = dot_product(ugh_m_tmp(:,i),ugh_m_tmp(:,i))
+!         write(400+inode_tot,*) i, crazy
+!      enddo
+!      call system_flush(400+inode_tot)
+
+
+      c_one=dcmplx(1.d0,0.d0)
+      c_zero=dcmplx(0.d0,0.d0)
+      CALL zgemm('c','n',mst,mst,ng_n,c_one,ugh_m,mg_nx,ug_n,
+     &   mg_nx,c_zero,h,mst)
+
+      CALL mpi_allreduce(h,hh,mst*mst,MPI_DOUBLE_COMPLEX,
+     &   MPI_SUM,MPI_COMM_K,ierr)
+
+      h=hh*vol
+
+********************************************
+      call system_czheev('V','U',mx,h,mst,E_st,workx,
+     &  lwork,workrx,info)
+************************************
+       
+       call zgemm('N','N',ng_n,mst,mst,c_one,ug_n,mg_nx,h,mst,
+     &  c_zero,ugh_m,mg_nx)
+
+       ug_n(1:ng_n,1:mst)=ugh_m(1:ng_n,1:mst)
+
+
+************************************
+      if(ipsp_all.eq.2) then
+      do 201 i=1,ng_n
+
+      do m=1,mx
+       c=dcmplx(0.d0,0.d0)
+
+       do m1=1,mx
+       c=c+h(m1,m)*sug_n(i,m1)    ! terrible operation
+       enddo
+
+       ctmp(m)=c
+
+      enddo
+
+      do m=1,mx
+      sug_n(i,m)=ctmp(m)         ! terrible operation
+      enddo
+201   continue
+      endif
+*********************************
+***********************************
+      if(inode_tot.eq.1) then
+       write(6,*) "*********************************"
+       write(6,*) "*****kpt= ", kpt
+       write(6,*) "report from diag_real"
+       write(6,*) "eigen energies, in eV"
+       write(6,103) (E_st(i)*27.211396d0, i=1,mx)
+       write(6,*) "*********************************"
+      endif
+101   format(5(i6,7x))
+102   format(5(E10.4,3x))
+103   format(5(f12.8,1x))
+
+      return
+      end
+
+
+

@@ -1,0 +1,81 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for Pt, 10 valence electrons. 
+The pseudopotential has been generated using 1 p (normconserving), and 2 d nonlocal projectors, 
+and include nonlinear core correction. 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Pt_ps.out:  comparison of all-electron and pseudo eigenvalues (Ry)
+Pt_ps.out:   nlm    all-elec      pseudo        diff
+Pt_ps.out:   520   -0.455800   -0.455801    0.000002
+Pt_ps.out:   600   -0.421061   -0.421063    0.000002
+Pt_ps.out:   610   -0.066975   -0.066974   -0.000001
+
+Pt_test_1.out:   nlm    all-elec      pseudo        diff
+Pt_test_1.out:   520   -0.332632   -0.331525   -0.001107
+Pt_test_1.out:   600   -0.364534   -0.368136    0.003602
+Pt_test_1.out:   610   -0.046599   -0.048137    0.001538
+
+Pt_test_2.out:   nlm    all-elec      pseudo        diff
+Pt_test_2.out:   520   -0.496807   -0.496609   -0.000198
+Pt_test_2.out:   600   -0.452403   -0.452663    0.000261
+Pt_test_2.out:   610   -0.088706   -0.088780    0.000074
+
+Pt_test_3.out:   nlm    all-elec      pseudo        diff
+Pt_test_3.out:   520   -1.056801   -1.055514   -0.001287
+Pt_test_3.out:   600   -0.953052   -0.955502    0.002450
+Pt_test_3.out:   610   -0.497260   -0.498958    0.001698
+
+
+-----------------
+Solid-state tests
+-----------------
+
+
+Name           Ecut Sym    a0      e0       B(GPa)   C44     C12     a01
+pt_us_gga_7.3.4 24  FCC  4.0049  -1212.002  267.1   95.9    235.2   3.969
+pt_us_gga_7.3.4 24  BCC  3.1890  -1211.899  266.1   160.4   299.7   3.160
+pt_us_gga_7.3.4 50  FCC  4.0044  -1212.095  238.3   83.4    208.9   4.005
+pt_us_gga_7.3.4 50  BCC  3.1892  -1211.989  231.0   137.0   262.5   3.192
+
+Name           Sym     a0      B    
+Pt_FLAPW_PW91  FCC  3.9743   263.0  
+
+
+
+The two cutoff energies listed (Ryd) correspond to a total energy convergence of 
+0.1eV and 0.01eV, respectively. 
+a0 (Bohr) is the lattice-constant found by fitting an equation of state to 
+the total energies. 
+a01 (Bohr) is the lattice-constant used then calculating the elastic constants 
+and is calculated from the stress on the unit-cell.
+
+
+See also
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Pt/PW91/pt_us_gga_7.3.4.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Pt/PW91/pt_us_gga_7.3.4.pseudo.html

@@ -1,0 +1,12 @@
+    1    0    0    0    3             ifae,ifpsp,ifprt,ifplw,ilogd (5i5)
+   1.80     -2.4       1.6       40   rlogd,emin,emax,nnt (3f10.5,i5)
+   1.0d-11   1.0d-09   0.5            thresh,tol.damp (2e10.1,f10.5)
+silicon                               title (a20)
+  14.   1.0        4.                  z,xion,exfact (f5.0,2f10.5)
+  200.0        7.0       60.0
+    5    2                            ncspvs,irel (2i5)
+ 100  2.       -100.0                  nnlz,wwnl,ee (i4,f7.3,f14.6)
+ 200  2.        -7.0                  nnlz,wwnl,ee (i4,f7.3,f14.6)
+ 210  6.        -5.0                  nnlz,wwnl,ee (i4,f7.3,f14.6)
+ 300  2.00      -0.76                 nnlz,wwnl,ee (i4,f7.3,f14.6)
+ 310  1.00      -0.36                 nnlz,wwnl,ee (i4,f7.3,f14.6)

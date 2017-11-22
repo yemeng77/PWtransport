@@ -1,0 +1,15 @@
+    1    0   -3    0    3             ifae,ifpsp,ifprt,ifplw,ilogd
+   1.80     -2.4       1.6       40   rlogd,emin,emax,nnt
+   1.0d-10 1.0d-10   0.4        250  thresh,tol,damp,maxit
+copper                                title (a20)
+  29.   0.0       -0.                 z,xion,exfact
+  80.0       10.0       50.0          rmax,aasf,bbsf
+    8    0                            ncspvs,irel
+ 100  2.      -641.0                  nnlz,wwnl,ee
+ 200  2.       -76.0                  nnlz,wwnl,ee
+ 210  6.       -67.0                  nnlz,wwnl,ee
+ 300  2.        -8.3                  nnlz,wwnl,ee
+ 310  6.        -5.366                nnlz,wwnl,ee
+ 400  1.0       -0.39                 nnlz,wwnl,ee
+ 410  0.5       -0.080                nnlz,wwnl,ee
+ 320  9.5       -0.49039              nnlz,wwnl,ee  

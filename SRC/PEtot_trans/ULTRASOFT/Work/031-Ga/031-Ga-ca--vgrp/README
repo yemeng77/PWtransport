@@ -1,0 +1,44 @@
+------------------------------
+Author and contact information
+------------------------------
+
+David Vanderbilt
+dhv@physics.rutgers.edu
+July 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in neutral s2p1 configuration.
+
+This Ga potential was generated in the early 1990's by some member
+of my group, probably D. King-Smith.  I'm not sure what the intended
+application was, but it may have been for studies of polarization in
+GaAs.
+
+--------------------
+Intended environment
+--------------------
+
+Mostly for Sr in oxides where it is in the 2+ formal oxidation
+state.  It should probably be OK for metallic Sr too, but I don't
+think we ever tried it for that.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Nothing to report.
+
+-----------------
+Solid-state tests
+-----------------
+
+Nothing to report.
+
+-------------
+Miscellaneous
+-------------
+
+Nothing to report.

@@ -1,0 +1,64 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+november 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for Cu, with 11 valence electrons.
+The pseudopotential have been genearted using 2 s, 2 d nonlocal projectors, 
+(p local) and include nonlinear core correction. 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Cu_test_1.out: COMP: comparison of all-electron and pseudo eigenvalues (Ry)
+Cu_test_1.out:COMP:   nlm    all-elec      pseudo        diff
+Cu_test_1.out:COMP:   320   -0.375892   -0.375893    0.000000
+Cu_test_1.out:COMP:   400   -0.342778   -0.342779    0.000001
+Cu_test_1.out:COMP:   410   -0.055025   -0.055000   -0.000025
+
+Cu_test_2.out:COMP:   nlm    all-elec      pseudo        diff
+Cu_test_2.out:COMP:   320   -0.459789   -0.458750   -0.001039
+Cu_test_2.out:COMP:   400   -0.402059   -0.402071    0.000012
+Cu_test_2.out:COMP:   410   -0.093730   -0.093833    0.000103
+
+Cu_test_3.out:COMP:   nlm    all-elec      pseudo        diff
+Cu_test_3.out:COMP:   320   -1.393537   -1.419833    0.026296
+Cu_test_3.out:COMP:   400   -1.004402   -1.002176   -0.002226
+Cu_test_3.out:COMP:   410   -0.569438   -0.566208   -0.003230
+
+
+
+-----------------
+Solid-state tests
+-----------------
+
+ Ecut Sym     a0      e0       B       C44     C12     a01
+ 19  FCC  3.6663  -1675.206  266.4   159.2   237.5   3.432
+ 19  BCC  2.9159  -1675.182  0.0     0.0     0.0     0.000
+ 26  FCC  3.6623  -1675.542  134.9   74.6    117.1   3.662
+ 26  BCC  2.9109  -1675.518  132.2   103.5   136.5   2.910
+
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Cu/PW91/Cu_us_gga_7.3.4.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Cu/PW91/Cu_us_gga_7.3.4.pseudo.html

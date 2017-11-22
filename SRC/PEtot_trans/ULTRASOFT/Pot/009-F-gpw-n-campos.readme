@@ -1,0 +1,61 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for F, with 7 valence electrons.  
+The pseudopotential have been genearted using 2 s and  2 p non-local projectors 
+and include nonlinear core correction, with rc = 0.8a0. 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+F_test_1.out: COMP: comparison of all-electron and pseudo eigenvalues (Ry)
+F_test_1.out:COMP:   nlm    all-elec      pseudo        diff
+F_test_1.out:COMP:   200   -2.200914   -2.200914    0.000000
+F_test_1.out:COMP:   210   -0.823384   -0.823385    0.000001
+
+F_test_2.out:COMP:   nlm    all-elec      pseudo        diff
+F_test_2.out:COMP:   200   -3.487498   -3.490527    0.003029
+F_test_2.out:COMP:   210   -2.089109   -2.087771   -0.001337
+
+F_test_3.out:COMP:   nlm    all-elec      pseudo        diff
+F_test_3.out:COMP:   200   -2.812141   -2.813356    0.001215
+F_test_3.out:COMP:   210   -1.421159   -1.420740   -0.000420
+
+
+
+-----------------
+Solid-state tests
+-----------------
+
+Dimer test: (BE: molecular binding energy/per molecule eV)
+me             Ecut  Sym    d(a0)    e0 (eV)     BE       hw (1/cm)  M
+F_pw91_us_7.3.4 24  Dimer  1.4329  -1324.1322  -2.3444  1050.869   0.000
+F_pw91_us_7.3.4 45  Dimer  1.4337  -1324.2756  -2.3342  1078.260   0.000
+
+
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/F/PW91/F_pw91_us_7.3.4.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/F/PW91/F_pw91_us_7.3.4.pseudo.html

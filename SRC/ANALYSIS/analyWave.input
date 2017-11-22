@@ -1,0 +1,6 @@
+0.0d0             ! dV (eV), potential bias of the system
+432, 96, 96, 18   ! n1,n2,n3 (grid numbers of total system), n1w (grid number of electrode in transport direction)
+54, 324           ! l_fit_left,rights: left, right electrode fitting position (unit of n1w,0:first)
+1,1               ! ist_init, ist_final, energies for which to do analysis (stored in wr_real.E)
+3.411	          ! AL(1,1) of electrode
+6, 0.2, 0.2       ! num_iter_max: max number of iterations for decomposition, dE_evan(eV) for left and right electrodes

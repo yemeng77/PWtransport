@@ -1,0 +1,82 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for Ba, including 5s and 5p semicore electrons (10 valence electrons). 
+The pseudopotential have been genearted using 2 s, 2 p and 2 d nonlocal projectors, 
+and include nonlinear core correction. 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+La_ps.out:  comparison of all-electron and pseudo eigenvalues (Ry)
+La_ps.out:   nlm    all-elec      pseudo        diff
+La_ps.out:   500   -2.906419   -2.906419    0.000000
+La_ps.out:   510   -1.690046   -1.690046    0.000000
+La_ps.out:   520   -0.262748   -0.262748    0.000000
+La_ps.out:   600   -0.296568   -0.296568    0.000000
+La_ps.out:   610   -0.120335   -0.120334   -0.000001
+
+La_test_1.out:   nlm    all-elec      pseudo        diff
+La_test_1.out:   500   -2.747727   -2.747879    0.000152
+La_test_1.out:   510   -1.540998   -1.540939   -0.000059
+La_test_1.out:   520   -0.160018   -0.160001   -0.000017
+La_test_1.out:   600   -0.232452   -0.232523    0.000072
+La_test_1.out:   610   -0.079319   -0.079328    0.000009
+
+La_test_2.out:   nlm    all-elec      pseudo        diff
+La_test_2.out:   500   -3.293422   -3.293290   -0.000132
+La_test_2.out:   510   -2.076326   -2.076187   -0.000139
+La_test_2.out:   520   -0.628494   -0.628412   -0.000082
+La_test_2.out:   600   -0.615998   -0.615975   -0.000023
+La_test_2.out:   610   -0.399080   -0.399054   -0.000026
+
+La_test_3.out:   nlm    all-elec      pseudo        diff
+La_test_3.out:   500   -2.946401   -2.946386   -0.000014
+La_test_3.out:   510   -1.729280   -1.729223   -0.000057
+La_test_3.out:   520   -0.293702   -0.293667   -0.000034
+La_test_3.out:   600   -0.317717   -0.317719    0.000002
+La_test_3.out:   610   -0.137875   -0.137871   -0.000004
+
+
+-----------------
+Solid-state tests
+-----------------
+
+HCP calculations for exewprimental value of c/a=1.619.
+Name           Ecut Sym     a0      e0       B       C44     C12     a01
+La_us_cc_pw91   19  HCP  3.8074  -1345.540  0.0     0.0     0.0     0.000
+La_us_cc_pw91   19  FCC  5.3393  -1345.562  25.9    20.3    20.6    5.351
+La_us_cc_pw91   19  BCC  4.2484  -1345.466  25.1    13.8    31.5    4.260
+La_us_cc_pw91   22  HCP  3.8074  -1345.549  0.0     0.0     0.0     0.000
+La_us_cc_pw91   22  FCC  5.3396  -1345.571  26.0    20.4    20.6    5.353
+La_us_cc_pw91   22  BCC  4.2484  -1345.475  24.8    13.6    31.2    4.261
+
+Name           Ecut Sym     a0      e0       B       C44     C12     a01
+experiment       0  HCP  3.7500  0.000      0.0     0.0     0.0     0.000
+
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/La/PW91/La_us_cc_pw91.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/La/PW91/La_us_cc_pw91.pseudo.html

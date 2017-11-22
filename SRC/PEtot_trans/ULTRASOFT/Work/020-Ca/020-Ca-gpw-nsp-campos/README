@@ -1,0 +1,57 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for Ca, including 2s and 2p semicore electrons (10 valence electrons). 
+The pseudopotential have been genearted using 2 s, 2 p and 2 d nonlocal projectors, 
+and include nonlinear core correction. 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use, however requires rather high cutoff (25-30Ryd). 
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Comparing eigenvalues:
+
+          orbital          occupation          energy
+           300                   2.00              -3.46341
+           310                   6.00              -2.06270
+           400                   2.00              -0.27908
+           320                   0.00              -0.14709
+                300                       310                      400                     320
+CFG :   -3.4634144 -3.4634131    -2.0627028 -2.0627026    -0.2790775 -0.2790758    -0.1470863 -0.1470853
+CFT1:   -3.2946932 -3.2940864    -1.9050278 -1.9043209    -0.2454530 -0.2453983    -0.0587428 -0.0587834
+CFT2:   -3.6820480 -3.6812245    -2.2950608 -2.2941097    -0.5621353 -0.5621090    -0.4196777 -0.4198103
+CFT3:   -3.3529838 -3.3526733    -1.9590539 -1.9586772    -0.2546427 -0.2546257    -0.0844328 -0.0844880
+
+
+-----------------
+Solid-state tests
+-----------------
+
+Crystal    a0       E (eV)
+FCC      5.5173   -1017.6543
+BCC      4.3737   -1017.6434
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Ca/PW91/Ca_us_cc_pw91.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Ca/PW91/Ca_us_cc_pw91.pseudo.html

@@ -1,0 +1,69 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for Fe, 8 valence electrons. 
+The pseudopotential have been genearted using 2 d  and 1s nonlocal projectors, 
+and include nonlinear core correction, rc = 0.7 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Fe_ps.out:  comparison of all-electron and pseudo eigenvalues (Ry)
+Fe_ps.out:   nlm    all-elec      pseudo        diff
+Fe_ps.out:   320   -0.680539   -0.680540    0.000001
+Fe_ps.out:   400   -0.471646   -0.471646    0.000001
+Fe_ps.out:   410   -0.157964   -0.157964   -0.000001
+
+Fe_test_1.out:   nlm    all-elec      pseudo        diff
+Fe_test_1.out:   320   -0.735173   -0.734311   -0.000863
+Fe_test_1.out:   400   -0.504325   -0.504605    0.000280
+Fe_test_1.out:   410   -0.182658   -0.182696    0.000038
+
+Fe_test_2.out:   nlm    all-elec      pseudo        diff
+Fe_test_2.out:   320   -1.042441   -1.101789    0.059348
+Fe_test_2.out:   400   -0.554643   -0.551367   -0.003276
+Fe_test_2.out:   410   -0.195622   -0.192719   -0.002903
+
+Fe_test_3.out:   nlm    all-elec      pseudo        diff
+Fe_test_3.out:   320   -1.295618   -1.201710   -0.093908
+Fe_test_3.out:   400   -0.892892   -0.928060    0.035168
+Fe_test_3.out:   410   -0.534896   -0.557424    0.022528
+
+
+-----------------
+Solid-state tests
+-----------------
+
+Name                    Ecut Sym     a0      e0     M (Bohr magn.)
+Fe_us_gga_d2.1.8_7.3.4   26  FCC  3.4695  -832.212
+Fe_us_gga_d2.1.8_7.3.4   26  BCC  2.8596  -832.439  2.36
+Fe_us_gga_d2.1.8_7.3.4   35  FCC  3.4692  -832.227  
+Fe_us_gga_d2.1.8_7.3.4   35  BCC  2.8594  -832.454  2.36
+
+See also Journal of Catalysis 182, 479-488 (1999).
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Fe/PW91/Fe_us_gga_d2.1.8_7.3.4.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Fe/PW91/Fe_us_gga_d2.1.8_7.3.4.pseudo.html

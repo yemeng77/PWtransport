@@ -1,0 +1,84 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Bernd Meyer
+bernd.meyer@theochem.ruhr-uni-bochum.de
+July 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in neutral s2p4 configuration.
+
+Potential is optimized for a plane wave cut-off of 25 Ry and was generated
+in July 2001. It is part of a set of potentials intended for calculations
+on small (organic) molecules:
+
+001-H-gpbe--bm
+006-C-gpbe--bm
+007-N-gpbe--bm
+008-O-gpbe--bm
+
+--------------------
+Intended environment
+--------------------
+
+Covalent bonded molecules with short bond distances. For oxides, a larger
+wave function cut-off radius can be used. See, for example, the potential
+008-O-ca--vdb.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Nothing to report.
+
+-----------------
+Solid-state tests
+-----------------
+
+Nothing to report.
+
+-------------
+Miscellaneous
+-------------
+
+H2O molecule:
+
+E_pw [Ry]   d_OH [bohr]  angle(HOH)  D [e*bohr]
+ 25.0         1.842        104.2       0.714
+ 30.0         1.841        104.2       0.716
+ 40.0         1.841        104.2       0.715
+ 50.0         1.840        104.2       0.717
+
+
+H2O dimer (full relaxation):
+
+E_pw [Ry]   d_OO [bohr]  angle(OHO)  E_bind [eV]
+ 25.0         5.510        173.0       0.219
+ 30.0         5.482        172.8       0.218
+ 40.0         5.472        172.8       0.219
+ 50.0         5.471        172.8       0.219
+
+compare with:
+M. Sprik, J. Hutter, M. Parrinello, J. Chem. Phys. 105, 1142 (1996).
+
+
+CO molecule:
+
+E_pw [Ry]   d_CO [bohr]   f [1/cm]   D [e*bohr]
+ 25.0         2.158         2112       0.065
+ 30.0         2.159         2142       0.066
+ 40.0         2.158         2138       0.066
+ 50.0         2.157         2132       0.066
+
+
+CH2O molecule:
+
+E_pw [Ry]   d_CO [bohr]  d_CH [bohr]  angle(HCH)   D [e*bohr]
+ 25.0         2.298        2.118        116.2        0.890
+ 30.0         2.294        2.115        116.1        0.891
+ 40.0         2.293        2.114        116.1        0.890
+ 50.0         2.293        2.114        116.1        0.892

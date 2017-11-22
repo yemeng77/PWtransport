@@ -1,0 +1,41 @@
+========================================================================
+pseudopotential program version  7.3.3   date:  0 -  0 -    0
+========================================================================
+
+ ifae =   1    ifpsp =   0    ifprt =   0    ifplw =   0    ilogd =   3
+ rlogd=   2.40000     emin=  -6.00000     emax=   2.00000     nnt=   40
+ thresh, tol =   1.000E-10   1.000E-09    damp =  .500    maxit = 250
+
+          *************************************************************
+          selenium                  ceperley-alder exchange-correlation
+          *************************************************************
+
+ z =  34.    xion =  .00    exfact =    .00000    irel=   0
+ ncspvs =    8
+ rmax =  79.00000    aasf =   6.00000    bbsf =  59.00000
+
+ value of mesh generated in rinit is   821
+ irel = 0 so all electron calculations use schroedinger equations
+
+
+                         the system has converged with
+                                 delta=  .5512316D-09
+
+
+                             the eigenvalues are
+
+
+          orbital          occupation          energy
+           100                   2.00            -902.58107
+           200                   2.00            -114.62236
+           210                   6.00            -103.02952
+           300                   2.00             -15.09368
+           310                   6.00             -11.10666
+           320                  10.00              -4.02238
+           400                   2.00              -1.24251
+           410                   4.00               -.49195
+ etot=  -4796.14189 ryd ;     -65251.50825 ev            ebsr,ehar,emvxc=  -2794.08790   2056.35243     54.29844
+
+ subroutine lderiv: pass   1
+
+ leaving lderiv

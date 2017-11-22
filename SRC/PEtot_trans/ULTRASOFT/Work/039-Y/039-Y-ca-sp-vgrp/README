@@ -1,0 +1,14 @@
+There was a pseudopotential '039-Y-ca-sp-vgrp' introduced in the
+July 24 2002 version of the library, but there its input file
+specified accidentally that an 's' eigenvalue was to be used as the
+reference energy in a 'd' channel.  Although this mistake probably
+has little or no effect on the quality of the resulting potential,
+it is aesthetically ugly, and we have chosen to retract the potential.
+
+A very similar potential with this cosmetic defect removed is now
+available at 039-Y-ca-sp-vgrp_ji.
+
+				David Vanderbilt and Jorge Iniguez
+				Augus 8 2002
+
+

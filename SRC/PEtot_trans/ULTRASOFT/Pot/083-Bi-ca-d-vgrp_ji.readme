@@ -1,0 +1,47 @@
+------------------------------
+Author and contact information
+------------------------------
+
+David Vanderbilt
+dhv@physics.rutgers.edu
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in neutral s2p3 configuration; semicore d shell included.
+
+This Bi potential was generated recently by Jorge Iniguez.
+
+--------------------
+Intended environment
+--------------------
+
+Mostly for Bi in oxides where it is in the 3+ formal oxidation
+state.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+There is a test for the s2p2 configuration in the distribution:
+
+   nlm    all-elec      pseudo        diff
+
+   520   -2.597177   -2.597534    0.000357
+   600   -1.650275   -1.650118   -0.000156
+   610   -0.861308   -0.861225   -0.000083
+
+-----------------
+Solid-state tests
+-----------------
+
+Nothing to report.
+
+-------------
+Miscellaneous
+-------------
+
+Nothing to report.
+

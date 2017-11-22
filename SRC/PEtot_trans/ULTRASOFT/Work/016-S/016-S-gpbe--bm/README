@@ -1,0 +1,47 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Bernd Meyer
+bernd.meyer@theochem.ruhr-uni-bochum.de
+July 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in neutral s2p4 configuration. Projectors for
+the d-channel are included.
+
+Potential is optimized for a plane wave cut-off of 25 Ry and was generated
+in April 2002 together with the iron potential:
+
+026-Fe-gpbe-sp-bm
+
+--------------------
+Intended environment
+--------------------
+
+Sulfide compounds, but should be pretty general, I suppose.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Nothing to report.
+
+-----------------
+Solid-state tests
+-----------------
+
+FeS, pyrite structure (E_pw = 25 Ry):
+
+lattice constant:    a = 10.226 bohr
+internal coordinate: u = 0.3829
+bulk modulus:        B = 157 GPa
+
+-------------
+Miscellaneous
+-------------
+
+Nothing to report.

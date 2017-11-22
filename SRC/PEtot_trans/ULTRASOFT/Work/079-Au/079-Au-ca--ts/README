@@ -1,0 +1,48 @@
+------------------------------
+Author and contact information
+------------------------------
+
+A. Dal Corso.
+dalcorso@sissa.it
+July 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in the 5d9.5 6s1.0 6p0.5 configuration.
+
+Potential generated in 1996. Used in the initial calculations of
+Au phonons with us pseudopotentials. See Phys. Rev. B 56, R11369 1997.
+
+
+--------------------
+Intended environment
+--------------------
+
+Au bulk.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Nothing to report.
+
+-----------------
+Solid-state tests
+-----------------
+
+fcc Au
+Cut-off (Ry) Lattice constant (a.u.)  Bulk modulus (MBar)
+20           7.66992                   1.892
+25           7.66841                   1.859
+30           7.67671                   1.890
+35           7.67442                   1.891
+
+
+
+-------------
+Miscellaneous
+-------------
+
+Nothing to report.

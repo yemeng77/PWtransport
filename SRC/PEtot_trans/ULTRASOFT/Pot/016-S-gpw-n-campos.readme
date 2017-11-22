@@ -1,0 +1,61 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for S, with 6 valence electrons.  
+The pseudopotential have been genearted using 2 s and  2 p non-local projectors 
+and include nonlinear core correction, with rc = 1.2a0.
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+S_test_1.out: COMP: comparison of all-electron and pseudo eigenvalues (Ry)
+S_test_1.out:COMP:   nlm    all-elec      pseudo        diff
+S_test_1.out:COMP:   300   -2.092317   -2.095434    0.003117
+S_test_1.out:COMP:   310   -1.290242   -1.292853    0.002611
+S_test_1.out:COMP:   320   -0.335120   -0.329999   -0.005121
+
+S_test_2.out:COMP:   nlm    all-elec      pseudo        diff
+S_test_2.out:COMP:   300   -2.223362   -2.235856    0.012494
+S_test_2.out:COMP:   310   -1.408066   -1.418663    0.010597
+S_test_2.out:COMP:   320   -0.402207   -0.398700   -0.003507
+
+S_test_3.out:COMP:   nlm    all-elec      pseudo        diff
+S_test_3.out:COMP:   300   -1.217854   -1.217825   -0.000029
+S_test_3.out:COMP:   310   -0.474897   -0.474844   -0.000053
+
+
+-----------------
+Solid-state tests
+-----------------
+
+Dimer test: (BE: molecular binding energy/per molecule eV)
+name           Ecut  Sym    d(a0)    e0 (eV)     BE       hw (1/cm)  M
+S_us_gga_7.3.4  17  Dimer  1.9136  -643.0243  -4.9357  728.361    2.000
+S_us_gga_7.3.4  35  Dimer  1.9040  -643.1764  -4.9956  729.867    2.000
+
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/S/PW91/S_us_gga_7.3.4.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/S/PW91/S_us_gga_7.3.4.pseudo.html

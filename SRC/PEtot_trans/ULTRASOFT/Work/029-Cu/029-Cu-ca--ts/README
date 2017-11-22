@@ -1,0 +1,49 @@
+------------------------------
+Author and contact information
+------------------------------
+
+A. Dal Corso, starting from an older pseudopotential used in IRRMA.
+(See Phys. Rev. Lett. 69, 1982 (1992).)
+dalcorso@sissa.it
+July 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in the 3d9.5 4s1 4p0.5 configuration.
+
+Potential generated before 1996. Used in the initial calculations of
+Cu phonons with us pseudopotentials. See Phys. Rev. B 56, R11369 1997.
+
+--------------------
+Intended environment
+--------------------
+
+Cu bulk.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Nothing to report.
+
+-----------------
+Solid-state tests
+-----------------
+
+fcc Cu
+Cut-off(Ry)  Lattice constant (a.u.)  Bulk modulus (MBar)
+20           6.69487                  1.733
+25           6.69173                  1.729
+30           6.69444                  1.687
+35           6.69797                  1.682
+
+
+
+
+-------------
+Miscellaneous
+-------------
+
+Nothing to report.

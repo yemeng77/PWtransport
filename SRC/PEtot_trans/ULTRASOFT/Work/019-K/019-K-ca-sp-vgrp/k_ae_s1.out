@@ -1,0 +1,39 @@
+========================================================================
+pseudopotential program version  7.3.3   date:  0 -  0 -    0
+========================================================================
+
+ ifae =   1    ifpsp =   0    ifprt =   0    ifplw =   0    ilogd =   3
+ rlogd=   1.80000     emin=  -2.40000     emax=   1.60000     nnt=   40
+ thresh, tol =   1.000E-10   1.000E-09    damp =  .400    maxit = 250
+
+          *************************************************************
+          potassium                 ceperley-alder exchange-correlation
+          *************************************************************
+
+ z =  19.    xion =  .00    exfact =    .00000    irel=   2
+ ncspvs =    6
+ rmax = 150.00000    aasf =  13.00000    bbsf =  40.00000
+
+ value of mesh generated in rinit is   841
+ irel = 2 so all electron calculations use koelling-harmon equations
+
+
+                         the system has converged with
+                                 delta=  .8042916D-09
+
+
+                             the eigenvalues are
+
+
+          orbital          occupation          energy
+           100                   2.00            -258.09458
+           200                   2.00             -25.89069
+           210                   6.00             -20.58193
+           300                   2.00              -2.58536
+           310                   6.00              -1.38432
+           400                   1.00               -.17862
+ etot=  -1201.11238 ryd ;     -16341.13339 ev            ebsr,ehar,emvxc=   -705.11735    516.49944     20.50441
+
+ subroutine lderiv: pass   1
+
+ leaving lderiv

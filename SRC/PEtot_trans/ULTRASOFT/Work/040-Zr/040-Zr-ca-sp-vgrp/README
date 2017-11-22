@@ -1,0 +1,46 @@
+------------------------------
+Author and contact information
+------------------------------
+
+David Vanderbilt
+dhv@physics.rutgers.edu
+July 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in +1 ionic s2d1 configuration; semicore sp shells included.
+
+A Zr potential similar to this was generated in the early 1990's,
+probably by D. King-Smith, using version a5.0.1.  However, it was
+not successfully updated for a7.3.2 and subsequent versions until
+just now (July 2002) by DV.  I did it by changing rinner to 0.9 and
+this removed problems with negative densities, so constraints are not
+needed.
+
+--------------------
+Intended environment
+--------------------
+
+Mostly for Zr in oxides where it is in the 4+ formal oxidation
+state.  It should probably be OK for metallic Zr too, but I don't
+think we ever tried it for that.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Nothing to report.
+
+-----------------
+Solid-state tests
+-----------------
+
+Nothing to report.
+
+-------------
+Miscellaneous
+-------------
+
+Nothing to report.

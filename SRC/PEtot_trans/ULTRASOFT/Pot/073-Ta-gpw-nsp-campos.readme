@@ -1,0 +1,71 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for Ta, including 5s and 5p semicore electrons (13 valence electrons). 
+The pseudopotential have been generated using 2 s, 2 p and 2 d nonlocal projectors, 
+and include nonlinear core correction. 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use, however not including the f-semicore electrons  limits the accuracy. 
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Ta_test_1.out: COMP: comparison of all-electron and pseudo eigenvalues (Ry)
+Ta_test_1.out:COMP:   nlm    all-elec      pseudo        diff
+Ta_test_1.out:COMP:   500   -5.481611   -5.481854    0.000244
+Ta_test_1.out:COMP:   510   -3.011760   -3.011799    0.000039
+Ta_test_1.out:COMP:   520   -0.363619   -0.363629    0.000010
+Ta_test_1.out:COMP:   600   -0.475053   -0.475134    0.000082
+Ta_test_1.out:COMP:   610   -0.156170   -0.156218    0.000048
+
+Ta_test_2.out:COMP:   nlm    all-elec      pseudo        diff
+Ta_test_2.out:COMP:   500   -5.732063   -5.732417    0.000355
+Ta_test_2.out:COMP:   510   -3.262530   -3.262567    0.000037
+Ta_test_2.out:COMP:   520   -0.603095   -0.603119    0.000024
+Ta_test_2.out:COMP:   600   -0.690880   -0.691054    0.000174
+Ta_test_2.out:COMP:   610   -0.340434   -0.340509    0.000075
+
+Ta_test_3.out:COMP:   nlm    all-elec      pseudo        diff
+Ta_test_3.out:COMP:   500   -6.196693   -6.202948    0.006255
+Ta_test_3.out:COMP:   510   -3.712706   -3.717478    0.004772
+Ta_test_3.out:COMP:   520   -0.984554   -0.986408    0.001854
+Ta_test_3.out:COMP:   600   -0.989015   -0.989369    0.000354
+Ta_test_3.out:COMP:   610   -0.582005   -0.582123    0.000118
+
+
+-----------------
+Solid-state tests
+-----------------
+
+Name                Ecut Sym     a0      e0       B       C44     C12     a01
+Ta_us_pw91_13elec    26  FCC  4.2178  -1935.627  189.0   28.4    239.2   4.212
+Ta_us_pw91_13elec    26  BCC  3.3130  -1935.877  189.3   66.5    153.7   3.310
+Ta_us_pw91_13elec    37  FCC  4.2177  -1935.695  183.2   27.1    230.9   4.231
+Ta_us_pw91_13elec    37  BCC  3.3121  -1935.946  183.1   63.0    149.1   3.324
+
+Name          Ecut Sym     a0      e0       B       C44     C12     a01
+FLAPW_PW91      0  BCC  3.2859  0.000      175.0   0.0     0.0     0.000
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Ta/PW91/Ta_us_pw91_13elec.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Ta/PW91/Ta_us_pw91_13elec.pseudo.html

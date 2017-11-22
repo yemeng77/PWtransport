@@ -1,0 +1,62 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for F, with 5 valence electrons.  
+The pseudopotential have been genearted using 2 s and  2 p non-local projectors 
+and include nonlinear core correction, with rc = 1.2a0. 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+P_test_1.out: COMP: comparison of all-electron and pseudo eigenvalues (Ry)
+P_test_1.out:COMP:   nlm    all-elec      pseudo        diff
+P_test_1.out:COMP:   300   -1.767230   -1.768161    0.000932
+P_test_1.out:COMP:   310   -1.094242   -1.094911    0.000669
+P_test_1.out:COMP:   320   -0.321592   -0.320539   -0.001053
+
+P_test_2.out:COMP:   nlm    all-elec      pseudo        diff
+P_test_2.out:COMP:   300   -1.811549   -1.813541    0.001992
+P_test_2.out:COMP:   310   -1.133580   -1.135101    0.001521
+P_test_2.out:COMP:   320   -0.342547   -0.341661   -0.000886
+
+P_test_3.out:COMP:   nlm    all-elec      pseudo        diff
+P_test_3.out:COMP:   300   -1.591782   -1.594523    0.002741
+P_test_3.out:COMP:   310   -0.920069   -0.922218    0.002150
+P_test_3.out:COMP:   320   -0.170010   -0.170107    0.000097
+
+
+-----------------
+Solid-state tests
+-----------------
+
+Dimer test: (BE: molecular binding energy/per molecule eV)
+name           Ecut  Sym    d(a0)    e0 (eV)     BE       hw (1/cm)  M
+P_us_gga_7.3.4  15  Dimer  1.9029  -487.2468  -5.2916  806.437    0.000
+P_us_gga_7.3.4  19  Dimer  1.9017  -487.3106  -5.3016  809.174    0.000
+
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/P/PW91/P_us_gga_7.3.4.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/P/PW91/P_us_gga_7.3.4.pseudo.html

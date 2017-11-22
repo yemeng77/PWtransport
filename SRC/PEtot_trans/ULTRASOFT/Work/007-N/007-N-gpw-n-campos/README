@@ -1,0 +1,59 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for N, with 5 valence electrons.  
+The pseudopotential have been genearted using 2 s and  2 p non-local projectors 
+and include nonlinear core correction, with rc = 0.6a0. 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+N_test_1.out: COMP: comparison of all-electron and pseudo eigenvalues (Ry)
+N_test_1.out:COMP:   nlm    all-elec      pseudo        diff
+N_test_1.out:COMP:   200   -2.404450   -2.403943   -0.000507
+N_test_1.out:COMP:   210   -1.541577   -1.540296   -0.001281
+
+N_test_2.out:COMP:   nlm    all-elec      pseudo        diff
+N_test_2.out:COMP:   200   -1.399508   -1.399760    0.000251
+N_test_2.out:COMP:   210   -0.556759   -0.556548   -0.000211
+
+N_test_3.out:COMP:   nlm    all-elec      pseudo        diff
+N_test_3.out:COMP:   200   -2.388358   -2.388090   -0.000268
+N_test_3.out:COMP:   210   -1.527663   -1.528253    0.000590
+
+
+-----------------
+Solid-state tests
+-----------------
+
+Dimer test: (BE: molecular binding energy/per molecule eV)
+Name          Ecut (Ryd) e0(eV)       BE     hw (1/cm)   M (Bohr magn.)
+N_us_cc_7.3.4   24      -554.3195  -9.9761  2495.278   0.000
+N_us_cc_7.3.4   28      -554.3867  -9.9683  2492.691   0.000
+
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/N/PW91/N_us_cc_7.3.4.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/N/PW91/N_us_cc_7.3.4.pseudo.html

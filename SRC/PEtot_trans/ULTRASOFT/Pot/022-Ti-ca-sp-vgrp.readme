@@ -1,0 +1,68 @@
+------------------------------
+Author and contact information
+------------------------------
+
+David Vanderbilt
+dhv@physics.rutgers.edu
+July 2002
+
+**************************************************************
+Warning:
+
+   Due to an oversight, the Ti potential included in distribution
+   uspp-733 was not precisely the intended one.
+   
+   The potential `022-Ti-ca-sp-vgrp' in uspp-733 has been renamed
+   `022-Ti-ca-sp-vgrp_alt' in uspp-734 and subsequent versions;
+   it is generated in the neutral configuration.
+   
+   The potential `022-Ti-ca-sp-vgrp' in uspp-734 and subsequent
+   versions is the intended one: it is generated in the +1 ionic
+   configuration.
+
+   DV 7/10/02
+**************************************************************
+
+------------------------
+Introductory information
+------------------------
+
+Generated in +1 ionic s2d1 configuration; semicore sp shells included.
+
+This Ti potential was generated in the early 1990's by some member
+of my group, probably D. King-Smith.  I believe it has been used
+successfully in a number of studies of TiO2 and of perovskite
+ferroelectrics.
+
+--------------------
+Intended environment
+--------------------
+
+Mostly for Ti in oxides where it is in the 4+ formal oxidation
+state.  It should probably be OK for metallic Ti too, but I don't
+think we ever tried it for that.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+There is a test for the s2d2 configuration in the distribution:
+
+   nlm    all-elec      pseudo        diff
+
+   300   -4.576045   -4.575601   -0.000444
+   310   -2.850665   -2.849958   -0.000707
+   400   -0.338098   -0.338064   -0.000034
+   320   -0.328024   -0.328472    0.000448
+
+-----------------
+Solid-state tests
+-----------------
+
+Nothing to report.
+
+-------------
+Miscellaneous
+-------------
+
+Nothing to report.

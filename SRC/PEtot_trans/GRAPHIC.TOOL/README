@@ -1,0 +1,28 @@
+(1) To plot the charge densities (for different types) and to 
+ analysis or to be plotted using gnuplot, use: plot_all.f
+
+(2) To plot the atomic structure in gopenmol or viewlit, 
+  using conf2xyz.f to convert the atom.config file to atom.xyz file. 
+
+   In gopenmol, use buttons: File -> import -> Coords -> XYZ 
+   to import the atom.xyz file (after it is imported, the ball-stick 
+   picture will automaticall shown in the display window). 
+
+(3) To plot the density or wavefunction contour in gopenmol, 
+   use plot_all2plt.f. First, get a graph.plt_f file. 
+   in gopenmol, use buttons: Run -> Pltfile(conversion) [use 
+   Formatted ==> Unformatted option]. Get a file graph.plt
+   Then, use buttons: Plot -> Contour (first import the file, 
+   then select the contour levels and colours) to get the 3D 
+   isosurface plot. 
+
+(4) To plot the density of state (DOS) or partial density of state, 
+   use plot_DOS.f. First, run PEtot calculation with a large k-point
+   set, generate eigen_all.store and wg.out. Run another PEtot, using 
+   wg.out as input and iCG=-1 in etot.input. It will generate the
+   atomic orbital projection file bpsiiofilexxxxxx. Then run plot_DOS.r
+   to get the DOS and partial DOS. To resolve for different atoms, 
+   you need to add an additional column in xatom.config file to weight
+   the atom.  
+
+

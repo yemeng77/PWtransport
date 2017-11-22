@@ -1,0 +1,41 @@
+========================================================================
+pseudopotential program version  7.3.3   date:  0 -  0 -    0
+========================================================================
+
+ ifae =   1    ifpsp =   0    ifprt =   0    ifplw =   0    ilogd =   3
+ rlogd=   2.60000     emin=  -2.00000     emax=   2.00000     nnt=   80
+ thresh, tol =   1.000E-10   1.000E-09    damp =  .500    maxit = 250
+
+          *************************************************************
+          zinc                 Perdew Wang 1991    exchange-correlation
+          *************************************************************
+
+ z =  30.    xion =  .00    exfact =   4.00000    irel=   2
+ ncspvs =    8
+ rmax = 200.00000    aasf =   7.00000    bbsf =  60.00000
+
+ value of mesh generated in rinit is   943
+ irel = 2 so all electron calculations use koelling-harmon equations
+
+
+                         the system has converged with
+                                 delta=  .6998586D-09
+
+
+                             the eigenvalues are
+
+
+          orbital          occupation          energy
+           100                   2.00            -700.43195
+           200                   2.00             -85.31011
+           210                   6.00             -73.98446
+           300                   2.00              -9.66299
+           310                   6.00              -6.29904
+           320                  10.00               -.91287
+           400                   1.00               -.54888
+           410                   1.00               -.15650
+ etot=  -3592.51138 ryd ;     -48876.11573 ev            ebsr,ehar,emvxc=  -2082.34515   1553.15250     42.98627
+
+ subroutine lderiv: pass   1
+
+ leaving lderiv

@@ -1,0 +1,13 @@
+Historical notes
+
+1. dks.report is the "pseudopotential report" for Dominic King-Smith's
+original Pb pseudopotential in June 1993.
+
+Note that etot is slightly different.
+
+2. pb_ps_e25.adat and pb_ps_e18.adat are the original input files for
+pseudopotential generation (appropriate for an earlier version of the
+program). They differ in the number of "fixing" parameters. 
+
+(The pseudopotential input above corresponds to pb_ps_e18.adat)
+

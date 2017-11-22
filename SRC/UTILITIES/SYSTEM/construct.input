@@ -1,0 +1,22 @@
+ 1.0          ! dV (ev), to be the same as in etot.input for central region
+ 181, 288      ! ipL, ipR cutoff position of the central region
+ 6,  6, 0, 2.0   ! nnL, nnR, iadd_L, dcut(Bohr)
+ vr.central, vr.electrode
+ xatom.central xatom.electrode
+
+******************************************
+Note, in terms of the electrode range [1,n1e], ipL should be at 1, and ipR should be at n1e.  
+      The nnL, nnR are the number of electrode n1e units outside the [ipL,ipR]. 
+      iadd_L is the addition grid point (can be + or -) at the left end. This is used to have a proper total n1 for FFT
+      So, the whole system looks like: [1,iadd_L]+nnL*n1e+[ipL,ipR]+nnR*n1e
+      total n1=nnL*n1e+iadd_L+(ipR-ipL+1)+nnR*n1e
+
+      abs(iadd_L).le.n1e/2
+
+      dcut is used only when iadd_L.ne.0, then dcut is used to determine when the atom (nonlocal potential) 
+      is going to be included at the left end (when the electrode is extended by iadd_L), 
+      the shortest distance in x direction between two atomic planes is dcut. The sensible choice of dcut depends
+      on what kind of two planes are approaching together around x=0. So, check the resulting xatom.system 
+
+      Note, the user should check xatom.system by him/her self for the first plane atoms near x=0, just to see 
+      whether it is okay to include them etc, and whether they overlap with the atoms near x=1. 

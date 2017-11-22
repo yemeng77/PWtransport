@@ -1,0 +1,65 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for B, with 3 valence electrons.  
+The pseudopotential have been generated using 2 s non-local projectors, 
+and include nonlinear core correction, with rc = 0.9a0. 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+B_ps.out:  comparison of all-electron and pseudo eigenvalues (Ry)
+B_ps.out:   nlm    all-elec      pseudo        diff
+B_ps.out:   200   -0.696934   -0.696934    0.000000
+B_ps.out:   210   -0.268557   -0.268557    0.000000
+
+B_test_1.out:   nlm    all-elec      pseudo        diff
+B_test_1.out:   200   -0.696934   -0.696934    0.000000
+B_test_1.out:   210   -0.268557   -0.268557    0.000000
+
+B_test_2.out:   nlm    all-elec      pseudo        diff
+B_test_2.out:   200   -0.731591   -0.731325   -0.000266
+B_test_2.out:   210   -0.301235   -0.301206   -0.000029
+
+B_test_3.out:   nlm    all-elec      pseudo        diff
+B_test_3.out:   200   -1.041521   -1.041443   -0.000078
+B_test_3.out:   210   -0.598217   -0.598209   -0.000008
+
+
+
+-----------------
+Solid-state tests
+-----------------
+
+Dimer test: (BE: molecular binding energy/per molecule eV)
+Name           Ecut    a (Bohr)    (Ryd) e0(eV) BE     hw (1/cm)   M (Bohr magn.)
+B_us_cc.pseudo  17    1.6193       -159.2060  -3.2391  1044.440   2.000
+B_us_cc.pseudo  22    1.6141       -159.3410  -3.6212  1061.317   2.000
+
+
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/B/PW91/B_us_cc.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/B/PW91/B_us_cc.pseudo.html

@@ -1,0 +1,47 @@
+------------------------------
+Author and contact information
+------------------------------
+
+David Vanderbilt
+dhv@physics.rutgers.edu
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in +1 ionic s2 configuration; semicore sp shells included.
+
+This Y potential was generated recently by Jorge Iniguez.
+
+--------------------
+Intended environment
+--------------------
+
+Mostly for Y in oxides where it is in the 3+ formal oxidation
+state.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+There is a test for the s2d1 configuration in the distribution:
+
+   nlm    all-elec      pseudo        diff
+
+   400   -3.527109   -3.526591   -0.000519
+   410   -2.053680   -2.053791    0.000111
+   500   -0.311238   -0.311136   -0.000102
+   420   -0.194514   -0.194818    0.000304
+
+-----------------
+Solid-state tests
+-----------------
+
+Nothing to report.
+
+-------------
+Miscellaneous
+-------------
+
+Nothing to report.

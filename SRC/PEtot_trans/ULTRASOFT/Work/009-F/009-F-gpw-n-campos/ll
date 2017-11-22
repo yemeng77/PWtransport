@@ -1,0 +1,12 @@
+F_test_1.out: COMP: comparison of all-electron and pseudo eigenvalues (Ry)
+F_test_1.out:COMP:   nlm    all-elec      pseudo        diff
+F_test_1.out:COMP:   200   -2.200914   -2.200914    0.000000
+F_test_1.out:COMP:   210   -0.823384   -0.823385    0.000001
+F_test_2.out: COMP: comparison of all-electron and pseudo eigenvalues (Ry)
+F_test_2.out:COMP:   nlm    all-elec      pseudo        diff
+F_test_2.out:COMP:   200   -3.487498   -3.490517    0.003019
+F_test_2.out:COMP:   210   -2.089109   -2.087764   -0.001345
+F_test_3.out: COMP: comparison of all-electron and pseudo eigenvalues (Ry)
+F_test_3.out:COMP:   nlm    all-elec      pseudo        diff
+F_test_3.out:COMP:   200   -2.812141   -2.813352    0.001211
+F_test_3.out:COMP:   210   -1.421159   -1.420736   -0.000423

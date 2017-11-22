@@ -1,0 +1,3 @@
+xx (1) Put subspace diagonalization at the beginning of CG_ALLBand, DIIS_comp  
+xx (2) in DIIS_comp, use Hpsi_comp_Allband, instead of Hpsi_comp
+ (3) remove all ug_n, use only ug_n_BP (for everyone)

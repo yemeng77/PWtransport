@@ -1,0 +1,74 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for Cd, with 12 valence electrons. 
+The pseudopotential have been genearted using 2 s, 2 p and 2 d nonlocal projectors, 
+and include nonlinear core correction. 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Cd_ps.out: COMP: comparison of all-electron and pseudo eigenvalues (Ry)
+Cd_ps.out:COMP:   nlm    all-elec      pseudo        diff
+Cd_ps.out:COMP:   420   -0.866384   -0.866384    0.000000
+Cd_ps.out:COMP:   500   -0.420962   -0.420964    0.000002
+Cd_ps.out:COMP:   510   -0.091071   -0.091071    0.000000
+
+
+Cd_test_1.out: COMP: comparison of all-electron and pseudo eigenvalues (Ry)
+Cd_test_1.out:COMP:   nlm    all-elec      pseudo        diff
+Cd_test_1.out:COMP:   420   -0.941517   -0.941383   -0.000134
+Cd_test_1.out:COMP:   500   -0.471414   -0.471468    0.000054
+Cd_test_1.out:COMP:   510   -0.125009   -0.125019    0.000011
+
+Cd_test_2.out:COMP:   nlm    all-elec      pseudo        diff
+Cd_test_2.out:COMP:   420   -1.811087   -1.826266    0.015179
+Cd_test_2.out:COMP:   500   -1.078679   -1.079203    0.000524
+Cd_test_2.out:COMP:   510   -0.618557   -0.618312   -0.000245
+
+Cd_test_3.out:COMP:   nlm    all-elec      pseudo        diff
+Cd_test_3.out:COMP:   420   -1.137465   -1.144247    0.006782
+Cd_test_3.out:COMP:   500   -0.553658   -0.553642   -0.000016
+Cd_test_3.out:COMP:   510   -0.171265   -0.171117   -0.000149
+
+
+-----------------
+Solid-state tests
+-----------------
+c/a from the experimental value 2.98
+Name          Ecut Sym     a0      e0       B       C44     C12     a01
+Cd_us_gga       22  HCP  3.0331  -1563.728  0.0     0.0     0.0     0.000
+Cd_us_gga       22  FCC  4.4946  -1563.727  69.0    1.2     55.1    4.371
+Cd_us_gga       22  BCC  3.6034  -1563.671  54.9    -7.9    62.7    3.489
+
+Cd_us_gga       30  HCP  3.0334  -1563.774  0.0     0.0     0.0     0.000
+Cd_us_gga       30  FCC  4.4961  -1563.773  43.1    -2.2    33.3    4.490
+Cd_us_gga       30  BCC  3.6043  -1563.717  36.1    -10.5   40.7    3.598
+
+
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Cd/PW91/Cd_us_gga.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Cd/PW91/Cd_us_gga.pseudo.html

@@ -1,0 +1,50 @@
+------------------------------
+Author and contact information
+------------------------------
+
+David Vanderbilt
+dhv@physics.rutgers.edu
+July 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in neutral s2p4 configuration.
+
+This oxygen potential was generated in the early 1990's by some member
+of my group, probably D. King-Smith.  I believe it has been used
+successfully in a number of studies of perovskite ferroelectrics
+and other oxides.
+
+Thanks to Davide Ceresoli for help with installing this potential
+in the library.
+
+--------------------
+Intended environment
+--------------------
+
+Probably OK for most oxides in normal conditions.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+There is a test for the s1p5 configuration in the distribution:
+
+   nlm    all-elec      pseudo        diff
+
+   200   -1.775786   -1.774979   -0.000807
+   210   -0.705671   -0.705510   -0.000161
+
+-----------------
+Solid-state tests
+-----------------
+
+Nothing to report.
+
+-------------
+Miscellaneous
+-------------
+
+Nothing to report.

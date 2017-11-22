@@ -1,0 +1,47 @@
+------------------------------
+Author and contact information
+------------------------------
+
+David Vanderbilt
+dhv@physics.rutgers.edu
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in +1 ionic s2 configuration; semicore sp shells included.
+
+This Sc potential was generated recently by Jorge Iniguez.
+
+--------------------
+Intended environment
+--------------------
+
+Mostly for Sc in oxides where it is in the 3+ formal oxidation
+state.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+There is a test for the s2d1 configuration in the distribution:
+
+   nlm    all-elec      pseudo        diff
+
+   300   -4.020770   -4.020575   -0.000195
+   310   -2.466707   -2.466214   -0.000493
+   400   -0.315910   -0.315860   -0.000050
+   320   -0.251742   -0.252060    0.000318
+
+-----------------
+Solid-state tests
+-----------------
+
+Nothing to report.
+
+-------------
+Miscellaneous
+-------------
+
+Nothing to report.

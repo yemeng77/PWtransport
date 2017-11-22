@@ -1,0 +1,17 @@
+    0    2    1    1    3             ifae,ifpsp,ifprt,ifplw,ilogd (5i5)
+   2.0      -7.00     1.6       40    rlogd,emin,emax,nnt (3f10.5,i5)
+   1.0d-11   1.0d-09   0.5            thresh,tol.damp (2e10.1,f10.5)
+sulfur                                title (a20)
+    3    2    2                       ncores,nvales,nang (3i5)
+ 10.0      30.0       40.0        5.0        besrmax, besemin,besemax,besde (4f10.5)
+    3    1   0.9      1.2             keyps,ifpcor,rinner (2i5,f10.5)
+    4   1.50                          nbeta,rcloc (i5,f10.5)
+   1.50      1.50      0.0            rc (3f10.5)
+    0    1   0.0        2             lll,keyee,eeread,iptype (2i5,f10.5,i5)
+    0    2   0.0        2             lll,keyee,eeread,iptype (2i5,f10.5,i5)
+    1    1  -1.50       2             lll,keyee,eeread,iptype (2i5,f10.5,i5)
+    1    2  -0.50       2             lll,keyee,eeread,iptype (2i5,f10.5,i5)
+    8   10.0
+    2    0  -0.4        1             lloc,keyee,eloc,iploctype (2i5,f10.5,i5)
+    3    8  10.0                      ifqopt,nqf,qtryc (2i5,f10.5)
+

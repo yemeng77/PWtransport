@@ -1,0 +1,71 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+GGA PW91  normconserving pseudo-potential for Na, 
+with 1 valence electrons. 
+The pseudopotential have been generated using  1 s and 1 p 
+nonlocal projectors and include nonlinear core correction. 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use, however not including 2p semicore 
+electrons limits the accuracy. 
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Ground-state: 
+          orbital          occupation          energy
+           100                   2.00             -76.17170
+           200                   2.00              -4.32728
+           210                   6.00              -2.26772
+           300                   0.60              -0.29696
+           310                   0.10              -0.13083
+           320                   0.10              -0.03122
+
+na_test_1.out:  comparison of all-electron and pseudo eigenvalues (Ry)
+na_test_1.out:   nlm    all-elec      pseudo        diff
+na_test_1.out:   300   -0.237512   -0.237796    0.000284
+na_test_1.out:   310   -0.085156   -0.085284    0.000127
+
+na_test_2.out:   nlm    all-elec      pseudo        diff
+na_test_2.out:   300   -0.202539   -0.204340    0.001802
+na_test_2.out:   310   -0.057231   -0.057561    0.000330
+
+
+
+-----------------
+Solid-state tests
+-----------------
+
+6 Ryd: 
+Crystal    a0       E (eV)
+FCC      5.2096   -16.4124
+BCC      4.1380   -16.4123
+
+10 Ryd:
+Crystal    a0       E (eV)
+FCC      5.2108   -16.4324
+BCC      4.1306   -16.4328
+
+For more test see also 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Na/PW91/Na_gga_tm_7.3.4.pseudo
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Na/PW91/Na_gga_tm_7.3.4.pseudo

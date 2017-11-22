@@ -1,0 +1,1732 @@
+========================================================================
+pseudopotential program version  7.3.3   date:  0 -  0 -    0
+========================================================================
+
+ ifae =   0    ifpsp =   2    ifprt =   1    ifplw =   2    ilogd =   3
+ rlogd=   2.80000     emin=  -9.00000     emax=   2.00000     nnt=   80
+ thresh, tol =   1.000E-11   1.000E-09    damp =  .100    maxit = 250
+ ncores =    3    nvales =    3    nang =    2
+ core charge = 10.00000 and valence charge =  1.00000
+ besrmax = 10.00    besemin = 30.00    besemax = 32.00    besde=  5.00
+ keyps =    3   ifpcor =    1   rinner =    .90000   rpcor =   2.30000
+ nbeta =  2     rcloc =   1.600
+ rc for s, p, d, f =   1.85000      2.74000
+ ib, lll, eee, iptype =   1   0   -.305   3
+ ib, lll, eee, iptype =   2   1   -.131   3
+ lloc =  2     eloc =   -.03122     iploctype=  3
+ ifqopt =  3     nqf =  5     qtryc =   7.00000     nfix =  0
+
+ value of mesh generated in rinit is   909
+ rlogd =  2.80000 generated klogd =  627 with r(klogd) =  2.81626
+
+          logarimic radial mesh values:
+
+     index            r                  rab
+
+       1          .00000000           .00000138
+       2          .00000139           .00000140
+       3          .00000281           .00000143
+       4          .00000425           .00000145
+       5          .00000571           .00000148
+       6          .00000720           .00000150
+       7          .00000872           .00000153
+       8          .00001026           .00000155
+       9          .00001182           .00000158
+      10          .00001342           .00000161
+       .          .                   .
+       .          .                   .
+       .          .                   .
+     899       262.11178619          4.36853115
+     900       266.51692486          4.44195013
+     901       270.99609774          4.51660301
+     902       275.55054909          4.59251053
+     903       280.18154405          4.66969378
+     904       284.89036904          4.74817420
+     905       289.67833210          4.82797358
+     906       294.54676324          4.90911410
+     907       299.49701485          4.99161830
+     908       304.53046203          5.07550908
+     909       309.64850298          5.16080976
+ subroutine setnuc - nuclear core radius =     .51519E-04
+ irel = 2 so all electron calculations use koelling-harmon equations
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+
+                         the system has converged with
+                                 delta=  .9913523D-09
+
+
+                             the eigenvalues are
+
+
+          orbital          occupation          energy
+           100                   2.00             -76.17170
+           200                   2.00              -4.32728
+           210                   6.00              -2.26772
+           300                    .60               -.29696
+           310                    .10               -.13083
+           320                    .10               -.03122
+ etot=   -324.86936 ryd ;      -4419.84748 ev            ebsr,ehar,emvxc=   -174.79866    158.36376      8.29306
+ writing out wavefunctions for refstate input
+
+ subroutine lderiv: pass   1
+
+ leaving lderiv
+
+ -----------------------------------------------
+ begin subroutine scpgef
+ -----------------------------------------------
+
+   rcmax, rbeta, rlogd =    2.74000   3.11245   2.80000
+          kkbeta,klogd =                  633       627
+   lloc = 2 so new pseudization scheme for vloc with eloc =    -.031
+
+   subroutine psv: pseudize the local potential
+
+   generating vloc with lloc  2 eloc =  -.03122
+   calling phakoe
+   calling pswfnormc
+ integral under unpseudised psi is     .9417200818
+  i1, i2, i3, i4, kkbeta = 592 593 594 595 633
+  r1, r2, r3, r4 =  1.5715  1.5979  1.6248  1.6521
+ ps1,ps2,ps3,ps4 =   .3226   .3333   .3445   .3559
+ rcut =  1.5979
+ vpd 0.000000000000000000E+00 -1.63935788544437799 0.000000000000000000E+00 1.95910866356027458 0.000000000000000000E+00 -4.08137240335268459
+ integral under pseudised psi is     .9417200818
+   rcloc is now   1.598
+   calling phase
+
+   results for the local potential vloc
+        r         vloc         dum2         dum3
+       .0124   -.13389348    .00000051    .00000051
+       .0619   -.66669358    .00006219    .00006219
+       .1110  -1.19515927    .00035619    .00035618
+       .1601  -1.72352455    .00105985    .00105984
+       .2091  -2.24613445    .00232694    .00232692
+       .2597  -2.77867576    .00437743    .00437739
+       .3068  -3.26218657    .00707078    .00707072
+       .3565  -3.75168978    .01081155    .01081145
+       .4073  -4.22191806    .01565405    .01565391
+       .4578  -4.64616626    .02148378    .02148359
+       .5059  -5.00186145    .02799374    .02799349
+       .5591  -5.32692829    .03620997    .03620964
+       .6077  -5.55195789    .04458285    .04458244
+       .6496  -5.68551612    .05240838    .05240791
+       .7061  -5.77203385    .06374360    .06374302
+       .7548  -5.75950612    .07415726    .07415659
+       .8068  -5.66014136    .08585858    .08585781
+       .8482  -5.52287021    .09553550    .09553463
+       .9067  -5.25359653    .10973097    .10972998
+       .9532  -4.99015297    .12142996    .12142887
+      1.0020  -4.68204464    .13412658    .13412537
+      1.0534  -4.34225231    .14793699    .14793565
+      1.1074  -3.98945273    .16301152    .16301005
+      1.1450  -3.75859262    .17385463    .17385306
+      1.2037  -3.43834063    .19147072    .19146899
+      1.2445  -3.25340222    .20422056    .20421872
+      1.2866  -3.09868691    .21786370    .21786173
+      1.3526  -2.92952596    .24017100    .24016882
+      1.3985  -2.85537725    .25637805    .25637573
+      1.4459  -2.80183042    .27373286    .27373039
+      1.4949  -2.75386598    .29229869    .29229605
+      1.5456  -2.69520893    .31213932    .31213650
+      1.5979  -2.61960659    .33332671    .33332370
+      1.6521  -2.54262312    .35594568    .35594249
+      1.6799  -2.50605568    .36782088    .36781761
+      1.7368  -2.43702948    .39276279    .39275940
+      1.7957  -2.37372174    .41937602    .41937254
+      1.8259  -2.34424008    .43334102    .43333751
+      1.8878  -2.28946672    .46265218    .46264864
+      1.9518  -2.23968369    .49389186    .49388833
+      1.9846  -2.21628975    .51026775    .51026424
+      2.0518  -2.17135881    .54459804    .54459460
+      2.0863  -2.14923569    .56257941    .56257603
+      2.1214  -2.12689000    .58112331    .58112000
+      2.1933  -2.08006121    .61995623    .61995308
+      2.2301  -2.05487235    .64027558    .64027253
+      2.2676  -2.02811249    .66121854    .66121561
+      2.3445  -1.96935792    .70504734    .70504468
+      2.3839  -1.93754201    .72797283    .72797034
+      2.4240  -1.90460602    .75160152    .75159919
+      2.4647  -1.87126492    .77595723    .77595509
+      2.5482  -1.80750576    .82695152    .82694982
+      2.5911  -1.77955875    .85364268    .85364123
+      2.6346  -1.75585499    .88116450    .88116331
+      2.6789  -1.73730216    .90954122    .90954031
+   leaving psv
+
+  chart: pseudized local potential
+       .0443                                                                                                 1       !
+       .1324                                                                                 1                       !
+       .2205                                                                1                                        !
+       .3086                                                1                                                        !
+       .3966                                  1                                                                      !
+       .4847                     1                                                                                   !
+       .5728            1                                                                                            !
+       .6609      1                                                                                                  !
+       .7490     1                                                                                                   !
+       .8370        1                                                                                                !
+       .9251               1                                                                                         !
+      1.0132                          1                                                                              !
+      1.1013                                    1                                                                    !
+      1.1894                                            1                                                            !
+      1.2774                                                   1                                                     !
+      1.3655                                                       1                                                 !
+      1.4536                                                        1                                                !
+      1.5417                                                          1                                              !
+      1.6298                                                            1                                            !
+      1.7178                                                              1                                          !
+      1.8059                                                                1                                        !
+      1.8940                                                                 1                                       !
+      1.9821                                                                   1                                     !
+      2.0702                                                                   1                                     !
+      2.1582                                                                     1                                   !
+      2.2463                                                                     1                                   !
+      2.3344                                                                       1                                 !
+      2.4225                                                                        1                                !
+      2.5106                                                                         1                               !
+      2.5987                                                                          1                              !
+      2.6867                                                                           1                             !
+      2.7748                                                                           1                             !
+      2.8629                                                                           1                             !
+      2.9510                                                                           1                             !
+      3.0391                                                                           1                             !
+      3.1271                                                                           1                             !
+      3.2152                                                                           1                             !
+      3.3033                                                                           1                             !
+      3.3914                                                                           1                             !
+      3.4795                                                                           1                             !
+      3.5675                                                                           1                             !
+      3.6556                                                                           1                             !
+      3.7437                                                                           1                             !
+      3.8318                                                                           1                             !
+      3.9199                                                                           1                             !
+      4.0079                                                                           1                             !
+      4.0960                                                                           1                             !
+      4.1841                                                                            1                            !
+      4.2722                                                                            1                            !
+      4.3603                                                                            1                            !
+      4.4483                                                                             1                           !
+      4.5364                                                                             1                           !
+      4.6245                                                                              1                          !
+      4.7126                                                                              1                          !
+      4.8007                                                                              1                          !
+                 i         i         i         i         i         i         i         i         i         i         i
+            -5.770              -4.616              -3.462              -2.308              -1.154               .0000E+00
+                      -5.193              -4.039              -2.885              -1.731              -.5770    
+ 
+
+   -------------------------------------------
+   constructing ibeta = 1
+   -------------------------------------------
+
+   ibeta,lcur,ecur,ipsu    1    0  -.3050    3
+   calling phakoe
+   calling pswfnormc - normconserving pseudization
+ integral under unpseudised psi is    1.2922248202
+  i1, i2, i3, i4, kkbeta = 600 601 602 603 633
+  r1, r2, r3, r4 =  1.7957  1.8259  1.8566  1.8878
+ ps1,ps2,ps3,ps4 =   .6667   .6849   .7028   .7204
+ rcut =  1.8259
+ vpd -1.63935788544437799 -1.28390012077021898 1.95910866356027458 1.22085327622415396 -4.08137240335268459 -2.45954303835281651
+ integral under pseudised psi is    1.2922248205
+
+   results for ibeta = 1
+    psi - unpseudised wavefunction
+    phi - pseudised wavefunction
+    chi - projector function
+
+       r         psi          phi          chi
+      .0097    .03105079    .00256333    .01500935
+      .0482    .09753504    .01276134    .07472322
+      .0878    .10342829    .02317423    .13570260
+      .1268    .07626328    .03323314    .19464345
+      .1656    .03401498    .04301723    .25206784
+      .2022   -.01058119    .05199951    .30496351
+      .2429   -.05900234    .06159343    .36181427
+      .2823   -.10113227    .07042369    .41468796
+      .3226   -.13765700    .07896045    .46660180
+      .3565   -.16267076    .08571921    .50852206
+      .4006   -.18723673    .09387321    .56047479
+      .4354   -.20054022    .09977986    .59938714
+      .4733   -.20939012    .10565996    .63953929
+      .5144   -.21304871    .11141522    .68057460
+      .5499   -.21180971    .11585976    .71369959
+      .5878   -.20658347    .12010795    .74671217
+      .6283   -.19717922    .12412042    .77917515
+      .6716   -.18348133    .12787859    .81058369
+      .7061   -.17036580    .13053810    .83313522
+      .7423   -.15482904    .13308725    .85461467
+      .7804   -.13691314    .13557195    .87491022
+      .8204   -.11668649    .13806474    .89404149
+      .8624   -.09424344    .14067082    .91222366
+      .9067   -.06970353    .14353478    .92992466
+      .9374   -.05224877    .14567958    .94181408
+      .9855   -.02454547    .14942456    .96047083
+     1.0189   -.00514117    .15239651    .97388428
+     1.0534    .01494302    .15586467    .98835726
+     1.0891    .03564394    .15994430   1.00396491
+     1.1260    .05689472    .16476536   1.02048482
+     1.1838    .08964715    .17370695   1.04520107
+     1.2037    .10076137    .17722305   1.05262095
+     1.2445    .12322743    .18518502   1.06419058
+     1.2866    .14594443    .19452943   1.06791375
+     1.3303    .16883154    .20542018   1.05810032
+     1.3754    .19180635    .21799725   1.02735182
+     1.3985    .20330057    .22494971   1.00146848
+     1.4459    .22625005    .24020676    .92334784
+     1.4949    .24907723    .25722551    .80472206
+     1.5200    .26041856    .26635037    .72956758
+     1.5715    .28290404    .28566124    .55204654
+     1.5979    .29402718    .29575139    .45453511
+     1.6521    .31598199    .31650223    .26240457
+     1.6799    .32679283    .32702870    .17720773
+     1.7081    .33747878    .33756601    .10567710
+     1.7660    .35843454    .35843804    .01781138
+     1.7957    .36868360    .36868374    .00257739
+     1.8259    .37876627    .37876628   -.00000022
+     1.8878    .39839079    .39839079    .00000000
+     1.9195    .40791175    .40791175    .00000000
+     1.9518    .41722457    .41722457    .00000000
+     1.9846    .42631882    .42631882    .00000000
+     2.0179    .43518412    .43518412    .00000000
+     2.0518    .44381023    .44381023    .00000000
+     2.1214    .46030498    .46030498    .00000000
+     2.1570    .46815456    .46815456    .00000000
+     2.1933    .47572707    .47572707    .00000000
+     2.2301    .48301449    .48301449    .00000000
+     2.2676    .49000968    .49000968    .00000000
+     2.3057    .49670653    .49670653    .00000000
+     2.3445    .50310013    .50310013    .00000000
+     2.3839    .50918687    .50918687    .00000000
+     2.4240    .51496442    .51496442    .00000000
+     2.4647    .52043168    .52043168    .00000000
+     2.5061    .52558861    .52558861    .00000000
+     2.5482    .53043589    .53043589    .00000000
+     2.5911    .53497449    .53497449    .00000000
+     2.5911    .53497449    .53497449    .00000000
+     2.6346    .53920517    .53920517    .00000000
+     2.6789    .54312787    .54312787    .00000000
+
+   -------------------------------------------
+   constructing ibeta = 2
+   -------------------------------------------
+
+   ibeta,lcur,ecur,ipsu    2    1  -.1308    3
+   calling phakoe
+   calling pswfnormc - normconserving pseudization
+ integral under unpseudised psi is    1.0783630603
+  i1, i2, i3, i4, kkbeta = 624 625 626 627 633
+  r1, r2, r3, r4 =  2.6789  2.7239  2.7697  2.8163
+ ps1,ps2,ps3,ps4 =   .9449   .9634   .9818  1.0000
+ rcut =  2.7239
+ vpd -1.28390012077021898 -0.633057544871935884 1.22085327622415396 0.314922489628508273 -2.45954303835281651 -1.23099834364023231
+
+   root not bracketed
+   actual value of xmin xmax       -5.000     5.000
+
+        x          f(x)
+       -4.000    27.370
+       -3.000    15.829
+       -2.000     6.724
+       -1.000     1.026
+         .000     -.048
+ integral under pseudised psi is    1.0783630697
+
+   results for ibeta = 2
+    psi - unpseudised wavefunction
+    phi - pseudised wavefunction
+    chi - projector function
+
+       r         psi          phi          chi
+      .0097   -.00202433    .00003075    .00028046
+      .0482   -.04031663    .00076455    .00697262
+      .0878   -.10886520    .00254026    .02316449
+      .1268   -.18634413    .00528518    .04817751
+      .1656   -.26286718    .00899633    .08193347
+      .2022   -.32932715    .01339579    .12180079
+      .2429   -.39318161    .01927827    .17473393
+      .2823   -.44367218    .02594346    .23400334
+      .3226   -.48378242    .03374861    .30216440
+      .3565   -.50875540    .04107781    .36466283
+      .4006   -.52990998    .05161175    .45141928
+      .4354   -.53832397    .06070361    .52292997
+      .4733   -.54005942    .07133957    .60209557
+      .5144   -.53422046    .08375966    .68776880
+      .5499   -.52355932    .09516000    .75945309
+      .5878   -.50719534    .10802479    .83185520
+      .6283   -.48484298    .12251678    .90218210
+      .6716   -.45628100    .13880968    .96670579
+      .7061   -.43068849    .15232126   1.00851261
+      .7423   -.40147302    .16702942   1.04217258
+      .7804   -.36861367    .18301679   1.06525915
+      .8204   -.33210935    .20036759   1.07535296
+      .8624   -.29197819    .21916716   1.07028460
+      .9067   -.24825697    .23950150   1.04846784
+      .9374   -.21714143    .25395308   1.02427589
+      .9855   -.16756778    .27703788    .97397023
+     1.0189   -.13262172    .29340399    .93202352
+     1.0534   -.09619197    .31058199    .88467586
+     1.0891   -.05831151    .32859910    .83361158
+     1.1260   -.01901686    .34748361    .78100890
+     1.1838    .04248811    .37750262    .70504610
+     1.2037    .06365122    .38797640    .68198701
+     1.2445    .10693398    .40965167    .64150851
+     1.2866    .15144965    .43232996    .61075542
+     1.3303    .19714435    .45605493    .59159702
+     1.3754    .24396099    .48087620    .58442149
+     1.3985    .26777136    .49371538    .58487934
+     1.4459    .31615723    .52029000    .59162201
+     1.4949    .36550922    .54811837    .60140471
+     1.5200    .39052657    .56252692    .60537613
+     1.5715    .44120049    .59238636    .60831877
+     1.5979    .46683906    .60786044    .60743693
+     1.6521    .51867264    .63995907    .60509781
+     1.6799    .54484815    .65660957    .60374760
+     1.7081    .57118262    .67367860    .60208593
+     1.7660    .62428558    .70912566    .59713796
+     1.7957    .65103154    .72752977    .59345348
+     1.8259    .67789129    .74640401    .58866106
+     1.8878    .73190113    .78560587    .57473415
+     1.9195    .75902412    .80595095    .56505011
+     1.9518    .78620663    .82680013    .55316860
+     1.9846    .81343347    .84815594    .53880077
+     2.0179    .84068878    .87001737    .52166761
+     2.0518    .86795617    .89237937    .50151608
+     2.1214    .92245949    .93856078    .45137719
+     2.1570    .94966111    .96234440    .42118632
+     2.1933    .97680666    .98655609    .38762547
+     2.2301   1.00387964   1.01116245    .35090969
+     2.2676   1.03086446   1.03612361    .31144171
+     2.3057   1.05774670   1.06139347    .26984309
+     2.3445   1.08451347   1.08692027    .22698240
+     2.3839   1.11115365   1.11264758    .18398704
+     2.4240   1.13765797   1.13851570    .14223477
+     2.4647   1.16401892   1.16446355    .10330552
+     2.5061   1.19023039   1.19043093    .06888172
+     2.5482   1.21628694   1.21636107    .04057213
+     2.5911   1.24218285   1.24220315    .01964433
+     2.5911   1.24218285   1.24220315    .01964433
+     2.6346   1.26791086   1.26791449    .00664657
+     2.6789   1.29346078   1.29346152    .00091625
+
+   -------------------------------------------
+   construct beta functions and matrices
+   -------------------------------------------
+
+    matrix b(i,j)
+
+        .19408        .00000
+        .00000        .59940
+
+    matrix q(i,j)
+
+        .00000        .00000
+        .00000        .00000
+
+    matrix d(i,j)
+
+        .19408        .00000
+        .00000        .59940
+
+    matrix d(i,j)
+
+        .19408        .00000
+        .00000        .59940
+
+    matrix i(i,j)
+
+       5.15264        .00000
+        .00000       1.66833
+
+   -------------------------------------------
+   pseudize q-functions
+   -------------------------------------------
+ 
+
+   -------------------------------------------
+   transform so betas are orthogonal
+   -------------------------------------------
+ 
+  after transformation :
+
+    matrix q(i,j)
+
+        .00000        .00000
+        .00000        .00000
+
+    matrix d(i,j)
+
+       5.15264        .00000
+        .00000       1.66833
+
+ -----------------------------------------------
+ end subroutine scpgef
+ -----------------------------------------------
+
+   chart: qfunction Q_{ib,ib}(r)
+       .0287                                                     !                                                    
+       .0858                                                     !                                                    
+       .1429                                                     !                                                    
+       .2000                                                     !                                                    
+       .2571                                                    1!                                                    
+       .3142                                                     !                                                    
+       .3713                                                    1!                                                    
+       .4284                                                    1!                                                    
+       .4856                                                     !1                                                   
+       .5427                                                     !1                                                   
+       .5998                                                     !                                                    
+       .6569                                                     !1                                                   
+       .7140                                                    1!                                                    
+       .7711                                                   12!                                                    
+       .8282                                                    2!                                                    
+       .8853                                                     ! 1                                                  
+       .9424                                                     !2 1                                                 
+       .9995                                                     !1                                                   
+      1.0566                                                     ! 1                                                  
+      1.1137                                                     !1                                                   
+      1.1708                                                   2 ! 1                                                  
+      1.2279                                                     !   1                                                
+      1.2850                                                  1  !                                                    
+      1.3422                                                1    !2                                                   
+      1.3993                                                  2 1!                                                    
+      1.4564                                                     !  1                                                 
+      1.5135                                                   2 !  1                                                 
+      1.5706                                                 2   !          1                                         
+      1.6277                                                 2   !          1                                         
+      1.6848                                            1       2!                                                    
+      1.7419                                                    1!    2                                               
+      1.7990                                            2        !    1                                               
+      1.8561                            1                        !        2                                           
+      1.9132                           1                        2!                                                    
+      1.9703                                1                    !  2                                                 
+      2.0274                                                     !         2          1                               
+      2.0845                                                     !       2                1                           
+      2.1416                                           1  2      !                                                    
+      2.1987                                                     !       2         1                                  
+      2.2559                                               1     !                                                    
+      2.3130                                            2        !                    1                               
+      2.3701                       1                    2        !                                                    
+      2.4272                           1                  2      !                                                    
+      2.4843     1                                2              !                                                    
+      2.5414                                 2                   !                1                                   
+      2.5985                                                     !                                                  1 
+      2.6556                                             2       !                                                   1
+      2.7127                                                     !                2                           1       
+      2.7698                                       2             !                                     1              
+      2.8269                         1                           !       2                                            
+      2.8840                                  2        1         !                                                    
+      2.9411                            2                        !     1                                              
+      2.9982                                             1       !                           2                        
+      3.0553                                                     !  2            1                                    
+      3.1125                2                                    !                      1                             
+                 i         i         i         i         i         i         i         i         i         i         i
+            -.6468E-15          -.3762E-15          -.1057E-15           .1649E-15           .4354E-15           .7060E-15
+                      -.5115E-15          -.2410E-15           .2960E-16           .3002E-15           .5707E-15
+ 
+
+   q * fourier transform of pseudized qfunctions
+
+       q         1 1       2 2
+     .00000    .00000    .00000
+     .40000    .00000    .00000
+     .80000    .00000    .00000
+    1.20000    .00000    .00000
+    1.60000    .00000    .00000
+    2.00000    .00000    .00000
+    2.40000    .00000    .00000
+    2.80000    .00000    .00000
+    3.20000    .00000    .00000
+    3.60000    .00000    .00000
+    4.00000    .00000    .00000
+    4.40000    .00000    .00000
+    4.80000    .00000    .00000
+    5.20000    .00000    .00000
+    5.60000    .00000    .00000
+    6.00000    .00000    .00000
+    6.40000    .00000    .00000
+    6.80000    .00000    .00000
+    7.20000    .00000    .00000
+    7.60000    .00000    .00000
+    8.00000    .00000    .00000
+    8.40000    .00000    .00000
+    8.80000    .00000    .00000
+    9.20000    .00000    .00000
+    9.60000    .00000    .00000
+   10.00000    .00000    .00000
+   10.40000    .00000    .00000
+   10.80000    .00000    .00000
+   11.20000    .00000    .00000
+   11.60000    .00000    .00000
+   12.00000    .00000    .00000
+   12.40000    .00000    .00000
+   12.80000    .00000    .00000
+   13.20000    .00000    .00000
+   13.60000    .00000    .00000
+   14.00000    .00000    .00000
+   14.40000    .00000    .00000
+   14.80000    .00000    .00000
+   15.20000    .00000    .00000
+   15.60000    .00000    .00000
+   16.00000    .00000    .00000
+   16.40000    .00000    .00000
+   16.80000    .00000    .00000
+   17.20000    .00000    .00000
+   17.60000    .00000    .00000
+   18.00000    .00000    .00000
+   18.40000    .00000    .00000
+   18.80000    .00000    .00000
+   19.20000    .00000    .00000
+   19.60000    .00000    .00000
+   20.00000    .00000    .00000
+
+   chart: qfunction q*Q_{ib,ib}(q)
+       .0000                                                      !                                                   
+       .4000                                        2             !    1                                              
+       .8000                                           2       1  !                                                   
+      1.2000                                    1                 !    2                                              
+      1.6000                                    1                 !             2                                     
+      2.0000                                                      !     1                                             
+      2.4000                                             2        !                                  1                
+      2.8000                                          2           !                                      1            
+      3.2000                                                      ! 2        1                                        
+      3.6000                             1                        !               2                                   
+      4.0000               1                                      !            2                                      
+      4.4000                                1                 2   !                                                   
+      4.8000                                     2                !      1                                            
+      5.2000                                        2             !                     1                             
+      5.6000                                                      !2           1                                      
+      6.0000                                                 1    !         2                                         
+      6.4000                                       1              !       2                                           
+      6.8000                                            1         !                                                   
+      7.2000                                                    2 !1                                                  
+      7.6000                                                      ! 2 1                                               
+      8.0000                                                     1!   2                                               
+      8.4000                                               1      !                                                   
+      8.8000                                                2   1 !                                                   
+      9.2000                                                2     !             1                                     
+      9.6000                                                      !                            1                      
+     10.0000                                                      !     2                1                            
+     10.4000                                                 1    !   2                                               
+     10.8000                   1                                2 !                                                   
+     11.2000                 1                                2   !                                                   
+     11.6000                                                   1  !2                                                  
+     12.0000                                                      !      2                               1            
+     12.4000                                                      !     2                                            1
+     12.8000                                                   2  !                1                                  
+     13.2000                       1                  2           !                                                   
+     13.6000     1                                      2         !                                                   
+     14.0000                                  1                   !2                                                  
+     14.4000                                                      !            2           1                          
+     14.8000                                                      !              2                        1           
+     15.2000                                                      !   2       1                                       
+     15.6000                            1                2        !                                                   
+     16.0000                     1                     2          !                                                   
+     16.4000                                                   12 !                                                   
+     16.8000                                                      !       2                    1                      
+     17.2000                                                      !      2                      1                     
+     17.6000                                                 2    !1                                                  
+     18.0000                             1         2              !                                                   
+     18.4000                             1             2          !                                                   
+     18.8000                                                   1  !   2                                               
+     19.2000                                                      !            1  2                                   
+     19.6000                                                      !       1    2                                      
+     20.0000                                              1       !                                                   
+                 i         i         i         i         i         i         i         i         i         i         i
+            -.6616E-16          -.3921E-16          -.1226E-16           .1469E-16           .4164E-16           .6860E-16
+                      -.5268E-16          -.2573E-16           .1219E-17           .2817E-16           .5512E-16
+ 
+
+   subroutine pspcor: tinit =  F
+
+
+ core charge densities and valence density
+
+        r          full core      pseudo core      full valence
+     .02870         4.64222          .00116          .00292
+     .08639        12.00910          .01048          .00586
+     .14249        10.35584          .02832          .00222
+     .19889         7.55065          .05462          .00062
+     .25541         6.37179          .08885          .00381
+     .31198         6.62109          .13033          .01016
+     .36857         7.50801          .17820          .01705
+     .42823         8.48167          .23450          .02270
+     .48932         9.17068          .29705          .02562
+     .54079         9.43026          .35253          .02577
+     .59768         9.39718          .41559          .02386
+     .66055         9.04919          .48591          .02001
+     .71796         8.53112          .54924          .01566
+     .76746         7.98801          .60212          .01178
+     .83416         7.18374          .66931          .00698
+     .89167         6.47111          .72217          .00365
+     .93740         5.91394          .76005          .00172
+    1.00202         5.16212          .80631          .00025
+    1.05340         4.60516          .83627          .00018
+    1.10742         4.06460          .86068          .00118
+    1.16420         3.54849          .87804          .00335
+    1.22389         3.06347          .88681          .00681
+    1.28665         2.61464          .88542          .01162
+    1.35262         2.20554          .87242          .01779
+    1.39847         1.95596          .85668          .02266
+    1.44587         1.72522          .83498          .02811
+    1.52001         1.41438          .79091          .03733
+    1.57153         1.23022          .75390          .04412
+    1.62480         1.06390          .71106          .05137
+    1.67988          .91469          .66285          .05904
+    1.73682          .78174          .60998          .06705
+    1.79569          .66405          .55342          .07535
+    1.85656          .56059          .49439          .08385
+    1.91949          .47024          .43436          .09248
+    1.98456          .39188          .37495          .10115
+    2.01791          .35684          .34602          .10548
+    2.08631          .29436          .29080          .11404
+    2.15703          .24111          .24039          .12241
+    2.19328          .21762          .21739          .12649
+    2.26763          .17629          .17629          .13440
+    2.30574          .15821          .15821          .13821
+    2.38390          .12670          .12670          .14547
+    2.42396          .11304          .11304          .14891
+    2.50613          .08945          .08945          .15538
+    2.54825          .07934          .07934          .15839
+    2.59107          .07022          .07022          .16125
+    2.67890          .05468          .05468          .16651
+    2.72393          .04811          .04811          .16888
+    2.76971          .04223          .04223          .17109
+    2.81626          .03700          .03700          .17312
+    2.86359          .03235          .03235          .17496
+    2.96065          .02456          .02456          .17806
+    3.01041          .02133          .02133          .17929
+    3.06101          .01848          .01848          .18031
+    3.11245          .01598          .01598          .18110
+
+ real space core charge and valence densities
+
+       .0287     !                                      1                                                             
+       .0858     !                                                                                                   1
+       .1429     !                                                                                     1              
+       .2000     !                                                              1                                     
+       .2571     !2                                                   1                                               
+       .3142     !2                                                     1                                             
+       .3713     !2                                                             1                                     
+       .4284     ! 2                                                                    1                             
+       .4856     ! 2                                                                         1                        
+       .5427     !  2                                                                           1                     
+       .5998     !  2                                                                          1                      
+       .6569     !   2                                                                      1                         
+       .7140     !    2                                                                 1                             
+       .7711     !    2                                                             1                                 
+       .8282     !     2                                                     1                                        
+       .8853     !     2                                               1                                              
+       .9424     !     2                                          1                                                   
+       .9995     !      2                                   1                                                         
+      1.0566     !      2                              1                                                              
+      1.1137     !      2                          1                                                                  
+      1.1708     !      2                      1                                                                      
+      1.2279     !      2                  1                                                                          
+      1.2850     !      2              1                                                                              
+      1.3422     !      2          1                                                                                  
+      1.3993     !      2        1                                                                                    
+      1.4564     !      2      1                                                                                      
+      1.5135     !      2    1                                                                                        
+      1.5706     !     2   1                                                                                          
+      1.6277     !     2  1                                                                                           
+      1.6848     !     2 1                                                                                            
+      1.7419     !3   2 1                                                                                             
+      1.7990     !3   21                                                                                              
+      1.8561     !3  21                                                                                               
+      1.9132     !3  1                                                                                                
+      1.9703     !3 1                                                                                                 
+      2.0274     !3 1                                                                                                 
+      2.0845     !31                                                                                                  
+      2.1416     !31                                                                                                  
+      2.1987     !31                                                                                                  
+      2.2559     !1                                                                                                   
+      2.3130     !1                                                                                                   
+      2.3701     !1                                                                                                   
+      2.4272     !1                                                                                                   
+      2.4843     !1                                                                                                   
+      2.5414     !1                                                                                                   
+      2.5985     !1                                                                                                   
+      2.6556     !3                                                                                                   
+      2.7127     !3                                                                                                   
+      2.7698     !3                                                                                                   
+      2.8269     !3                                                                                                   
+      2.8840     !3                                                                                                   
+      2.9411     !3                                                                                                   
+      2.9982     !3                                                                                                   
+      3.0553     ! 3                                                                                                  
+      3.1125     ! 3                                                                                                  
+                 i         i         i         i         i         i         i         i         i         i         i
+             .0000E+00           2.402               4.804               7.205               9.607               12.01    
+                       1.201               3.603               6.005               8.406               10.81    
+ 
+
+ q * fourier transform of the core charge
+
+
+
+        q          full core      pseudo core
+     .00000          .00000          .00000
+     .40000         3.93049          .45378
+     .80000         7.46862          .76813
+    1.20000        10.33086          .87141
+    1.60000        12.39564          .78153
+    2.00000        13.68968          .57718
+    2.40000        14.33585          .34906
+    2.80000        14.49698          .16261
+    3.20000        14.33482          .04485
+    3.60000        13.98737         -.00907
+    4.00000        13.56077         -.02053
+    4.40000        13.12971         -.01282
+    4.80000        12.74201         -.00240
+    5.20000        12.42455          .00333
+    5.60000        12.18885          .00382
+    6.00000        12.03594          .00167
+    6.40000        11.96014         -.00044
+    6.80000        11.95194         -.00125
+    7.20000        12.00003         -.00088
+    7.60000        12.09259         -.00010
+    8.00000        12.21824          .00041
+    8.40000        12.36648          .00045
+    8.80000        12.52796          .00017
+    9.20000        12.69466         -.00012
+    9.60000        12.85982         -.00022
+   10.00000        13.01793         -.00014
+   10.40000        13.16463          .00001
+   10.80000        13.29655          .00010
+   11.20000        13.41124          .00010
+   11.60000        13.50698          .00002
+   12.00000        13.58271         -.00004
+   12.40000        13.63792         -.00006
+   12.80000        13.67251         -.00003
+   13.20000        13.68674          .00001
+   13.60000        13.68117          .00004
+   14.00000        13.65653          .00003
+   14.40000        13.61375          .00000
+   14.80000        13.55385         -.00002
+   15.20000        13.47793         -.00002
+   15.60000        13.38713         -.00001
+   16.00000        13.28263          .00001
+   16.40000        13.16557          .00001
+   16.80000        13.03712          .00001
+   17.20000        12.89838          .00000
+   17.60000        12.75043         -.00001
+   18.00000        12.59432         -.00001
+   18.40000        12.43101          .00000
+   18.80000        12.26144          .00000
+   19.20000        12.08649          .00001
+   19.60000        11.90696          .00000
+   20.00000        11.72363          .00000
+
+ q *  fourier transform of pseudized core charge
+
+       .0000     !                                                                                                    
+       .4000     !  2                       1                                                                         
+       .8000     !    2                                              1                                                
+      1.2000     !     2                                                                1                             
+      1.6000     !     2                                                                               1              
+      2.0000     !   2                                                                                         1      
+      2.4000     !  2                                                                                               1 
+      2.8000     !2                                                                                                  1
+      3.2000     !                                                                                                  1 
+      3.6000     !                                                                                               1    
+      4.0000     !                                                                                             1      
+      4.4000     !                                                                                          1         
+      4.8000     !                                                                                       1            
+      5.2000     !                                                                                     1              
+      5.6000     !                                                                                   1                
+      6.0000     !                                                                                  1                 
+      6.4000     !                                                                                  1                 
+      6.8000     !                                                                                 1                  
+      7.2000     !                                                                                  1                 
+      7.6000     !                                                                                  1                 
+      8.0000     !                                                                                   1                
+      8.4000     !                                                                                    1               
+      8.8000     !                                                                                     1              
+      9.2000     !                                                                                       1            
+      9.6000     !                                                                                        1           
+     10.0000     !                                                                                         1          
+     10.4000     !                                                                                          1         
+     10.8000     !                                                                                           1        
+     11.2000     !                                                                                            1       
+     11.6000     !                                                                                            1       
+     12.0000     !                                                                                             1      
+     12.4000     !                                                                                             1      
+     12.8000     !                                                                                             1      
+     13.2000     !                                                                                             1      
+     13.6000     !                                                                                             1      
+     14.0000     !                                                                                             1      
+     14.4000     !                                                                                             1      
+     14.8000     !                                                                                             1      
+     15.2000     !                                                                                            1       
+     15.6000     !                                                                                           1        
+     16.0000     !                                                                                           1        
+     16.4000     !                                                                                          1         
+     16.8000     !                                                                                         1          
+     17.2000     !                                                                                        1           
+     17.6000     !                                                                                       1            
+     18.0000     !                                                                                      1             
+     18.4000     !                                                                                     1              
+     18.8000     !                                                                                    1               
+     19.2000     !                                                                                  1                 
+     19.6000     !                                                                                 1                  
+     20.0000     !                                                                                1                   
+                 i         i         i         i         i         i         i         i         i         i         i
+            -.2053E-01           2.883               5.786               8.690               11.59               14.50    
+                       1.431               4.335               7.238               10.14               13.05    
+ 
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  604  803
+      ecur,decur    -.29695634  -.1487E-04
+      ecur,decur    -.29697121  -.2448E-08
+      ecur,decur    -.29697121  -.1970E-12
+    nnlz,nctp,ninf =  310  628  829
+      ecur,decur    -.13083284  -.6808E-07
+      ecur,decur    -.13083291  -.2563E-11
+    nnlz,nctp,ninf =  320  596  876
+      ecur,decur    -.03121872   .1081E-06
+      ecur,decur    -.03121862  -.2376E-10
+      ecur,decur    -.03121862   .1269E-14
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1   .60000000
+     alpha=   .19598742
+     integrated rsvale after lp 1   .60000000
+   intermed rsvale for lp= 2   .70000000
+     alpha=   .14257363
+     integrated rsvale after lp 2   .70000000
+   intermed rsvale for lp= 3   .80000000
+     alpha=
+     integrated rsvale after lp 3   .80000000
+   balancing valence density, asum =   .80000000 wwsum =   .80000000
+ leaving rsae
+
+ subroutine descrn: descreen the psp
+
+    i             r         vloc0          vloc         ruhar        ruexch        rsvale         alpha
+   20     .00003088    -.00031500    -.00033275     .00001364    -.00003139   .560231D-10     .00000000
+   40     .00007590    -.00077412    -.00081774     .00003352    -.00007714   .338349D-09     .00000001
+   60     .00013872    -.00141488    -.00149460     .00006127    -.00014098   .113028D-08     .00000002
+   80     .00022639    -.00230913    -.00243923     .00009999    -.00023009   .301052D-08     .00000005
+  100     .00034875    -.00355716    -.00375757     .00015404    -.00035444   .714415D-08     .00000012
+  120     .00051952    -.00529892    -.00559746     .00022946    -.00052800   .158533D-07     .00000027
+  140     .00075784    -.00772974    -.00816523     .00033472    -.00077021   .337345D-07     .00000057
+  160     .00109045    -.01112223    -.01174885     .00048163    -.00110825   .698437D-07     .00000118
+  180     .00155464    -.01585681    -.01675019     .00068665    -.00158003   .141963D-06     .00000240
+  200     .00220247    -.02246444    -.02373013     .00097279    -.00223847   .284927D-06     .00000481
+  220     .00310659    -.03168609    -.03347141     .00137212    -.00315744   .566863D-06     .00000955
+  240     .00436839    -.04455581    -.04706647     .00192943    -.00444009   .112084D-05     .00001880
+  260     .00612937    -.06251661    -.06603990     .00270722    -.00623051   .220658D-05     .00003679
+  280     .00858703    -.08758200    -.09251945     .00379271    -.00873017   .433057D-05     .00007158
+  300     .01201696    -.12256102    -.12947465     .00530762    -.01222125   .847995D-05     .00013851
+  320     .01680381    -.17137127    -.18104976     .00742182    -.01710031   .165772D-04     .00026624
+  340     .02348440    -.23947277    -.25302855     .01037235    -.02392812   .323626D-04     .00050749
+  360     .03280791    -.33446582    -.35348264     .01448993    -.03350675   .630999D-04     .00095633
+  380     .04581993    -.46690566    -.49367550     .02023589    -.04700573   .122850D-03     .00177259
+  400     .06397966    -.65139274    -.68931916     .02825345    -.06617987   .238661D-03     .00320396
+  420     .08932360    -.90799789    -.96230256     .03943860    -.09374327   .461925D-03     .00556068
+  440     .12469392   -1.26411426   -1.34297036     .05503723    -.13389333   .887893D-03     .00898200
+  460     .17405718   -1.75699843   -1.87261783     .07677610    -.19239550   .168422D-02     .01248799
+  480     .24294915   -2.43662227   -2.60355535     .10703395    -.27396703   .311361D-02     .01081592
+  500     .33909565   -3.35530450   -3.58319034     .14905416    -.37694001   .547518D-02    -.01508516
+  520     .47327890   -4.46716698   -4.76657801     .20719382    -.50660485   .875476D-02    -.12225448
+  540     .66054671   -5.31120615   -5.71071268     .28723008    -.68673661   .119140D-01    -.44051682
+  560     .92190000   -4.66645201   -5.17131782     .39686384    -.90172965   .138741D-01   -1.08931069
+  580    1.28664789   -2.54311513   -3.09868691     .54637913   -1.10195090   .220664D-01   -1.67378945
+  600    1.79569457   -2.06975541   -2.37372174     .74599777   -1.04996410   .756494D-01   -1.83886366
+  620    2.50612646   -2.00832911   -1.83850148     .98673128    -.81690365   .154768D+00   -1.90664903
+  640    3.49761402   -2.00227297   -1.75429124    1.22245370    -.97447197   .179078D+00   -1.91907962
+  660    4.88134637   -2.00139690   -1.52278056    1.39414247    -.91552612   .116069D+00   -1.92884344
+  680    6.81250045   -2.00042257   -1.24857938    1.48807166    -.73622848   .420195D-01   -1.93839276
+  700    9.50764306   -2.00057007   -1.20681297    1.53860130    -.74484420   .137380D-01   -1.94738785
+  720   13.26901759   -2.00007807   -1.00281178    1.57131298    -.57404669   .734438D-02   -1.96280831
+  740   18.51843861   -2.00000268    -.89427100    1.59100597    -.48527429   .406148D-02   -1.96447918
+  760   25.84459581   -2.00005467   -1.15563346    1.59880841    -.75438720   .140167D-02   -1.96745268
+  780   36.06907183   -1.99999675    -.43378940    1.59996175    -.03375441   .804100D-04   -1.96004097
+  800   50.33847761   -1.99999997    -.40024152    1.59999971    -.00024125   .859033D-06   -1.95967489
+  820   70.25303760   -2.00000000    -.40000024    1.60000000    -.00000024   .133210D-08   -1.95967099
+  840   98.04604498   -2.00000000    -.40000000    1.60000000     .00000000   .134503D-12   -1.95967097
+  860  136.83431140   -2.00000000    -.40000003    1.60000000    -.00000003   .289667D-18   -1.95967024
+  880  190.96769796   -2.00000000    -.40000000    1.60000000     .00000000   .000000D+00   -1.95967024
+  900  266.51692486   -2.00000000    -.40000000    1.60000000     .00000000   .000000D+00   -1.95967024
+
+    matrix 0(i,j)
+
+       5.15264        .00000
+        .00000       1.66833
+
+ value of screened s potential at origin =   -10.7743309
+
+ total energy =  -1.0192101
+ leaving descrn
+
+ pseudopotential has been written out
+
+    ============================================================
+    |  pseudopotential report: version  7.3.3 date  0- 0-   0  |
+    ------------------------------------------------------------
+    |  Na (TM2 d-loc)       Perdew Wang 1991    exchange-corr  |
+    |  z =  11.    zv =   1.    exfact =   4.00000             |
+    |                            etot  =  -1.01921             |
+    |  index    orbital      occupation    energy              |
+    |    1        300            .60        -.30               |
+    |    2        310            .10        -.13               |
+    |    3        320            .10        -.03               |
+    |  keyps = 3     ifpcor = 1     rpcor =   2.30000          |
+    |  rinner =       .90     for L=    1                      |
+    |  rinner =       .90     for L=    2                      |
+    |  rinner =       .90     for L=    3                      |
+    |    new generation scheme:                                |
+    |    nbeta =  2     kkbeta =  633     rcloc =    1.5979    |
+    |    ibeta      l    epsilon   rcut iptype                 |
+    |       1      0       -.30   1.83      3                  |
+    |       2      1       -.13   2.72      3                  |
+    |  lloc   = 2  eloc   =   -.031                            |
+    |  ifqopt = 3  nqf    = 5  qtryc =   7.000                 |
+    |  all electron calculation used koelling-harmon equation  |
+    |         ************logarithmic mesh************         |
+    ============================================================
+
+   all electron and pseudo energies
+
+                       300                      310                      320
+
+                    full     pseudo          full     pseudo          full     pseudo  
+    energy     -.2969563  -.2969712     -.1308328  -.1308329     -.0312187  -.0312186
+
+   valence all-electron and pseudo wavefunctions
+
+                    s           p           d           s           p           d
+        r          full        full        full       pseudo      pseudo      pseudo
+      .52306     -.20141     -.12656      .00193      .12750      .02057      .00164
+     1.57153      .26768      .10494      .01735      .26993      .14091      .01735
+     2.63462      .50767      .30158      .04740      .50662      .30159      .04740
+     3.67694      .51359      .40458      .08714      .51250      .40458      .08714
+     4.72131      .41933      .42557      .12776      .41843      .42557      .12776
+     5.76664      .30512      .39484      .16455      .30446      .39484      .16455
+     6.81250      .20965      .34446      .19742      .20919      .34446      .19742
+     7.91501      .13640      .28689      .22660      .13610      .28689      .22660
+     8.89446      .09107      .23734      .24592      .09087      .23734      .24592
+     9.99511      .05658      .18659      .25906      .05645      .18659      .25906
+    11.04632      .03525      .14491      .26385      .03517      .14491      .26384
+    12.20808      .02056      .10749      .26248      .02052      .10749      .26248
+    13.26902      .01244      .08078      .25689      .01241      .08078      .25689
+    14.18378      .00801      .06266      .24965      .00799      .06266      .24965
+    15.41641      .00439      .04408      .23737      .00438      .04408      .23737
+    16.47921      .00260      .03232      .22533      .00260      .03232      .22533
+    17.32412      .00171      .02516      .21525      .00171      .02516      .21525
+    18.51844      .00094      .01759      .20075      .00094      .01759      .20075
+    19.46790      .00059      .01320      .18928      .00058      .01320      .18928
+    20.46605      .00035      .00974      .17745      .00035      .00974      .17745
+    21.51537      .00021      .00707      .16536      .00021      .00707      .16536
+    22.61849      .00012      .00505      .15305      .00012      .00505      .15305
+    23.77817      .00007      .00354      .14050      .00007      .00354      .14050
+    24.58414      .00004      .00277      .13192      .00004      .00277      .13192
+    25.84460      .00002      .00189      .11837      .00002      .00189      .11838
+    26.72060      .00002      .00144      .10853      .00001      .00144      .10854
+    28.09060      .00001      .00093      .09247      .00001      .00093      .09247
+    29.04274      .00000      .00068      .08156      .00000      .00068      .08156
+    30.02715      .00000      .00049      .07106      .00000      .00049      .07106
+    31.04493      .00000      .00034      .06127      .00000      .00034      .06127
+    32.09720      .00000      .00024      .05235      .00000      .00024      .05235
+    33.18514      .00000      .00017      .04436      .00000      .00017      .04436
+    34.30996      .00000      .00011      .03730      .00000      .00011      .03730
+    35.47290      .00000      .00007      .03112      .00000      .00007      .03113
+    36.67526      .00000      .00005      .02579      .00000      .00005      .02579
+    37.29164      .00000      .00004      .02341      .00000      .00004      .02341
+    38.55565      .00000      .00003      .01918      .00000      .00003      .01918
+    39.86250      .00000      .00002      .01560      .00000      .00002      .01560
+    40.53244      .00000      .00001      .01403      .00000      .00001      .01403
+    41.90630      .00000      .00001      .01128      .00000      .00001      .01128
+    42.61059      .00000      .00001      .01009      .00000      .00001      .01009
+    44.05488      .00000      .00000      .00801      .00000      .00000      .00801
+    44.79528      .00000      .00000      .00712      .00000      .00000      .00712
+    45.54813      .00000      .00000      .00631      .00000      .00000      .00631
+    47.09199      .00000      .00000      .00493      .00000      .00000      .00493
+    47.88344      .00000      .00000      .00435      .00000      .00000      .00435
+    48.68818      .00000      .00000      .00382      .00000      .00000      .00382
+    50.33848      .00000      .00000      .00293      .00000      .00000      .00293
+    51.18448      .00000      .00000      .00256      .00000      .00000      .00256
+    52.04471      .00000      .00000      .00223      .00000      .00000      .00223
+    52.91939      .00000      .00000      .00193      .00000      .00000      .00193
+    54.71310      .00000      .00000      .00145      .00000      .00000      .00145
+    55.63263      .00000      .00000      .00125      .00000      .00000      .00125
+    56.56761      .00000      .00000      .00107      .00000      .00000      .00107
+    57.51831      .00000      .00000      .00092      .00000      .00000      .00092
+
+   chart: valence all-electron and pseudo wavefunctions
+       .5231                         1   2     !8    7                                                                
+      1.5785                                   !3   2 8     1                                                         
+      2.6340                                   ! 3            2         1                                             
+      3.6895                                   !   3               2     1                                            
+      4.7449                                   !     3              1                                                 
+      5.8004                                   !       3      1    2                                                  
+      6.8559                                   !         1      2                                                     
+      7.9113                                   !      1   3  2                                                        
+      8.9668                                   !    1      2                                                          
+     10.0223                                   !  1     2   3                                                         
+     11.0777                                   ! 1    2     3                                                         
+     12.1332                                   !1   2       3                                                         
+     13.1887                                   !1  2        3                                                         
+     14.2441                                   !  2        3                                                          
+     15.2996                                   ! 2         3                                                          
+     16.3551                                   ! 2        3                                                           
+     17.4105                                   !2         3                                                           
+     18.4660                                   !2        3                                                            
+     19.5215                                   !2       3                                                             
+     20.5769                                   !        3                                                             
+     21.6324                                   !       3                                                              
+     22.6879                                   !       3                                                              
+     23.7433                                   !      3                                                               
+     24.7988                                   !      3                                                               
+     25.8543                                   !     3                                                                
+     26.9098                                   !    3                                                                 
+     27.9652                                   !    3                                                                 
+     29.0207                                   !   3                                                                  
+     30.0762                                   !   3                                                                  
+     31.1316                                   !  3                                                                   
+     32.1871                                   !  3                                                                   
+     33.2426                                   ! 3                                                                    
+     34.2980                                   ! 3                                                                    
+     35.3535                                   ! 3                                                                    
+     36.4090                                   !3                                                                     
+     37.4644                                   !3                                                                     
+     38.5199                                   !3                                                                     
+     39.5754                                   !3                                                                     
+     40.6308                                   !3                                                                     
+     41.6863                                   !3                                                                     
+     42.7418                                   !3                                                                     
+     43.7972                                   !                                                                      
+     44.8527                                   !                                                                      
+     45.9082                                   !                                                                      
+     46.9636                                   !                                                                      
+     48.0191                                   !                                                                      
+     49.0746                                   !                                                                      
+     50.1300                                   !                                                                      
+     51.1855                                   !                                                                      
+     52.2410                                   !                                                                      
+     53.2964                                   !                                                                      
+     54.3519                                   !                                                                      
+     55.4074                                   !                                                                      
+     56.4628                                   !                                                                      
+     57.5183                                   !                                                                      
+                 i         i         i         i         i         i         i         i         i         i         i
+            -.6000              -.2000               .2000               .6000              1.0000               1.400    
+                      -.4000              -.2384E-07           .4000               .8000               1.200    
+ 
+
+ subroutine fanal: fourier transform pseudo wavefunctions
+
+   q * fourier transform of wfns
+
+   wavevector             300          310          320
+       .00000          .00000       .00000       .00000
+       .20000         1.93546      1.68202      2.78847
+       .40000         1.77452      1.88672      1.10636
+       .60000          .90066      1.09955       .35824
+       .80000          .28108       .55117       .14078
+      1.00000         -.01949       .25160       .07371
+      1.20000         -.12354       .09594       .04031
+      1.40000         -.13170       .02698       .02012
+      1.60000         -.10431       .00421       .01147
+      1.80000         -.06976       .00005       .00801
+      2.00000         -.03798       .00144       .00631
+      2.20000         -.01125       .00351       .00525
+      2.40000          .01039       .00491       .00455
+      2.60000          .02720       .00558       .00324
+      2.80000          .03931       .00570       .00261
+      3.00000          .04688       .00537       .00235
+      3.20000          .05027       .00471       .00083
+      3.40000          .05001       .00380      -.00296
+      3.60000          .04683       .00276       .00245
+      3.80000          .04154       .00171       .00623
+      4.00000          .03493       .00077      -.00912
+      4.20000          .02776       .00003       .01066
+      4.40000          .02063      -.00050       .00369
+      4.60000          .01404      -.00074      -.02954
+      4.80000          .00831      -.00080       .02190
+      5.00000          .00364      -.00079       .04743
+      5.20000          .00010      -.00068       .00470
+      5.40000         -.00235      -.00044      -.04830
+      5.60000         -.00383      -.00012      -.07987
+      5.80000         -.00449       .00017      -.09527
+      6.00000         -.00450       .00037      -.10736
+      6.20000         -.00406       .00039      -.12120
+      6.40000         -.00331       .00009      -.12839
+      6.60000         -.00242      -.00065      -.10718
+      6.80000         -.00150      -.00162      -.03163
+      7.00000         -.00065      -.00190       .10190
+      7.20000          .00007      -.00019       .19517
+      7.40000          .00064       .00281       .06116
+      7.60000          .00109       .00276      -.15262
+      7.80000          .00134      -.00262      -.14363
+      8.00000          .00126      -.00474       .10368
+      8.20000          .00105       .00353       .17839
+      8.40000          .00105       .00525      -.16455
+      8.60000          .00081      -.00720      -.11164
+      8.80000          .00007      -.00128       .26575
+      9.00000          .00010       .01014      -.14021
+      9.20000          .00008      -.00953      -.13324
+      9.40000         -.00098       .00012       .29836
+      9.60000         -.00021       .01080      -.17890
+      9.80000         -.00056      -.01659      -.07932
+     10.00000         -.00128       .01476       .11503
+     10.20000          .00049      -.00657      -.10882
+     10.40000         -.00167      -.00405       .33390
+     10.60000          .00078       .01356      -.16423
+     10.80000         -.00094      -.02202       .04495
+     11.00000          .00026       .02680      -.22602
+     11.20000          .00029      -.02969      -.16659
+     11.40000         -.00055       .03191      -.12976
+     11.60000          .00138      -.03171      -.20716
+     11.80000         -.00129       .03446      -.03555
+     12.00000          .00201      -.03412      -.21050
+     12.20000         -.00168       .03909      -.05194
+     12.40000          .00191      -.03983      -.24655
+     12.60000         -.00122       .04614      -.20004
+     12.80000          .00055      -.04748      -.28234
+     13.00000          .00082       .04926      -.36384
+     13.20000         -.00263      -.04920      -.12372
+     13.40000          .00467       .03648      -.21581
+     13.60000         -.00702      -.02845       .34277
+     13.80000          .00839       .00187       .13845
+     14.00000         -.00895       .02514       .51181
+     14.20000          .00696      -.04354      -.12080
+     14.40000         -.00291       .06969      -.27618
+     14.60000         -.00307      -.06880      -.26942
+     14.80000          .00936       .03805      -.12494
+     15.00000         -.01328      -.00725       .55156
+
+  chart: q * fourier transform of wfns
+       .0000                 !                                                                                        
+       .2000                 !                                                    2       1                          3
+       .4000                 !                                  3                    1  2                             
+       .6000                 !          3                1     2                                                      
+       .8000                 !   3   1        2                                                                       
+      1.0000                1! 3     2                                                                                
+      1.2000             1   !3 2                                                                                     
+      1.4000            1    !                                                                                        
+      1.6000             1   !                                                                                        
+      1.8000              1  !                                                                                        
+      2.0000               1 !                                                                                        
+      2.2000                1!                                                                                        
+      2.4000                 !                                                                                        
+      2.6000                 !                                                                                        
+      2.8000                 !1                                                                                       
+      3.0000                 !1                                                                                       
+      3.2000                 !1                                                                                       
+      3.4000                3!1                                                                                       
+      3.6000                 !1                                                                                       
+      3.8000                 !1                                                                                       
+      4.0000                3!1                                                                                       
+      4.2000                 !                                                                                        
+      4.4000                 !                                                                                        
+      4.6000                3!                                                                                        
+      4.8000                 !                                                                                        
+      5.0000                 !3                                                                                       
+      5.2000                 !                                                                                        
+      5.4000               31!                                                                                        
+      5.6000              3 1!                                                                                        
+      5.8000              3 1!                                                                                        
+      6.0000             3  1!                                                                                        
+      6.2000             3  1!                                                                                        
+      6.4000            3   1!                                                                                        
+      6.6000             3  1!                                                                                        
+      6.8000                1!                                                                                        
+      7.0000                2!  3                                                                                     
+      7.2000                 !     3                                                                                  
+      7.4000                 !3                                                                                       
+      7.6000            3    !                                                                                        
+      7.8000            3   2!                                                                                        
+      8.0000                2!  3                                                                                     
+      8.2000                 !    3                                                                                   
+      8.4000           3     !                                                                                        
+      8.6000             3  2!                                                                                        
+      8.8000                 !       3                                                                                
+      9.0000            3    !                                                                                        
+      9.2000            3   2!                                                                                        
+      9.4000                 !        3                                                                               
+      9.6000           3     !                                                                                        
+      9.8000              3 2!                                                                                        
+     10.0000                 !  3                                                                                     
+     10.2000             3  2!                                                                                        
+     10.4000                1!         3                                                                              
+     10.6000           3     !                                                                                        
+     10.8000                2!3                                                                                       
+     11.0000         3       !                                                                                        
+     11.2000           3    2!                                                                                        
+     11.4000            3    !2                                                                                       
+     11.6000          3     2!                                                                                        
+     11.8000               3 !2                                                                                       
+     12.0000          3    2 !                                                                                        
+     12.2000               31!2                                                                                       
+     12.4000         3     2 !                                                                                        
+     12.6000          3      !2                                                                                       
+     12.8000        3      2 !                                                                                        
+     13.0000     3           !2                                                                                       
+     13.2000             3 21!                                                                                        
+     13.4000          3      !2                                                                                       
+     13.6000                1!         3                                                                              
+     13.8000                 !   3                                                                                    
+     14.0000                1!               3                                                                        
+     14.2000             3 2 !                                                                                        
+     14.4000        3       1! 2                                                                                      
+     14.6000        3     2 1!                                                                                        
+     14.8000             3   !2                                                                                       
+     15.0000                1!                3                                                                       
+                 i         i         i         i         i         i         i         i         i         i         i
+            -.3638               .2666               .8971               1.528               2.158               2.788    
+                      -.4861E-01           .5819               1.212               1.843               2.473    
+ 
+
+ leaving fanal
+
+ calling lderiv: log derivatives of pseudopotential
+
+ subroutine lderiv: pass   2
+
+     logarithmic derivatives
+
+      e          l=0             l=1             l=2             l=0             l=1             l=2
+ 
+   -9.000      .28781E+01      .29292E+01      .30275E+01      .28789E+01      .29333E+01      .30277E+01
+   -8.863      .28541E+01      .29057E+01      .30050E+01      .28549E+01      .29100E+01      .30051E+01
+   -8.725      .28298E+01      .28820E+01      .29822E+01      .28308E+01      .28864E+01      .29823E+01
+   -8.588      .28054E+01      .28581E+01      .29593E+01      .28064E+01      .28627E+01      .29594E+01
+   -8.450      .27807E+01      .28340E+01      .29362E+01      .27818E+01      .28388E+01      .29363E+01
+   -8.312      .27558E+01      .28097E+01      .29129E+01      .27569E+01      .28147E+01      .29130E+01
+   -8.175      .27307E+01      .27852E+01      .28894E+01      .27319E+01      .27903E+01      .28895E+01
+   -8.037      .27053E+01      .27604E+01      .28657E+01      .27066E+01      .27658E+01      .28658E+01
+   -7.900      .26796E+01      .27354E+01      .28418E+01      .26810E+01      .27410E+01      .28420E+01
+   -7.763      .26537E+01      .27102E+01      .28177E+01      .26552E+01      .27160E+01      .28179E+01
+   -7.625      .26275E+01      .26847E+01      .27935E+01      .26292E+01      .26908E+01      .27936E+01
+   -7.487      .26011E+01      .26590E+01      .27690E+01      .26029E+01      .26653E+01      .27691E+01
+   -7.350      .25743E+01      .26331E+01      .27442E+01      .25763E+01      .26396E+01      .27444E+01
+   -7.212      .25472E+01      .26068E+01      .27193E+01      .25494E+01      .26136E+01      .27194E+01
+   -7.075      .25199E+01      .25803E+01      .26941E+01      .25222E+01      .25874E+01      .26942E+01
+   -6.938      .24921E+01      .25535E+01      .26687E+01      .24947E+01      .25609E+01      .26688E+01
+   -6.800      .24641E+01      .25264E+01      .26431E+01      .24670E+01      .25342E+01      .26432E+01
+   -6.662      .24357E+01      .24990E+01      .26172E+01      .24388E+01      .25071E+01      .26173E+01
+   -6.525      .24068E+01      .24713E+01      .25910E+01      .24104E+01      .24798E+01      .25911E+01
+   -6.388      .23776E+01      .24432E+01      .25646E+01      .23816E+01      .24522E+01      .25647E+01
+   -6.250      .23480E+01      .24149E+01      .25379E+01      .23525E+01      .24243E+01      .25380E+01
+   -6.112      .23178E+01      .23861E+01      .25109E+01      .23229E+01      .23960E+01      .25110E+01
+   -5.975      .22872E+01      .23570E+01      .24836E+01      .22930E+01      .23674E+01      .24837E+01
+   -5.837      .22560E+01      .23275E+01      .24561E+01      .22627E+01      .23385E+01      .24562E+01
+   -5.700      .22243E+01      .22976E+01      .24282E+01      .22320E+01      .23092E+01      .24283E+01
+   -5.562      .21918E+01      .22673E+01      .24000E+01      .22008E+01      .22796E+01      .24001E+01
+   -5.425      .21585E+01      .22366E+01      .23715E+01      .21692E+01      .22496E+01      .23715E+01
+   -5.287      .21242E+01      .22054E+01      .23426E+01      .21371E+01      .22192E+01      .23427E+01
+   -5.150      .20886E+01      .21737E+01      .23134E+01      .21046E+01      .21883E+01      .23134E+01
+   -5.012      .20512E+01      .21415E+01      .22838E+01      .20715E+01      .21571E+01      .22838E+01
+   -4.875      .20111E+01      .21088E+01      .22538E+01      .20378E+01      .21254E+01      .22538E+01
+   -4.737      .19660E+01      .20754E+01      .22234E+01      .20036E+01      .20932E+01      .22235E+01
+   -4.600      .19093E+01      .20415E+01      .21926E+01      .19688E+01      .20606E+01      .21927E+01
+   -4.462      .18085E+01      .20069E+01      .21614E+01      .19334E+01      .20275E+01      .21615E+01
+   -4.325     -.53894E+01      .19716E+01      .21297E+01      .18973E+01      .19938E+01      .21298E+01
+   -4.188      .20058E+01      .19356E+01      .20976E+01      .18606E+01      .19596E+01      .20977E+01
+   -4.050      .18993E+01      .18987E+01      .20650E+01      .18231E+01      .19249E+01      .20650E+01
+   -3.912      .18384E+01      .18608E+01      .20319E+01      .17848E+01      .18895E+01      .20319E+01
+   -3.775      .17883E+01      .18219E+01      .19982E+01      .17457E+01      .18535E+01      .19983E+01
+   -3.637      .17418E+01      .17818E+01      .19640E+01      .17058E+01      .18168E+01      .19641E+01
+   -3.500      .16967E+01      .17403E+01      .19292E+01      .16649E+01      .17795E+01      .19293E+01
+   -3.362      .16519E+01      .16971E+01      .18938E+01      .16231E+01      .17414E+01      .18939E+01
+   -3.225      .16069E+01      .16517E+01      .18578E+01      .15802E+01      .17025E+01      .18578E+01
+   -3.087      .15613E+01      .16034E+01      .18211E+01      .15362E+01      .16628E+01      .18211E+01
+   -2.950      .15149E+01      .15510E+01      .17837E+01      .14910E+01      .16222E+01      .17837E+01
+   -2.812      .14674E+01      .14921E+01      .17455E+01      .14445E+01      .15807E+01      .17455E+01
+   -2.675      .14188E+01      .14213E+01      .17065E+01      .13966E+01      .15382E+01      .17065E+01
+   -2.537      .13688E+01      .13228E+01      .16666E+01      .13471E+01      .14947E+01      .16667E+01
+   -2.400      .13173E+01      .11234E+01      .16259E+01      .12961E+01      .14500E+01      .16259E+01
+   -2.262      .12641E+01     -.25937E+01      .15842E+01      .12433E+01      .14040E+01      .15842E+01
+   -2.125      .12090E+01      .17335E+01      .15415E+01      .11885E+01      .13568E+01      .15415E+01
+   -1.987      .11518E+01      .14834E+01      .14977E+01      .11316E+01      .13081E+01      .14977E+01
+   -1.850      .10922E+01      .13694E+01      .14527E+01      .10724E+01      .12579E+01      .14527E+01
+   -1.712      .10300E+01      .12856E+01      .14064E+01      .10105E+01      .12060E+01      .14064E+01
+   -1.575      .96484E+00      .12125E+01      .13587E+01      .94578E+00      .11522E+01      .13588E+01
+   -1.437      .89636E+00      .11433E+01      .13096E+01      .87782E+00      .10964E+01      .13096E+01
+   -1.300      .82410E+00      .10752E+01      .12589E+01      .80624E+00      .10383E+01      .12589E+01
+   -1.162      .74752E+00      .10068E+01      .12064E+01      .73056E+00      .97770E+00      .12064E+01
+   -1.025      .66596E+00      .93679E+00      .11519E+01      .65021E+00      .91424E+00      .11520E+01
+    -.887      .57863E+00      .86456E+00      .10954E+01      .56451E+00      .84755E+00      .10954E+01
+    -.750      .48454E+00      .78938E+00      .10365E+01      .47261E+00      .77717E+00      .10365E+01
+    -.612      .38244E+00      .71057E+00      .97495E+00      .37347E+00      .70252E+00      .97496E+00
+    -.475      .27074E+00      .62741E+00      .91051E+00      .26568E+00      .62286E+00      .91051E+00
+    -.337      .14738E+00      .53909E+00      .84277E+00      .14686E+00      .53724E+00      .84278E+00
+    -.200      .96434E-02      .44466E+00      .77131E+00      .24444E-01      .44441E+00      .77131E+00
+    -.062     -.14616E+00      .34295E+00      .69559E+00     -.12387E+00      .34268E+00      .69560E+00
+     .075     -.32515E+00      .23253E+00      .61497E+00     -.28728E+00      .22966E+00      .61498E+00
+     .213     -.53461E+00      .11159E+00      .52866E+00     -.47369E+00      .10189E+00      .52867E+00
+     .350     -.78538E+00     -.22236E-01      .43566E+00     -.69017E+00     -.45887E-01      .43568E+00
+     .488     -.10942E+01     -.17206E+00      .33472E+00     -.94666E+00     -.22214E+00      .33476E+00
+     .625     -.14885E+01     -.34212E+00      .22421E+00     -.12580E+01     -.44153E+00      .22427E+00
+     .763     -.20165E+01     -.53832E+00      .10200E+00     -.16475E+01     -.73206E+00      .10211E+00
+     .900     -.27715E+01     -.76913E+00     -.34744E-01     -.21542E+01     -.11551E+01     -.34571E-01
+    1.038     -.39610E+01     -.10473E+01     -.18995E+00     -.28481E+01     -.18769E+01     -.18967E+00
+    1.175     -.61579E+01     -.13926E+01     -.36913E+00     -.38699E+01     -.35666E+01     -.36868E+00
+    1.313     -.11739E+02     -.18383E+01     -.58039E+00     -.55494E+01     -.15236E+02     -.57965E+00
+    1.450     -.58282E+02     -.24435E+01     -.83604E+00     -.88833E+01      .71434E+01     -.83480E+00
+    1.588      .22569E+02     -.33265E+01     -.11559E+01     -.18950E+02      .27412E+01     -.11537E+01
+    1.725      .98836E+01     -.47613E+01     -.15737E+01      .83153E+03      .15313E+01     -.15700E+01
+    1.863      .64514E+01     -.75616E+01     -.21530E+01      .19663E+02      .90187E+00     -.21460E+01
+    2.000      .48289E+01     -.15701E+02     -.30275E+01      .10269E+02      .47164E+00     -.30132E+01
+
+   chart: log derivatives
+     -9.0000                                                       !                                   123            
+     -8.8625                                                       !                                   1 3            
+     -8.7250                                                       !                                  123             
+     -8.5875                                                       !                                  123             
+     -8.4500                                                       !                                  1 3             
+     -8.3125                                                       !                                 123              
+     -8.1750                                                       !                                 123              
+     -8.0375                                                       !                                 123              
+     -7.9000                                                       !                                12 3              
+     -7.7625                                                       !                                123               
+     -7.6250                                                       !                                123               
+     -7.4875                                                       !                                1 3               
+     -7.3500                                                       !                               123                
+     -7.2125                                                       !                               123                
+     -7.0750                                                       !                              12 3                
+     -6.9375                                                       !                              123                 
+     -6.8000                                                       !                              123                 
+     -6.6625                                                       !                             12 3                 
+     -6.5250                                                       !                             123                  
+     -6.3875                                                       !                             123                  
+     -6.2500                                                       !                            12 3                  
+     -6.1125                                                       !                            123                   
+     -5.9750                                                       !                            153                   
+     -5.8375                                                       !                           12 3                   
+     -5.7000                                                       !                           123                    
+     -5.5625                                                       !                          12 3                    
+     -5.4250                                                       !                          12 3                    
+     -5.2875                                                       !                          123                     
+     -5.1500                                                       !                         12 3                     
+     -5.0125                                                       !                         12 3                     
+     -4.8750                                                       !                        1253                      
+     -4.7375                                                       !                        12 3                      
+     -4.6000                                                       !                       1423                       
+     -4.4625                                                       !                      142 3                       
+     -4.3250                                                       !                       42 3                       
+     -4.1875                                                       !                      4213                        
+     -4.0500                                                       !                      41 3                        
+     -3.9125                                                       !                     4153                         
+     -3.7750                                                       !                     12 3                         
+     -3.6375                                                       !                    415 3                         
+     -3.5000                                                       !                    12 3                          
+     -3.3625                                                       !                   415 3                          
+     -3.2250                                                       !                   12 3                           
+     -3.0875                                                       !                  415 3                           
+     -2.9500                                                       !                  15 3                            
+     -2.8125                                                       !                 125 3                            
+     -2.6750                                                       !                415 3                             
+     -2.5375                                                       !                1 5 3                             
+     -2.4000                                                       !             2 1 5 3                              
+     -2.2625                       2                               !               1 5 3                              
+     -2.1250                                                       !              1 5 3  2                            
+     -1.9875                                                       !             1 5  2                               
+     -1.8500                                                       !            41 523                                
+     -1.7125                                                       !            1 52 3                                
+     -1.5750                                                       !           1 52 3                                 
+     -1.4375                                                       !          1  2 3                                  
+     -1.3000                                                       !         1  2  3                                  
+     -1.1625                                                       !        1  52 3                                   
+     -1.0250                                                       !       1  52 3                                    
+      -.8875                                                       !      1   2  3                                    
+      -.7500                                                       !     1   2  3                                     
+      -.6125                                                       !    1   2  3                                      
+      -.4750                                                       !  1    2  3                                       
+      -.3375                                                       ! 1    2   3                                       
+      -.2000                                                       !     2   3                                        
+      -.0625                                                     1 !   2    3                                         
+       .0750                                                   1   !  2    3                                          
+       .2125                                                14     !2     3                                           
+       .3500                                             14       5!    3                                             
+       .4875                                         1 4        52 !   3                                              
+       .6250                                    1  4         5 2   !  3                                               
+       .7625                              1   4           5 2      !3                                                 
+       .9000                    1       4            5   2         !                                                  
+      1.0375     1             4            5         2          3 !                                                  
+      1.1750       4  5                           2           3    !                                                  
+      1.3125                                2               3      !                                                  
+      1.4500                        2                    3         !                                                  
+      1.5875             2                           3             !                                 5                
+      1.7250                                   3                   !                  5                               
+      1.8625                            3                          !          5                                       
+      2.0000                 3                                     !     5                                            
+                 i         i         i         i         i         i         i         i         i         i         i
+            -4.000              -2.400              -.8000               .8000               2.400               4.000    
+                      -3.200              -1.600               .2220E-15           1.600               3.200    
+ 
+
+ leaving lderiv
+
+ eigenvalues of nonlocal potential 
+
+   l= 0       5.152638
+   l= 1       1.668331
+
+ -------------------------------------------------
+ eigensolution in bessel basis with cutoff 30.00
+ -------------------------------------------------
+
+   ecut=  30.0  rmax=  10.0   nbt= 1501
+   nsw(l=0)=   18
+   nsw(l=1)=   17
+
+   eigenvalues of local potential 
+   l= 0      -4.056863   -.290169
+   l= 1       -.520793   -.005835
+
+   eigenvalues of US hamiltonian 
+   l= 0       -.293801   -.239758    .113195    .680038
+   l= 1       -.110301    .253355    .808965   1.454685

@@ -1,0 +1,43 @@
+------------------------------
+Author and contact information
+------------------------------
+
+David Vanderbilt
+dhv@physics.rutgers.edu
+July 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in +1 ionic s2d2 configuration; semicore sp shells included.
+
+This Nb potential was generated in the early 1990's by some member
+of my group, probably D. King-Smith.  I believe it has been used
+successfully in studies of KNbO3, NaNbO3, etc.
+
+--------------------
+Intended environment
+--------------------
+
+Mostly for Nb in oxides where it is in the 5+ formal oxidation
+state.  It should probably be OK for metallic Nb too, but I don't
+think we ever tried it for that.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Nothing to report.
+
+-----------------
+Solid-state tests
+-----------------
+
+Nothing to report.
+
+-------------
+Miscellaneous
+-------------
+
+Nothing to report.

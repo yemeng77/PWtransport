@@ -1,0 +1,59 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for S, with 7 valence electrons.  
+The pseudopotential have been genearted using 2 s and  2 p non-local projectors 
+and include nonlinear core correction, with rc = 1.2a0.
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Cl_test_1.out: COMP: comparison of all-electron and pseudo eigenvalues (Ry)
+Cl_test_1.out:COMP:   nlm    all-elec      pseudo        diff
+Cl_test_1.out:COMP:   300   -2.427025   -2.432491    0.005467
+Cl_test_1.out:COMP:   310   -1.490570   -1.495342    0.004773
+Cl_test_1.out:COMP:   320   -0.341773   -0.332892   -0.008882
+
+Cl_test_2.out:COMP:   nlm    all-elec      pseudo        diff
+Cl_test_2.out:COMP:   300   -2.568923   -2.589865    0.020942
+Cl_test_2.out:COMP:   310   -1.619516   -1.637820    0.018304
+Cl_test_2.out:COMP:   320   -0.413655   -0.407177   -0.006477
+
+Cl_test_3.out:COMP:   nlm    all-elec      pseudo        diff
+Cl_test_3.out:COMP:   300   -1.524371   -1.524384    0.000013
+Cl_test_3.out:COMP:   310   -0.635576   -0.635581    0.000005
+
+-----------------
+Solid-state tests
+-----------------
+
+Dimer test: (BE: molecular binding energy/per molecule eV)
+Name           Ecut  Sym    d(a0)    e0 (eV)     BE       hw (1/cm)  M
+Cl_us_gga_7.3.4 19  Dimer  2.0068  -872.5223  -2.8101  550.423    0.000
+Cl_us_gga_7.3.4 37  Dimer  2.0004  -872.6812  -2.8467  549.201    0.000
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/S/PW91/Cl_us_gga_7.3.4.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/S/PW91/Cl_us_gga_7.3.4.pseudo.html

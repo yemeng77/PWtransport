@@ -1,0 +1,48 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Bernd Meyer
+bernd.meyer@theochem.ruhr-uni-bochum.de
+July 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in partially ionized configuration 3d6.5 4s1 4p0.
+
+Potential is optimized for a plane wave cut-off of 25 Ry and was generated
+in April 2002 together with the sulfur potential:
+
+016-S-gpbe--bm
+
+No tests for spin polarized configurations were made.
+
+--------------------
+Intended environment
+--------------------
+
+Ionic compounds, but should be pretty general, I suppose.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Nothing to report.
+
+-----------------
+Solid-state tests
+-----------------
+
+FeS, pyrite structure (E_pw = 25 Ry):
+
+lattice constant:    a = 10.226 bohr
+internal coordinate: u = 0.3829
+bulk modulus:        B = 157 GPa
+
+-------------
+Miscellaneous
+-------------
+
+Nothing to report.

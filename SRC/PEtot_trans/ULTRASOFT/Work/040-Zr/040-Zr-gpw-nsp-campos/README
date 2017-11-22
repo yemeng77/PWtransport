@@ -1,0 +1,83 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for Zr, including 2s and 2p semicore electrons (12 valence electrons). 
+The pseudopotential have been genearted using 2 s, 2 p and 2 d nonlocal projectors, 
+and include nonlinear core correction. 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Zr_ps.out:  comparison of all-electron and pseudo eigenvalues (Ry)
+Zr_ps.out:   nlm    all-elec      pseudo        diff
+Zr_ps.out:   400   -4.009533   -4.009534    0.000000
+Zr_ps.out:   410   -2.388830   -2.388831    0.000002
+Zr_ps.out:   420   -0.267603   -0.267603    0.000000
+Zr_ps.out:   500   -0.329596   -0.329592   -0.000004
+Zr_ps.out:   510   -0.110703   -0.110703    0.000000
+
+Zr_test_1.out:  comparison of all-electron and pseudo eigenvalues (Ry)
+Zr_test_1.out:   nlm    all-elec      pseudo        diff
+Zr_test_1.out:   400   -4.100739   -4.100735   -0.000004
+Zr_test_1.out:   410   -2.479615   -2.479600   -0.000016
+Zr_test_1.out:   420   -0.345095   -0.345097    0.000002
+Zr_test_1.out:   500   -0.382672   -0.382669   -0.000003
+Zr_test_1.out:   510   -0.152098   -0.152097   -0.000002
+
+Zr_test_2.out:   nlm    all-elec      pseudo        diff
+Zr_test_2.out:   400   -4.501439   -4.501392   -0.000048
+Zr_test_2.out:   410   -2.881036   -2.880989   -0.000047
+Zr_test_2.out:   420   -0.737723   -0.737724    0.000001
+Zr_test_2.out:   500   -0.734891   -0.734881   -0.000011
+Zr_test_2.out:   510   -0.463414   -0.463405   -0.000008
+
+Zr_test_3.out:   nlm    all-elec      pseudo        diff
+Zr_test_3.out:   400   -4.056319   -4.056315   -0.000004
+Zr_test_3.out:   410   -2.435452   -2.435444   -0.000008
+Zr_test_3.out:   420   -0.307692   -0.307692    0.000000
+Zr_test_3.out:   500   -0.357503   -0.357499   -0.000004
+Zr_test_3.out:   510   -0.132243   -0.132242   -0.000001
+
+
+
+-----------------
+Solid-state tests
+-----------------
+
+Name          Ecut Sym     a0      e0       B       C44     C12     a01
+Zr_us_gga      22  HCP  3.2315  -1350.651  0.0     0.0     0.0     0.000
+Zr_us_gga      22  FCC  4.5225  -1350.622  93.5    48.2    89.1    4.508
+Zr_us_gga      22  BCC  3.5769  -1350.575  84.3    33.0    87.6    3.565
+Zr_us_gga      30  HCP  3.2320  -1350.694  0.0     0.0     0.0     0.000
+Zr_us_gga      30  FCC  4.5229  -1350.665  88.6    46.1    84.4    4.535
+Zr_us_gga      30  BCC  3.5746  -1350.620  87.4    31.7    90.5    3.586
+
+Name          Ecut Sym     a0      e0       B       C44     C12     a01
+FLAPW_PW91     0   HCP  3.2277   0.000      91.2    0.0    0.0    0.000
+
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Zr/PW91/Zr_us_gga.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Zr/PW91/Zr_us_gga.pseudo.html

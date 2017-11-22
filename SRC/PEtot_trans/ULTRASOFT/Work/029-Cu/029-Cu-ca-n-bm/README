@@ -1,0 +1,63 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Bernd Meyer
+bernd.meyer@theochem.ruhr-uni-bochum.de
+July 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in neutral 3d9.5 4s1 4p0.5 configuration.
+
+Potential is optimized for a plane wave cut-off of 25 Ry and was generated
+in January 2002.
+
+--------------------
+Intended environment
+--------------------
+
+Small clusters, but should be pretty general, I suppose.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Nothing to report.
+
+-----------------
+Solid-state tests
+-----------------
+
+Nothing to report.
+
+-------------
+Miscellaneous
+-------------
+
+Cu2 dimer:
+
+E_pw [Ry]   d_Cu2 [bohr]   f [1/cm]   E0 [eV]
+ 25.0         4.0587         301.9     -2.81
+ 30.0         4.0586         301.7     -2.82
+ 40.0         4.0587         301.8     -2.83
+ 50.0         4.0587         301.8     -2.83
+
+
+Cu4 cluster (E_pw = 25 Ry):
+                              dE [eV]   d_bond [bohr]
+planar, rhombus:               0.00     4.275 / 4.478
+planar,quadratic (unstable):   1.09     4.372
+linear chain:                  1.62     4.244 / 4.432
+tetrahedral (unstable):        1.19     4.511
+
+
+Cu6 cluster (E_pw = 25 Ry):
+                              dE [eV]   d_bond [bohr]
+3-dim, C2v:                    0.00     4.258 / 4.349 / 4.356 / 4.484 / 4.501
+planar, D3h:                   0.01     4.269 / 4.396
+3-dim, C5v:                    0.04     4.282 / 4.427
+octaeder (unstable):           0.52     4.411
+linear chain:                  4.22     4.114 / 4.154 / 4.234

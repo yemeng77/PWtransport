@@ -1,0 +1,70 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+Perdew-Wang 91 GGA pseudo-potential for V, including 2s and 2p semicore electrons (13 valence electrons). 
+The pseudopotential have been genearted using 2 s, 2 p and 2 d nonlocal projectors, 
+and include nonlinear core correction. 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+V_test_1.out:   comparison of all-electron and pseudo eigenvalues (Ry)
+V_test_1.out:    nlm    all-elec      pseudo        diff
+V_test_1.out:    300   -6.153741   -6.157144    0.003403
+V_test_1.out:    310   -4.214266   -4.217716    0.003451
+V_test_1.out:    400   -0.924045   -0.924005   -0.000040
+V_test_1.out:    320   -1.286176   -1.287677    0.001501
+
+V_test_2.out:    nlm    all-elec      pseudo        diff
+V_test_2.out:    300   -5.722294   -5.721678   -0.000615
+V_test_2.out:    310   -3.800774   -3.800175   -0.000598
+V_test_2.out:    400   -0.804763   -0.804787    0.000024
+V_test_2.out:    320   -0.934463   -0.934262   -0.000202
+
+V_test_3.out:    nlm    all-elec      pseudo        diff
+V_test_3.out:    300   -5.011137   -5.010268   -0.000869
+V_test_3.out:    310   -3.095152   -3.094277   -0.000875
+V_test_3.out:    400   -0.314847   -0.314951    0.000104
+V_test_3.out:    320   -0.269390   -0.269265   -0.000125
+
+
+-----------------
+Solid-state tests
+-----------------
+
+Name                     Ecut Sym    a0      e0       B       C44     C12     a01
+V_us_pw91_13elec_7.3.4   19  FCC  3.8154  -1958.255  206.3   -27.2   299.8   3.714
+V_us_pw91_13elec_7.3.4   19  BCC  2.9947  -1958.502  325.5   38.7    270.5   2.917
+
+V_us_pw91_13elec_7.3.4   22  FCC  3.8147  -1958.402  177.7   -11.1   249.2   3.810
+V_us_pw91_13elec_7.3.4   22  BCC  2.9935  -1958.651  174.5   18.0    132.6   2.989
+
+Name           Sym     a0    e0      B      C44     C12     a01
+FLAPW_PW91     BCC  2.9952  0.000   184.0   0.0     0.0     0.000
+
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/V/PW91/V_us_pw91_13elec_7.3.4.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/V/PW91/V_us_pw91_13elec_7.3.4.pseudo.html

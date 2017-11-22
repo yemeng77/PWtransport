@@ -1,0 +1,76 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+Perdew-Wang 91 GGA pseudo-potential for Y, including 3s and 3p semicore electrons (11 valence electrons). 
+The pseudopotential have been genearted using 2 s, 2 p and 2 d nonlocal projectors, 
+and include nonlinear core correction. 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Y_test_1.out:  comparison of all-electron and pseudo eigenvalues (Ry)
+Y_test_1.out:    nlm    all-elec      pseudo        diff
+Y_test_1.out:    400   -3.620332   -3.620332    0.000000
+Y_test_1.out:    410   -2.143085   -2.143078   -0.000007
+Y_test_1.out:    420   -0.257935   -0.257930   -0.000005
+Y_test_1.out:    500   -0.353225   -0.353222   -0.000003
+Y_test_1.out:    510   -0.147160   -0.147159   -0.000001
+
+Y_test_2.out:    nlm    all-elec      pseudo        diff
+Y_test_2.out:    400   -4.002410   -4.002389   -0.000021
+Y_test_2.out:    410   -2.525532   -2.525507   -0.000025
+Y_test_2.out:    420   -0.626336   -0.626328   -0.000008
+Y_test_2.out:    500   -0.683946   -0.683939   -0.000008
+Y_test_2.out:    510   -0.438136   -0.438130   -0.000005
+
+Y_test_3.out:    nlm    all-elec      pseudo        diff
+Y_test_3.out:    400   -3.576519   -3.576520    0.000001
+Y_test_3.out:    410   -2.099805   -2.099802   -0.000003
+Y_test_3.out:    420   -0.223895   -0.223891   -0.000004
+Y_test_3.out:    500   -0.330028   -0.330024   -0.000004
+Y_test_3.out: :   510   -0.128389   -0.128388   -0.000001
+
+
+-----------------
+Solid-state tests
+-----------------
+
+Name           Ecut Sym     a0      e0       B      C44     C12     a01
+Y_us_cc_pw91    22  HCP  3.6362  -1192.655  0.0     0.0     0.0     0.000
+Y_us_cc_pw91    22  FCC  5.0567  -1192.617  38.9    31.6    31.5    5.036
+Y_us_cc_pw91    22  BCC  4.0321  -1192.535  39.7    27.6    42.6    4.014
+Y_us_cc_pw91    28  HCP  3.6351  -1192.726  0.0     0.0     0.0     0.000
+Y_us_cc_pw91    28  FCC  5.0553  -1192.688  38.3    31.3    30.9    5.053
+Y_us_cc_pw91    28  BCC  4.0324  -1192.604  41.1    27.3    44.0    4.026
+
+Name           Sym     a0      e0       B       C44     C12     a01
+Y_FLAPW_PW91   HCP  3.6631  0.000      39.0    0.0     0.0     0.000
+
+
+
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Y/PW91/Y_us_cc_pw91.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Y/PW91/Y_us_cc_pw91.pseudo.html

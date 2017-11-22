@@ -1,0 +1,269 @@
+      subroutine Hpsi_comp_AllBand(wg,wgh,nblock,
+     &     ilocal,vr,workr_n,kpt,isij,sumdum_m,iislda)
+
+******************************************
+c     c     Written by Byounghak Lee, Jan 28, 2008.
+*     *  copyright (c) 2003, The Regents of the University of California,
+*     *  through Lawrence Berkeley National Laboratory (subject to receipt of any
+*     *  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
+
+      use fft_data
+      use load_data
+      use data
+
+      implicit double precision (a-h,o-z)
+      include 'param.escan_real'
+      include "mpif.h"
+
+      parameter (mem_size=500000000)     ! 500 MB extra memory for fft
+c      parameter (mem_size=300000000)     ! 300 MB extra memory for fft
+      real*8 vr(mr_n)
+      complex*16 workr_n(mr_n)
+      complex*16 wg(mg_nx,nblock), wgh(mg_nx,nblock)
+      complex*16 wg_dum(mg_nx)
+      complex*16 workr2_n(mr_n,nblock)
+
+      integer nmap(matom)
+
+      complex*16 sumdum_m(32,natom,nblock)
+      complex*16 sumdumtmp_m(32,natom,nblock)
+
+      complex*16 sumdum(32,natom),sumdum2(32),sumdum3(32)
+      complex*16 sumdumtmp(32,natom)
+
+      complex*16 s,cc,s2
+
+      integer isNLa(9,matom),ityatom(matom),ipsp_type(mtype)
+      complex*16 cy
+
+      real*8 occ_t(mtype)
+      integer iiatom(mtype),icore(mtype),numref(matom)
+      real*8 Dij0(32,32,mtype),Qij(32,32,mtype)
+
+*************************************************
+      common /comisNLa/isNLa,Dij0,Qij,ipsp_all,ipsp_type
+      common /comnmap/nmap
+      common /comNL2/occ_t,iiatom,icore,numref,ityatom
+
+      mblock=mem_size/(mr_n*16*3)              !  3 for three extra buffers inside fft
+      mloop=nblock*1.d0/mblock+0.9999999999d0   
+
+      if (ipsp_all==2) then
+         write(6,*) 'All-band method is not ready for ultasoft pp'
+         call system_flush(6)
+         call mpi_abort(MPI_COMM_WORLD,ierr)
+      endif
+
+      ng_n=ngtotnod(inode,kpt)
+      
+cccccccccccccccccccccccccccccc
+cc      call d3fft_comp_block(wg,workr2_n,-1,kpt,nblock)
+ccccccccccccccccccccccccccc
+       do iloop=1,mloop
+       mblock_tmp=mblock
+       if(iloop.eq.mloop)
+     &        mblock_tmp=nblock-(iloop-1)*mblock
+       ip=(iloop-1)*mblock+1
+       call d3fft_comp_block(wg(1,ip),workr2_n(1,ip),
+     &      -1,kpt,mblock_tmp)
+       enddo
+ccccccccccccccccccccccccccc
+
+      if (ilocal==2) then
+         call nonlocal_realsp_m()
+      else            
+         do m=1, nblock
+            do i=1,nr_n
+               workr2_n(i,m)=vr(i)*workr2_n(i,m)
+            enddo      
+         enddo   
+      endif
+
+ccccccccccccccccccccccccccccccccccccc
+ccc      call d3fft_comp_block(wgh,workr2_n,1,kpt,nblock)
+cccccccccccccccccccccccccccccccccccccc
+       do iloop=1,mloop
+       mblock_tmp=mblock
+       if(iloop.eq.mloop)
+     &        mblock_tmp=nblock-(iloop-1)*mblock
+       ip=(iloop-1)*mblock+1
+       call d3fft_comp_block(wgh(1,ip),workr2_n(1,ip),
+     &      1,kpt,mblock_tmp)
+       enddo
+cccccccccccccccccccccccccccccccccccccccccc
+      
+      do m=1, nblock
+         do i=1,ng_n
+            wgh(i,m)=wgh(i,m)+gkk_n(i,kpt)*wg(i,m)
+         enddo
+      enddo         
+
+      if(ilocal.eq.3) then     
+         call nonlocal_qsp_m()
+      endif    
+
+
+      return
+
+      contains
+
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+      subroutine nonlocal_qsp_m()
+      implicit double precision (a-h,o-z)
+      complex*16 cc1,cc0,sumy_m(nref_tot,nblock)
+
+      cc1=dcmplx(1.d0,0.d0)
+      cc0=dcmplx(0.d0,0.d0)
+
+      sumdum_m = cc0
+
+      call zgemm('c','n',nref_tot,nblock,ng_n,cc1,wqmask,
+     &     mg_nx,wg,mg_nx,cc0,sumy_m,nref_tot)
+
+      do ia=1,natom
+         nref=numref(ia)
+         iref_start2=iref_start(ia)
+         
+         if(ng_n.gt.0) then
+            do m1=1, nblock         
+               do jj=1,nref          
+                  sumdum_m(jj,ia,m1)=dconjg(sumy_m(jj+iref_start2,m1))
+               enddo
+            enddo
+         endif
+      enddo
+
+      call mpi_allreduce(sumdum_m,sumdumtmp_m,natom*32*nblock,
+     $     MPI_DOUBLE_COMPLEX,MPI_SUM, MPI_COMM_K,ierr)
+      sumdum_m = sumdumtmp_m*vol
+      
+
+      do ia=1,natom
+         nref=numref(ia)
+         iref_start2=iref_start(ia)
+
+         do m1=1, nblock         
+            do jj1=1,nref               
+               sumy_m(jj1+iref_start2,m1)=Dij(jj1,jj1,ia,iislda)*
+     &              dconjg(sumdum_m(jj1,ia,m1))
+            enddo               
+         enddo
+      enddo   
+      
+      call zgemm('n','n',ng_n,nblock,nref_tot,cc1,
+     &     wqmask,mg_nx,sumy_m,nref_tot,cc1,wgh,mg_nx)                 
+      
+      
+      return
+      end subroutine nonlocal_qsp_m
+      
+
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+      
+      subroutine nonlocal_realsp_m()
+      implicit double precision (a-h,o-z)
+      complex*16 y,cc1,cc0
+      real*8 y_tmp1_m(10000,nblock),y_tmp2_m(10000,nblock)
+      real*8 sumy1_m(32,nblock),sumy2_m(32,nblock)
+      integer ico_m(nblock)
+
+      cc1=dcmplx(1.d0,0.d0)
+      cc0=dcmplx(0.d0,0.d0)
+
+      sumdum = dcmplx(0.d0,0.d0)
+      sumdum_m = dcmplx(0.d0,0.d0)
+      ico0=0
+      ico1=0
+      ico2=0
+
+      do ia=1,natom
+         nref=numref(ia)
+         
+         if(nmap(ia).gt.10000) then
+            write(6,*) "nmap.gt.10000, stop", nmap(ia),ia
+            call  mpi_abort(MPI_COMM_WORLD,ierr)
+         endif
+         
+         ico_m = ico0
+         do m=1, nblock   
+            do i=1,nmap(ia)
+               ico_m(m)=ico_m(m)+1               
+               y=dconjg(workr2_n(indm(ico_m(m)),m)*cphase(ico_m(m)))
+               y_tmp1_m(i,m)=dreal(y)
+               y_tmp2_m(i,m)=dimag(y)
+            enddo            
+         enddo
+         ico0 = ico_m(1)
+
+         call dgemm('N','N',nref,nblock,nmap(ia),1.d0,
+     &        wmask(ico2+1),nref,y_tmp1_m,10000,0.d0,sumy1_m,32)
+         
+         call dgemm('N','N',nref,nblock,nmap(ia),1.d0,
+     &        wmask(ico2+1),nref,y_tmp2_m,10000,0.d0,sumy2_m,32)
+
+
+         if(nmap(ia).gt.0) then 
+            do m=1, nblock
+               do jj=1,nref
+                  sumdum_m(jj,ia,m)=dcmplx(sumy1_m(jj,m),sumy2_m(jj,m))
+               enddo
+            enddo
+            ico2=ico2+nmap(ia)*nref
+         endif
+
+      enddo  
+
+
+      call mpi_allreduce(sumdum_m,sumdumtmp_m,natom*32*nblock,
+     $     MPI_DOUBLE_COMPLEX,MPI_SUM, MPI_COMM_K,ierr)
+      sumdum_m = sumdumtmp_m*vol/(n1*n2*n3)
+
+      do m=1, nblock
+         do i=1,nr_n
+            workr2_n(i,m)=dble(vr(i))*workr2_n(i,m)
+         enddo
+      enddo
+      
+
+      ico1=0
+      ico2=0
+      do ia=1,natom
+         nref=numref(ia)
+         iitype=ityatom(ia)
+
+         do m=1, nblock
+            do jj=1,nref
+               y=Dij(jj,jj,ia,iislda)*dconjg(sumdum_m(jj,ia,m))
+               sumy1_m(jj,m)=dreal(y)
+               sumy2_m(jj,m)=dimag(y)              
+            enddo
+         enddo         
+         
+         call dgemm('T','N',nmap(ia),nblock,nref,1.d0,
+     &        wmask(ico2+1),nref,sumy1_m,32,0.d0,y_tmp1_m,10000)
+
+         call dgemm('T','N',nmap(ia),nblock,nref,1.d0,
+     &        wmask(ico2+1),nref,sumy2_m,32,0.d0,y_tmp2_m,10000)
+         
+         ico2=ico2+nmap(ia)*nref
+         
+         do i=1,nmap(ia)
+            ico1=ico1+1
+            do m=1, nblock
+               workr2_n(indm(ico1),m)=workr2_n(indm(ico1),m)+
+     &              dcmplx(y_tmp1_m(i,m),y_tmp2_m(i,m))
+     &              *dconjg(cphase(ico1))
+            enddo   
+         enddo
+
+      enddo   
+     
+      return
+      end subroutine nonlocal_realsp_m
+
+
+
+      end

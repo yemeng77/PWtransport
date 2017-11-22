@@ -1,0 +1,63 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Alberto Garcia 
+(based on work by Dominic-King-Smith)
+wdpgaara@lg.ehu.es
+March 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in neutral s2p2 configuration; semicore d shell included.
+
+This Pb potential was generated in the early 1990s by Dominic
+King-Smith.  It has been used successfully in a number of studies of
+perovskite ferroelectrics, including tests of stability of PbTiO3, and
+for the determination of phonon frequencies in PbO.
+
+--------------------
+Intended environment
+--------------------
+
+It seems to perform adequately in perovskite oxides and in PbO (in
+which it exhibits a "lone pair" electronic configuration).
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+There is a test for the s2p1 configuration in the distribution:
+
+   nlm    all-elec      pseudo        diff
+
+   520   -2.133314   -2.133383    0.000068
+   600   -1.439974   -1.439754   -0.000219
+   610   -0.746257   -0.746126   -0.000132
+
+-----------------
+Solid-state tests
+-----------------
+
+This pseudopotential was tested (together with those of Ti and O)
+and found to perform adequately for PbTiO3 at a cutoff of 25 ryd.
+
+-------------
+Miscellaneous
+-------------
+
+See History directory for the original DKS files.
+
+
+
+
+
+
+
+
+
+
+
+

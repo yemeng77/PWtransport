@@ -1,0 +1,42 @@
+========================================================================
+pseudopotential program version  7.3.3   date:  0 -  0 -    0
+========================================================================
+
+ ifae =   1    ifpsp =   0    ifprt =   0    ifplw =   0    ilogd =   3
+ rlogd=   1.80000     emin=  -2.00000     emax=   2.00000     nnt=   80
+ thresh, tol =   1.000E-10   1.000E-09    damp =  .100    maxit = 400
+
+          *************************************************************
+          B                    Perdew Wang 1991    exchange-correlation
+          *************************************************************
+
+ z =   5.    xion =  .00    exfact =   4.00000    irel=   0
+ ncspvs =    3
+ rmax =  80.00000    aasf =   7.00000    bbsf =  60.00000
+
+ value of mesh generated in rinit is   781
+ irel = 0 so all electron calculations use schroedinger equations
+ ***warning in subroutine schsol
+ state  210 with energy  -.07623 either unbound or requires larger
+ radial mesh with energy on iteration   3
+ ***warning in subroutine schsol
+ state  210 with energy  -.07647 either unbound or requires larger
+ radial mesh with energy on iteration   1
+
+
+                         the system has converged with
+                                 delta=  .9714809D-09
+
+
+                             the eigenvalues are
+
+
+          orbital          occupation          energy
+           100                   2.00             -13.29070
+           200                   2.00               -.69693
+           210                   1.00               -.26856
+ etot=    -49.23979 ryd ;       -669.90734 ev            ebsr,ehar,emvxc=    -28.24383     23.13161      2.13565
+
+ subroutine lderiv: pass   1
+
+ leaving lderiv

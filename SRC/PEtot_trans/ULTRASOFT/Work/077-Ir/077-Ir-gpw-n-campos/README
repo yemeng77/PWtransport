@@ -1,0 +1,78 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for Ir,  9 valence electrons. 
+The pseudopotential have been generated using 2 s, 2 p and 2 d nonlocal projectors, 
+and include nonlinear core correction. 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+ir_ps.out: COMP: comparison of all-electron and pseudo eigenvalues (Ry)
+ir_ps.out:COMP:   nlm    all-elec      pseudo        diff
+ir_ps.out:COMP:   520   -0.402464   -0.402465    0.000001
+ir_ps.out:COMP:   600   -0.412785   -0.412785    0.000000
+ir_ps.out:COMP:   610   -0.072041   -0.072041    0.000000
+
+ir_test_1.out:COMP:   nlm    all-elec      pseudo        diff
+ir_test_1.out:COMP:   520   -1.131405   -1.135701    0.004296
+ir_test_1.out:COMP:   600   -1.003014   -1.003299    0.000286
+ir_test_1.out:COMP:   610   -0.535549   -0.535509   -0.000040
+
+ir_test_2.out:COMP:   nlm    all-elec      pseudo        diff
+ir_test_2.out:COMP:   520   -0.742850   -0.742645   -0.000205
+ir_test_2.out:COMP:   600   -0.706958   -0.707214    0.000256
+ir_test_2.out:COMP:   610   -0.301083   -0.301214    0.000130
+
+ir_test_3.out:COMP:   nlm    all-elec      pseudo        diff
+ir_test_3.out:COMP:   520   -1.187621   -1.192272    0.004652
+ir_test_3.out:COMP:   600   -1.042849   -1.043291    0.000442
+ir_test_3.out:COMP:   610   -0.564310   -0.564329    0.000020
+
+
+-----------------
+Solid-state tests
+-----------------
+
+
+Name             Ecut Sym     a0      e0       B       C44     C12     a01
+ir_us_gga_7.3.4   22  FCC  3.8547  -1052.653  442.5   345.2   295.9   3.832
+ir_us_gga_7.3.4   37  FCC  3.8566  -1052.754  387.7   313.9   251.3   3.857
+
+Name           Sym     a0         B     
+Ir_FLAPW_PW91  FCC  3.8737      356.0   
+
+
+The two cutoff energies listed (Ryd) correspond to a total energy convergence of 
+0.1eV and 0.01eV, respectively. 
+a0 (Bohr) is the lattice-constant found by fitting an equation of state to
+the total energies.
+a01 is the lattice-constant used then calculating the elastic constants
+and is calculated from the stress on the unit-cell.
+
+
+See also
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Ir/PW91/ir_us_gga_7.3.4.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Ir/PW91/ir_us_gga_7.3.4.pseudo.html

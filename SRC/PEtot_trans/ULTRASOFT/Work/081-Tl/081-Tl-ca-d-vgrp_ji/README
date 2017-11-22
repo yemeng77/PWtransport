@@ -1,0 +1,46 @@
+------------------------------
+Author and contact information
+------------------------------
+
+David Vanderbilt
+dhv@physics.rutgers.edu
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in neutral s2p1 configuration; semicore d shell included.
+
+This Tl potential was generated recently by Jorge Iniguez.
+
+--------------------
+Intended environment
+--------------------
+
+Mostly for Tl in oxides where it is in the 1+ formal oxidation
+state.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+There is a test for the s2 configuration in the distribution:
+
+   nlm    all-elec      pseudo        diff
+
+   520   -1.688778   -1.688695   -0.000083
+   600   -1.226801   -1.226594   -0.000207
+
+-----------------
+Solid-state tests
+-----------------
+
+Nothing to report.
+
+-------------
+Miscellaneous
+-------------
+
+Nothing to report.
+

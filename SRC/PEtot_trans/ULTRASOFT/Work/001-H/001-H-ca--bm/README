@@ -1,0 +1,91 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Bernd Meyer
+bernd.meyer@theochem.ruhr-uni-bochum.de
+July 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in neutral s1 configuration.
+
+Potential is optimized for a plane wave cut-off of 25 Ry and was generated
+in July 2001. It is part of a set of potentials intended for calculations
+on small (organic) molecules:
+
+001-H-ca--bm
+006-C-ca--bm
+007-N-ca--bm
+008-O-ca--bm
+
+--------------------
+Intended environment
+--------------------
+
+Small (organic) molecules, but should be pretty general, I suppose.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Nothing to report.
+
+-----------------
+Solid-state tests
+-----------------
+
+Nothing to report.
+
+-------------
+Miscellaneous
+-------------
+
+H2 molecule:
+
+E_pw [Ry]   d_H2 [bohr]   f [1/cm]   E0 [eV]
+ 25.0         1.449         4172      -4.83
+ 30.0         1.449         4154      -4.85
+ 40.0         1.448         4191      -4.86
+ 50.0         1.448         4166      -4.86
+
+
+CH4 molecule:
+
+E_pw [Ry]   d_CH [bohr]  f_stretch [1/cm]
+ 25.0         2.079         2912
+ 30.0         2.076         2929
+ 40.0         2.075         2932
+ 50.0         2.075         2934
+
+
+NH3 molecule:
+
+E_pw [Ry]   d_NH [bohr]  angle(HNH)  D [e*bohr]
+ 25.0         1.937        107.2       0.596
+ 30.0         1.935        107.2       0.596
+ 40.0         1.935        107.2       0.596
+ 50.0         1.934        107.2       0.596
+
+
+H2O molecule:
+
+E_pw [Ry]   d_OH [bohr]  angle(HOH)  D [e*bohr]
+ 25.0         1.844        104.8       0.737
+ 30.0         1.844        104.8       0.737
+ 40.0         1.843        104.8       0.737
+ 50.0         1.842        104.8       0.738
+
+
+H2O dimer (full relaxation):
+
+E_pw [Ry]   d_OO [bohr]  angle(OHO)  E_bind [eV]
+ 25.0         5.165        171.5       0.363
+ 30.0         5.156        170.4       0.376
+ 40.0         5.154        170.5       0.379
+ 50.0         5.145        170.2       0.379
+
+compare with:
+M. Sprik, J. Hutter, M. Parrinello, J. Chem. Phys. 105, 1142 (1996).

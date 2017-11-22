@@ -1,0 +1,69 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for Zn, using 12 valence electrons. 
+The pseudopotential have been genearted using 2 s, 2 p and 2 d nonlocal projectors, 
+and include nonlinear core correction. 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Zn_ps.out:  comparison of all-electron and pseudo eigenvalues (Ry)
+Zn_ps.out:   nlm    all-elec      pseudo        diff
+Zn_ps.out:   320   -0.912868   -0.912867   -0.000001
+Zn_ps.out:   400   -0.548878   -0.548882    0.000004
+Zn_ps.out:   410   -0.156499   -0.156499   -0.000001
+
+Zn_test_1.out:   nlm    all-elec      pseudo        diff
+Zn_test_1.out:   320   -0.912868   -0.912867   -0.000001
+Zn_test_1.out:   400   -0.548878   -0.548882    0.000004
+Zn_test_1.out:   410   -0.156499   -0.156499   -0.000001
+
+Zn_test_2.out:   nlm    all-elec      pseudo        diff
+Zn_test_2.out:   320   -0.751548   -0.753269    0.001720
+Zn_test_2.out:   400   -0.444380   -0.444168   -0.000211
+Zn_test_2.out:   410   -0.086174   -0.086102   -0.000072
+
+Zn_test_3.out:   nlm    all-elec      pseudo        diff
+Zn_test_3.out:   320   -1.311149   -1.338588    0.027438
+Zn_test_3.out:   400   -0.789146   -0.787932   -0.001215
+Zn_test_3.out:   410   -0.349384   -0.348464   -0.000920
+
+-----------------
+Solid-state tests
+-----------------
+
+Name             Ecut Sym   a(Bohr)   e0 (eV) B       C44     C12     a01
+zn_us_gga_7.3.4   24  HCP  2.6642  -2031.933  0.0     0.0     0.0     0.000
+zn_us_gga_7.3.4   24  FCC  3.9320  -2031.918  77.9    -2.0    56.2    3.890
+zn_us_gga_7.3.4   24  BCC  3.1324  -2031.849  73.3    -10.7   85.2    3.099
+zn_us_gga_7.3.4   26  HCP  2.6638  -2031.946  0.0     0.0     0.0     0.000
+zn_us_gga_7.3.4   26  FCC  3.9313  -2031.931  69.4    -3.7    49.5    3.926
+zn_us_gga_7.3.4   26  BCC  3.1319  -2031.861  64.4    -15.0   74.7    3.129
+
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Zn/PW91/zn_us_gga_7.3.4.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Zn/PW91/zn_us_gga_7.3.4.pseudo.html

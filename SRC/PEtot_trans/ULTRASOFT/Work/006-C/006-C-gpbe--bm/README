@@ -1,0 +1,61 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Bernd Meyer
+bernd.meyer@theochem.ruhr-uni-bochum.de
+July 2002
+
+------------------------
+Introductory information
+------------------------
+
+Generated in neutral s2p2 configuration.
+
+Potential is optimized for a plane wave cut-off of 25 Ry and was generated
+in July 2001. It is part of a set of potentials intended for calculations
+on small (organic) molecules:
+
+001-H-gpbe--bm
+006-C-gpbe--bm
+007-N-gpbe--bm
+008-O-gpbe--bm
+
+--------------------
+Intended environment
+--------------------
+
+Small (organic) molecules, but should be pretty general, I suppose.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Nothing to report.
+
+-----------------
+Solid-state tests
+-----------------
+
+Nothing to report.
+
+-------------
+Miscellaneous
+-------------
+
+CH4 molecule:
+
+E_pw [Ry]   d_CH [bohr]  f_stretch [1/cm]
+ 25.0         2.076         2930
+ 30.0         2.074         2944
+ 40.0         2.073         2946
+ 50.0         2.073         2948
+
+
+CO molecule:
+
+E_pw [Ry]   d_CO [bohr]   f [1/cm]   D [e*bohr]
+ 25.0         2.158         2112       0.065
+ 30.0         2.159         2142       0.066
+ 40.0         2.158         2138       0.066
+ 50.0         2.157         2132       0.066

@@ -1,0 +1,76 @@
+------------------------------
+Author and contact information
+------------------------------
+
+Lars Bruno Hansen
+lhansen@fysik.dtu.dk
+August 2002
+
+------------------------
+Introductory information
+------------------------
+
+PW91 pseudo-potential for Rh, 9 valence electrons. 
+The pseudopotential has been generated using 2 s, 2 p and 2 d nonlocal projectors, 
+and include nonlinear core correction. 
+ 
+--------------------
+Intended environment
+--------------------
+
+Should be of generel use.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Rh_ps.out:  comparison of all-electron and pseudo eigenvalues (Ry)
+Rh_ps.out:   nlm    all-elec      pseudo        diff
+Rh_ps.out:   420   -0.440705   -0.440706    0.000001
+Rh_ps.out:   500   -0.320209   -0.320209    0.000000
+Rh_ps.out:   510   -0.066544   -0.066543    0.000000
+
+Rh_test_1.out:   nlm    all-elec      pseudo        diff
+Rh_test_1.out:   420   -0.758381   -0.765888    0.007507
+Rh_test_1.out:   500   -0.473310   -0.473403    0.000093
+Rh_test_1.out:   510   -0.156116   -0.155887   -0.000230
+
+Rh_test_2.out:   nlm    all-elec      pseudo        diff
+Rh_test_2.out:   420   -0.641666   -0.648110    0.006444
+Rh_test_2.out:   500   -0.395480   -0.395152   -0.000328
+Rh_test_2.out:   510   -0.100745   -0.100332   -0.000413
+
+Rh_test_3.out:   nlm    all-elec      pseudo        diff
+Rh_test_3.out:   420   -1.256740   -1.264807    0.008067
+Rh_test_3.out:   500   -0.912517   -0.913002    0.000485
+
+
+-----------------
+Solid-state tests
+-----------------
+
+
+Name                Ecut Sym     a0      e0     B(GPa)    C44     C12     a01
+Rh_us_gga_fl_7.3.4   37  FCC  3.8230  -850.316   263.0   178.5   190.9   3.815
+Rh_us_gga_fl_7.3.4   37  BCC  3.0652  -849.967   240.6   153.2   315.9   3.058
+Rh_us_gga_fl_7.3.4   50  FCC  3.8239  -850.397   249.5   169.0   180.6   3.832
+Rh_us_gga_fl_7.3.4   50  BCC  3.0659  -850.047   226.2   144.0   298.0   3.073
+
+
+The two cutoff energies listed (Ryd) correspond to a total energy convergence of 
+0.1eV and 0.01eV, respectively. 
+a0 (Bohr) is the lattice-constant found by fitting an equation of state to 
+the total energies. 
+a01 (Bohr) is the lattice-constant used then calculating the elastic constants 
+and is calculated from the stress on the unit-cell.
+
+
+See also
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Rh/PW91/Rh_us_gga_fl_7.3.4.pseudo.html
+
+-------------
+Miscellaneous
+-------------
+
+See 
+http://www.fysik.dtu.dk/CAMPOS/Documentation/Dacapo/PseudoPotentialOverView/Rh/PW91/Rh_us_gga_fl_7.3.4.pseudo.html
