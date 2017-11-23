@@ -3,12 +3,13 @@
 
 FC=ftn
 LDR=ftn
+#FFLAGS = -O2 -qfixed -qarch=pwr3 -I$$SCRATCH -qmoddir=$$SCRATCH
+FFLAGS = -fast 
 #FFLAGS = -g -C
-FFLAGS = -c -O3
-F90FLAGS = $(FFLAGS)
-#LIB = -L/opt/acml/3.6.1/pgi64/lib -lacml 
-#LIB = -lacml
-LIB = libfftf_intel.a -mkl
+#FFLAGS = -g -pg -qfixed -qarch=pwr3 -qmaxmem=4096
+#FFLAGS = -g -qfixed -qarch=pwr3 -I$$SCRATCH -qmoddir=$$SCRATCH
+LIB = -lacml
+
 
 
 MODULES=load_data.f \
@@ -90,9 +91,9 @@ dens_outWG.f\
 dens_outWGsp.f\
 system_orth_comp.f\
 system_orth_comp_N.f\
-system_ccfft.intel.f\
-system_csfft.intel.f\
-system_scfft.intel.f\
+system_ccfft.f\
+system_csfft.f\
+system_scfft.f\
 system_czheev.f\
 system_flush.f\
 system_time.f

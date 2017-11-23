@@ -206,8 +206,10 @@ cccccccc  These wavefuncitons in real space are the output from the special PEto
       write(6,*) "*********************"
       write(6,*) "*********************"
 
-      if(mstate.gt.20) then
-      write(6,*) "mstate.gt.20,stop",mstate
+!      if(mstate.gt.20) then
+!      write(6,*) "mstate.gt.20,stop",mstate
+      if(mstate.gt.30) then                       ! by xwjiang
+      write(6,*) "mstate.gt.30,stop",mstate
       stop
       endif
 
@@ -597,6 +599,18 @@ cccccccccccccccccccccccccccccccccccc
       deallocate(cc_matrix)
       deallocate(cc_matrix0)
       deallocate(cc_y)
+      deallocate(cc_y_tmp)
+      deallocate(cc_matrix0_tmp)
+      deallocate(sum_w4)
+      deallocate(cc_s1)
+      deallocate(cc_s2)
+      deallocate(u_s1)
+      deallocate(u_s2)
+      deallocate(s_scale)
+      deallocate(y_tmp)
+      deallocate(x_tmp)
+      deallocate(cwork_tmp)
+      deallocate(rwork_tmp)
       deallocate(cwork)
       deallocate(rwork)
       deallocate(ss)
@@ -605,6 +619,7 @@ cccccccccccccccccccccccccccccccccccc
       deallocate(sum_w2)
       deallocate(cc_w1)
       deallocate(cc_w2)
+      deallocate(uc_test3)
 401   continue 
       goto 6000
 

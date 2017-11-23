@@ -39,37 +39,37 @@ c     &    table,ntable,work,nwork)
 c      endif
 cccccccccccccccccccccccccccccccccccc
 cccccc for Intel KML
-c       if(init.eq.1) then
-c       call dzfft1d(y,n,0,table)
-c       else
-c       do i=1,n
-c       y(i)=x(i)*scale
-c       enddo
-c       call dzfft1d(y,n,-1,table)    ! or -isign
-ccccc dzfft1d(y,n,1,table) and dzfft1d(y,n,-1,table) are the same !
-c       if(isign.eq.1) then
-c       do i=2,n+2,2
-c       y(i)=-y(i)
-c       enddo
-c       endif
-c       endif
+       if(init.eq.1) then
+       call dzfft1d(y,n,0,table)
+       else
+       do i=1,n
+       y(i)=x(i)*scale
+       enddo
+       call dzfft1d(y,n,-1,table)    ! or -isign
+cccc dzfft1d(y,n,1,table) and dzfft1d(y,n,-1,table) are the same !
+       if(isign.eq.1) then
+       do i=2,n+2,2
+       y(i)=-y(i)
+       enddo
+       endif
+       endif
 cccccccccccccccccccccccccccccccccccccccccccc
 ccccc    for AMD ACML lib
-       if(init.eq.1) then
-       call dzfft(0,n,y,table,info)
-       else
-       call dzfft(1,n,x,table,info)      ! Note, input x will be destroyed, but it is okay in PEtot
-          fact1=dsqrt(n*1.d0)*scale
-          fact2=-isign*fact1
-       do i=0,n/2
-         y(2*i+1)=fact1*x(i+1)
-        enddo
-        do i=1,(n-1)/2
-         y(2*i+2)=fact2*x(n-i+1)
-        enddo
-         y(2)=0.d0
-         if(mod(n,2).eq.0) y(n+2)=0.d0
-       endif
+c       if(init.eq.1) then
+c       call dzfft(0,n,y,table,info)
+c       else
+c       call dzfft(1,n,x,table,info)      ! Note, input x will be destroyed, but it is okay in PEtot
+c          fact1=dsqrt(n*1.d0)*scale
+c          fact2=-isign*fact1
+c       do i=0,n/2
+c         y(2*i+1)=fact1*x(i+1)
+c        enddo
+c        do i=1,(n-1)/2
+c         y(2*i+2)=fact2*x(n-i+1)
+c        enddo
+c         y(2)=0.d0
+c         if(mod(n,2).eq.0) y(n+2)=0.d0
+c       endif
 ccccccccccccccccccccccccccccccccccccccccc
 
 

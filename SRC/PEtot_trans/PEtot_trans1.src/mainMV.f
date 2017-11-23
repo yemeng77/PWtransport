@@ -2,7 +2,7 @@
 *******************************************
       program mainMV
 ******************************************
-cc     Written by Lin-Wang Wang, March 30, 2001.  
+!c     Written by Lin-Wang Wang, March 30, 2001.  
 *************************************************************************
 **  copyright (c) 2003, The Regents of the University of California,
 **  through Lawrence Berkeley National Laboratory (subject to receipt of any
@@ -86,9 +86,9 @@ cc     Written by Lin-Wang Wang, March 30, 2001.
        common /comcoul/icoul,xcoul
        common /comVext/ivext_in
        common /comikpt_yno/ikpt_yno,ido_DOS
-c
-c saved arrays for mch_pulay
-c
+!
+! saved arrays for mch_pulay
+!
 
        complex*16,allocatable,dimension(:) :: ugtemp
        complex*16,allocatable,dimension(:) :: temp_array
@@ -97,10 +97,10 @@ c
        complex*16 :: c_one, c_zero
 
 **************************************************
-c      atime00=mclock()/100.d0
-c
-c initialize mpi and number each node
-c
+!      atime00=mclock()/100.d0
+!
+! initialize mpi and number each node
+!
 
        open(10,file="etot.input")
        rewind(10)
@@ -132,13 +132,13 @@ c
        call mpi_comm_split(MPI_COMM_WORLD,icolor_k,ikey_k,
      &       MPI_COMM_K1,ierr)
 
-cccc same icolor_k, same MPI_COMM_K1, ikey_k is the rank, size of MPI_COMM_K1=nnodes_k=nnodes_b*num_group_b
+!ccc same icolor_k, same MPI_COMM_K1, ikey_k is the rank, size of MPI_COMM_K1=nnodes_k=nnodes_b*num_group_b
 
        call mpi_comm_split(MPI_COMM_WORLD,ikey_k,icolor_k,
      &       MPI_COMM_K2,ierr)
 
-cccc same ikey_k, same MPI_COMM_K2, icolor_k is the rank within MPI_COMM_K2, size of
-cccc MPI_COMM_K2 = num_group_k 
+!ccc same ikey_k, same MPI_COMM_K2, icolor_k is the rank within MPI_COMM_K2, size of
+!ccc MPI_COMM_K2 = num_group_k 
      
 
 !cccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -151,15 +151,15 @@ cccc MPI_COMM_K2 = num_group_k
        call mpi_comm_split(MPI_COMM_K1,icolor_b,ikey_b,
      &       MPI_COMM_B1,ierr)
 
-cccc size of MPI_COMM_B1 is nnodes_b, identified by icolor_b, inside rank is ikey_b, and there are num_group_b MPI_COMM_B1 
+!ccc size of MPI_COMM_B1 is nnodes_b, identified by icolor_b, inside rank is ikey_b, and there are num_group_b MPI_COMM_B1 
 
        call mpi_comm_split(MPI_COMM_K1,ikey_b,icolor_b,
      &       MPI_COMM_B2,ierr)
 
-ccccc size of MPI_COMM_B2 is num_group_b, identified by ikey_b, inside ranke is icolor_b, there are nnobes_b MPI_COMM_B2
+!cccc size of MPI_COMM_B2 is num_group_b, identified by ikey_b, inside ranke is icolor_b, there are nnobes_b MPI_COMM_B2
 
 
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 !     To make life simple, we keep the same name of original PEtot code.
       MPI_COMM_K = MPI_COMM_B1
       MPI_COMM_N = MPI_COMM_B2
@@ -195,7 +195,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 	write(26,*) 'mx',mx
 
-cccccccccccccccccccccccccccccccccccccccc
+!ccccccccccccccccccccccccccccccccccccccc
         n_tmp1=nkpt*islda/num_group_k
         n_tmp2=nkpt*islda-n_tmp1*num_group_k
         if(icolor_k+1.le.n_tmp2) then
@@ -205,7 +205,7 @@ cccccccccccccccccccccccccccccccccccccccc
         kpt_slda_dis(1)=icolor_k*n_tmp1+n_tmp2+1
         kpt_slda_dis(2)=(icolor_k+1)*n_tmp1+n_tmp2
         endif
-cccccccccccccccccccccccccccccccccccccccc
+!ccccccccccccccccccccccccccccccccccccccc
         n_tmp1=nkpt/num_group_k
         n_tmp2=nkpt-n_tmp1*num_group_k
         if(icolor_k+1.le.n_tmp2) then
@@ -215,13 +215,13 @@ cccccccccccccccccccccccccccccccccccccccc
         kpt_dis(1)=icolor_k*n_tmp1+n_tmp2+1
         kpt_dis(2)=(icolor_k+1)*n_tmp1+n_tmp2
         endif
-cccccccccccccccccccccccccccccccccccccccc
+!ccccccccccccccccccccccccccccccccccccccc
 !      Distribute the atoms over all nodes.
-ccccc each atom is assigned to one nnodes_b group, one icolor_b
+!cccc each atom is assigned to one nnodes_b group, one icolor_b
         n_tmp1=natom/(num_group_b*num_group_k)
         if (natom /= n_tmp1*num_group_b*num_group_k) n_tmp1=n_tmp1+1
         itmp=icolor_k*num_group_b+icolor_b
-c        if(itmp.le.num_group_b*num_group_k-2) then
+!        if(itmp.le.num_group_b*num_group_k-2) then
         if(itmp.le.natom/n_tmp1-1) then
         natom_dis(1)=itmp*n_tmp1+1
         natom_dis(2)=(itmp+1)*n_tmp1
@@ -234,11 +234,11 @@ c        if(itmp.le.num_group_b*num_group_k-2) then
         nblock = mx/num_group_b
 
         if (mx /= nblock*num_group_b) nblock = nblock + 1
-ccccccccccc since no where nblock_band is used, and everyone is calculating using nblock_band_mx, to make things simpler
-ccccccccccc we will just redefine mx
+!cccccccccc since no where nblock_band is used, and everyone is calculating using nblock_band_mx, to make things simpler
+!cccccccccc we will just redefine mx
          mx=nblock*num_group_b
 	write(26,*) 'after redifining, mx',mx
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         icolor_tmp=mx/nblock
         if(icolor_b.le.icolor_tmp-1) then
            band_dis(1) = icolor_b*nblock + 1
@@ -252,13 +252,13 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         nblock_band_mx = nblock
         nblock_band = band_dis(2) - band_dis(1) + 1
         if(nblock_band.lt.0) nblock_band=0    ! some of the group might not doing anything
-cccccccccc since mx is redefined, this will never happen, num_group_b will have the same nblock_band (=nblock_band_mx)
-cccccccccccccccccccccccccccccccccccccccc
+!ccccccccc since mx is redefined, this will never happen, num_group_b will have the same nblock_band (=nblock_band_mx)
+!ccccccccccccccccccccccccccccccccccccccc
         nrL=n1L*n2L*n3L
         nr_nL=n1L*n2L*n3L/nnodes
-cccccccccccccccccccccccccccccccccccccccc
-cccc this is the correct estimation for n1,n2,n3 even for nonorthogonal AL(3,3)
-ccccccccccc
+!ccccccccccccccccccccccccccccccccccccccc
+!ccc this is the correct estimation for n1,n2,n3 even for nonorthogonal AL(3,3)
+!cccccccccc
        fackpt=2*dsqrt(2.d0*Ecut)/(4*datan(1.d0))
        dd1=fackpt*dsqrt(AL(1,1)**2+AL(2,1)**2+AL(3,1)**2)
        dd2=fackpt*dsqrt(AL(1,2)**2+AL(2,2)**2+AL(3,2)**2)
@@ -342,7 +342,7 @@ ccccccccccc
 133    format(3(f14.7,1x))
 
 **********************************
-ccccc  mx passed from input from param.escan_real
+!cccc  mx passed from input from param.escan_real
        mst=mx
         allocate(E_st(mst,nkpt,islda))
         allocate(err_st(mst,nkpt,islda))
@@ -356,9 +356,9 @@ ccccc  mx passed from input from param.escan_real
        mr_n=mr/nnodes*(1+3.d0*nnodes/(n2*n3))  ! possible imbalance factor, some proc. has 2-3 more column
 
        mr=mr_n*nnodes
-ccccc  (n3+2) is for the half plane in d3fft_real2
-ccccc  fact (1+2.d0*nnodes/(n2*n3)) is for possible column load imbalance between diff. processors. 
-ccccc  need to check the d3fft_real2 more carefully, and fftprep_real2.f
+!cccc  (n3+2) is for the half plane in d3fft_real2
+!cccc  fact (1+2.d0*nnodes/(n2*n3)) is for possible column load imbalance between diff. processors. 
+!cccc  need to check the d3fft_real2 more carefully, and fftprep_real2.f
 
        nrL=n1L*n2L*n3L
        nr_nL=nrL/nnodes
@@ -366,10 +366,10 @@ ccccc  need to check the d3fft_real2 more carefully, and fftprep_real2.f
        mrL=n1L*n2L*(n3L+2)
        mr_nL=mrL/nnodes*(1+3.d0*nnodes/(n2L*n3L))
        mrL=mr_nL*nnodes
-ccccc  (n3L+2) is for the half plane in d3fft_real2L
-ccccc  fact (1+2.d0*nnodes/(n2*n3)) is for possible column load imbalance between diff. processors. 
+!cccc  (n3L+2) is for the half plane in d3fft_real2L
+!cccc  fact (1+2.d0*nnodes/(n2*n3)) is for possible column load imbalance between diff. processors. 
 
-c     Calculate the approx. no. of g points, so we can dimension arrays
+!     Calculate the approx. no. of g points, so we can dimension arrays
       volume=al(3,1)*(al(1,2)*al(2,3)-al(1,3)*al(2,2))
      &     +al(3,2)*(al(1,3)*al(2,1)-al(1,1)*al(2,3))
      &     +al(3,3)*(al(1,1)*al(2,2)-al(1,2)*al(2,1))
@@ -377,12 +377,13 @@ c     Calculate the approx. no. of g points, so we can dimension arrays
       delta_k=(2*pi)**3/volume
       alen1=dsqrt(al(1,1)**2+al(2,1)**2+al(3,1)**2)
 
-cccccc those are for sphere
-c      totg=(4.0d0/3.0d0*pi*(dsqrt(2.0d0*Ecut))**3)/delta_k
-c      mg_nx=int(1.3d0*totg/nnodes)+200
-ccccc here are for cylinder
+!ccccc those are for sphere
+!      totg=(4.0d0/3.0d0*pi*(dsqrt(2.0d0*Ecut))**3)/delta_k
+!      mg_nx=int(1.3d0*totg/nnodes)+200
+!cccc here are for cylinder
       totg=pi*(dsqrt(2.0d0*Ecut))**2*(2*pi*n1/alen1)/delta_k
-      mg_nx=int(1.3d0*totg/nnodes)+200
+!      mg_nx=int(1.3d0*totg/nnodes)+200  ! original 200
+      mg_nx=int(1.3d0*totg/nnodes)+800
 
       if(inode.eq.1) then
       write(6,*) "cylinder mg_nx=",mg_nx
@@ -390,7 +391,7 @@ ccccc here are for cylinder
 
 
 
-c     Check that nr is a mulitple of the no. of nodes
+!     Check that nr is a mulitple of the no. of nodes
       if (mod(nr,nnodes)/=0.or.mod(mr,nnodes)/=0) then
          write(6,*)'No. of grid points must be multiple of
      &        the no. of nodes. for both nr and mr'
@@ -410,9 +411,12 @@ c     Check that nr is a mulitple of the no. of nodes
       if(num_mov.gt.0.and.num_scf1.gt.num_scf0)
      &   num_scf_max=num_scf1
 
-cccccc It is questionable whether we should do this
+!ccccc It is questionable whether we should do this
       if(num_scf_max.gt.30) num_scf_max=30
-ccccccccccccccccccccccccccccccccccccccccccccccccccccc
+! begin change by Xiangwei Jiang
+!      if(num_scf_max.gt.30) num_scf_max=30
+! end change by Xiangwei Jiang
+!cccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       if(num_scf_max.gt.0) then
       npulay_max=num_scf_max+2     ! the max number of pulay mixing
@@ -435,7 +439,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 
        call fft_allocate(n1,n2,n3,nnodes)
-cccc  ncolx is defined inside fft_allocate
+!ccc  ncolx is defined inside fft_allocate
        call load_allocate(n1,n2,n3,ncolx,nnodes,mg_nx,mr_n)
        call data_allocate(mg_nx,mx,mr_n,mr_nL,ilocal,inode,nkpt,
      &   islda,natom,nref_tot,ipsp_all,nnodes,npulay_max)
@@ -519,16 +523,16 @@ cccc  ncolx is defined inside fft_allocate
                    call init_ug_BP(AL,iwg_in,workr_n,kpt,iranm)        
                    mm1 = icolor_b*nblock_band_mx+1
                    mm2 = (icolor_b+1)*nblock_band_mx
-c                    if(iwg_in.eq.1) then
-c                   ug_n_bp(:,:) = ug_n(:,mm1:mm2)
-c                   endif 
+!                    if(iwg_in.eq.1) then
+!                   ug_n_bp(:,:) = ug_n(:,mm1:mm2)
+!                   endif 
 
 
 
               call ugIOBP(ug_n_bp,kpt,1,0,iislda,0,nkpt,islda) ! iflag=1, write, iflag=2, read.
 
 
-ccccccc the write is done by icolor_k.eq.0, not by [kpt_slda_dis(1),kpt_slda_dis(2)]
+!cccccc the write is done by icolor_k.eq.0, not by [kpt_slda_dis(1),kpt_slda_dis(2)]
 
                 enddo
                 deallocate(ug_n_tmp)
@@ -543,16 +547,16 @@ ccccccc the write is done by icolor_k.eq.0, not by [kpt_slda_dis(1),kpt_slda_dis
           enddo
        endif                    ! icolor.eq.0
 
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
-c$$$       do kpt=1,nkpt
-c$$$
-c$$$       call gen_G_comp(kpt,0)         ! need to be called for all icolor to get the kpt related quantities 
-c$$$
-c$$$       call fftprep_comp(n1,n2,n3)
-c$$$
-c$$$       enddo
-c$$$
+!$$$       do kpt=1,nkpt
+!$$$
+!$$$       call gen_G_comp(kpt,0)         ! need to be called for all icolor to get the kpt related quantities 
+!$$$
+!$$$       call fftprep_comp(n1,n2,n3)
+!$$$
+!$$$       enddo
+!$$$
 
 *************************************************************
        
@@ -658,8 +662,8 @@ c$$$
        mrL2=n1L2*n2L2*(n3L2+2)*1.2
        mr_nL2=mrL2/nnodes*(1+3.d0*nnodes/(n2L2*n3L2))
        mrL2=mr_nL2*nnodes
-ccccc  (n3L2+2) is for the half plane in d3fft_real2L2
-ccccc  fact (1+3.d0*nnodes/(n2L2*n3L2)) is for possible column load imbalance between diff. processors. 
+!cccc  (n3L2+2) is for the half plane in d3fft_real2L2
+!cccc  fact (1+3.d0*nnodes/(n2L2*n3L2)) is for possible column load imbalance between diff. processors. 
 
        vol2=AL2(1,1)*(AL2(2,2)*AL2(3,3)-AL2(3,2)*AL2(2,3))+
      &        AL2(2,1)*(AL2(3,2)*AL2(1,3)-AL2(1,2)*AL2(3,3))+
@@ -736,14 +740,14 @@ ccccc  fact (1+3.d0*nnodes/(n2L2*n3L2)) is for possible column load imbalance be
        iforce_cal=1
        endif
 
-cccccccc  ido_rho=0;1, initially, not calc. or calc. rho_n from atom
-cccccccc  ido_vr=0;1,  initially, not calc. or calc. vr_in_n from rho_n
-cccccccc  iforce_cal=0;1    not calc. or calc. force
+!ccccccc  ido_rho=0;1, initially, not calc. or calc. rho_n from atom
+!ccccccc  ido_vr=0;1,  initially, not calc. or calc. vr_in_n from rho_n
+!ccccccc  iforce_cal=0;1    not calc. or calc. force
 
-cccccccc   one total energy calculation before moving the atoms
+!ccccccc   one total energy calculation before moving the atoms
 
        if(inode.eq.1) then
-c        tim=rtc()
+!        tim=rtc()
         tim=system_time()
        endif 
 
@@ -751,46 +755,46 @@ c        tim=rtc()
        call mpi_barrier(mpi_comm_world,ierr)
 
 
-c$$$!     Sanity check
-c$$$       do kpt=kpt_dis(1), kpt_dis(2)
-c$$$         
-c$$$          call gen_G_comp(kpt,0) 
-c$$$          call fftprep_comp(n1,n2,n3)
-c$$$          ng_n = ngtotnod(inode,kpt)
-c$$$ 
-c$$$          mm1 = icolor_b*nblock_band_mx+1
-c$$$          mm2 = min((icolor_b+1)*nblock_band_mx,mx)
-c$$$                 
-c$$$          call ugIOBP(ug_n_bp,kpt,2,0,1)
-c$$$ 
-c$$$          c_one=dcmplx(1.d0,0.d0)
-c$$$          c_zero=dcmplx(0.d0,0.d0) 
-c$$$          ug_n = c_zero
-c$$$          ug_n(:,mm1:mm2) = ug_n_bp(:,:)
-c$$$           
-c$$$          allocate(ug_n_tmp(mg_nx,mx))         
-c$$$          call mpi_allreduce(ug_n,ug_n_tmp,mg_nx*mx,
-c$$$     &         MPI_DOUBLE_COMPLEX,MPI_SUM,MPI_COMM_B2,ierr)
-c$$$          ug_n = ug_n_tmp
-c$$$          deallocate(ug_n_tmp)  
-c$$$
-c$$$          allocate(h(mst,mst),hh(mst,mst))
-c$$$          CALL zgemm('c','n',mst,mst,ng_n,c_one,ug_n,mg_nx,ug_n,
-c$$$     &         mg_nx,c_zero,h,mst)          
-c$$$
-c$$$          CALL mpi_allreduce(h,hh,mst*mst,MPI_DOUBLE_COMPLEX,
-c$$$     &         MPI_SUM,MPI_COMM_K,ierr)
-c$$$          
-c$$$          h=hh*vol          
-c$$$          if (ikey_k==0) then
-c$$$             do i=1, mst
-c$$$                write(600+kpt,*) h(i,:)
-c$$$             enddo
-c$$$             call system_flush(600+kpt)
-c$$$          endif
-c$$$          deallocate(h,hh)
-c$$$       enddo
-c$$$!     end of sanity check
+!$$$!     Sanity check
+!$$$       do kpt=kpt_dis(1), kpt_dis(2)
+!$$$         
+!$$$          call gen_G_comp(kpt,0) 
+!$$$          call fftprep_comp(n1,n2,n3)
+!$$$          ng_n = ngtotnod(inode,kpt)
+!$$$ 
+!$$$          mm1 = icolor_b*nblock_band_mx+1
+!$$$          mm2 = min((icolor_b+1)*nblock_band_mx,mx)
+!$$$                 
+!$$$          call ugIOBP(ug_n_bp,kpt,2,0,1)
+!$$$ 
+!$$$          c_one=dcmplx(1.d0,0.d0)
+!$$$          c_zero=dcmplx(0.d0,0.d0) 
+!$$$          ug_n = c_zero
+!$$$          ug_n(:,mm1:mm2) = ug_n_bp(:,:)
+!$$$           
+!$$$          allocate(ug_n_tmp(mg_nx,mx))         
+!$$$          call mpi_allreduce(ug_n,ug_n_tmp,mg_nx*mx,
+!$$$     &         MPI_DOUBLE_COMPLEX,MPI_SUM,MPI_COMM_B2,ierr)
+!$$$          ug_n = ug_n_tmp
+!$$$          deallocate(ug_n_tmp)  
+!$$$
+!$$$          allocate(h(mst,mst),hh(mst,mst))
+!$$$          CALL zgemm('c','n',mst,mst,ng_n,c_one,ug_n,mg_nx,ug_n,
+!$$$     &         mg_nx,c_zero,h,mst)          
+!$$$
+!$$$          CALL mpi_allreduce(h,hh,mst*mst,MPI_DOUBLE_COMPLEX,
+!$$$     &         MPI_SUM,MPI_COMM_K,ierr)
+!$$$          
+!$$$          h=hh*vol          
+!$$$          if (ikey_k==0) then
+!$$$             do i=1, mst
+!$$$                write(600+kpt,*) h(i,:)
+!$$$             enddo
+!$$$             call system_flush(600+kpt)
+!$$$          endif
+!$$$          deallocate(h,hh)
+!$$$       enddo
+!$$$!     end of sanity check
 
        call mpi_barrier(MPI_COMM_WORLD,ierr)
        time00=mpi_wtime()
@@ -807,7 +811,7 @@ c$$$!     end of sanity check
        if(inode_tot.eq.1) write(6,*) "time for Etotcalc  ", time11-time00
 
 
-cc-----------------------------------------------------------
+!c-----------------------------------------------------------
        if(ivr_rho_out.eq.2.and.ivr_out.eq.2) then      ! output vr_in_nL, then stop
        do iislda=1,islda
        call rhoIO(AL,vr_in_nL(1,iislda),mr_nL,1,
@@ -823,7 +827,7 @@ cc-----------------------------------------------------------
        enddo
        stop
        endif
-cc-----------------------------------------------------------
+!c-----------------------------------------------------------
 
 
        mov=0
@@ -831,9 +835,9 @@ cc-----------------------------------------------------------
 
 
        if(num_mov.eq.0) goto 2001    ! last report and end
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-ccccc Now, begin the atomic movements
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!cccc Now, begin the atomic movements
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
        E_pred=0.d0
        dt=1.0d0*dtstart        ! first trial dt    
        dt_trial=dt
@@ -890,8 +894,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
        do kpt=1,nkpt
         if((iislda-1)*nkpt+kpt.ge.kpt_slda_dis(1).and.
      &     (iislda-1)*nkpt+kpt.le.kpt_slda_dis(2)) then
-c         call ugIO(ug_n,kpt,2,0,iislda)   ! read out the ug_n from Etotcalc
-c         call ugIO(ug_n,kpt,1,1,iislda)   ! store it in istep=1 file
+!         call ugIO(ug_n,kpt,2,0,iislda)   ! read out the ug_n from Etotcalc
+!         call ugIO(ug_n,kpt,1,1,iislda)   ! store it in istep=1 file
         call ugIOBP(ug_n_BP,kpt,2,0,iislda,-1,nkpt,islda)   ! read out the ug_n from Etotcalc
         call ugIOBP(ug_n_BP,kpt,1,1,iislda,-1,nkpt,islda)   ! store it in istep=1 file
          endif
@@ -926,7 +930,7 @@ c         call ugIO(ug_n,kpt,1,1,iislda)   ! store it in istep=1 file
         call atomMV(mov,line_step,xatom,fatom,Etot,E_pred,
      &  dt,istop_line,dd_max,dd_limit,AL,imov_at,convergE,
      &  message,dt_fact_nextlinemin,xatom_old,imv_cont)
-ccccc at this atomMVm line_step, xatom_old is determined
+!cccc at this atomMVm line_step, xatom_old is determined
 ********* input: mov, line_step; 
 *********  output: line_step=line_step+1, istop_line(decision, 1:stop, 0, not stop)
 
@@ -973,7 +977,7 @@ ccccc at this atomMVm line_step, xatom_old is determined
         call atomMV(mov,line_step,xatom,fatom,Etot,E_pred,
      &  dt,istop_line,dd_max,dd_limit,AL,imov_at,convergE,
      &  message,dt_fact_nextlinemin,xatom_old,imv_cont)
-ccccc xatom_old is not changed by this atomMV step
+!cccc xatom_old is not changed by this atomMV step
 
 ****************************************************************
          if(inode_tot.eq.1) then
@@ -1084,12 +1088,12 @@ ccccc xatom_old is not changed by this atomMV step
         if(Etot.gt.Etot_old) then
               if(inode_tot.eq.1) then
               write(22,*) "========================="
-c              write(22,*) "Etot.gt.Etot_old, stop atom move"
-c              write(22,*) "stopped before the output of this step"
+!              write(22,*) "Etot.gt.Etot_old, stop atom move"
+!              write(22,*) "stopped before the output of this step"
               write(22,*) "Etot.gt.Etot_old, do another line_step"
               write(22,*) "========================="
               endif
-c         stop
+!         stop
          goto 5002
          endif
 
@@ -1160,15 +1164,15 @@ c         stop
        endif
 *******************************************************
 
-c       if(inode_tot.eq.1) then
-c        tim=(system_time()-tim)*2.222D-9
-c       write(6,*) "computational time=", tim 
-c       endif
+!       if(inode_tot.eq.1) then
+!        tim=(system_time()-tim)*2.222D-9
+!       write(6,*) "computational time=", tim 
+!       endif
 
        time11=mpi_wtime()
 
        if(inode_tot.eq.1) then
-c       write(22,*) "computational time=", tim
+!       write(22,*) "computational time=", tim
        write(22,*) "total computation time (sec)=", time11-time00
        write(22,*) "last report from diag_real"
        write(22,*) "*********************************"
@@ -1197,9 +1201,9 @@ c       write(22,*) "computational time=", tim
 103   format(5(f12.8,1x))
 104   format("iislda,kpt= ",i3,", ", i4, 2x, 3(f12.6,1x))
 
-cccccccccccc open a new file just to plot the DOS
-cccccccccccc but for ido_DOS.eq.0 run, don't output E_st, it is not
-cccccccccccc calculated, only the projectors are calculated
+!ccccccccccc open a new file just to plot the DOS
+!ccccccccccc but for ido_DOS.eq.0 run, don't output E_st, it is not
+!ccccccccccc calculated, only the projectors are calculated
       if(inode_tot.eq.1.and.ido_DOS.eq.0) then
       open(23,file="eigen_all.store",form="unformatted")
       rewind(23)
@@ -1212,7 +1216,7 @@ cccccccccccc calculated, only the projectors are calculated
       enddo
       close(23)
       endif
-ccccccccccccccccccccccccccccccccccccccccccccccccccc
+!cccccccccccccccccccccccccccccccccccccccccccccccccc
       
       
 
@@ -1269,7 +1273,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccc
        write(13,337) ia, fx,fy,fz
        write(13,*) "**** atom_move_step: ", mov
        close(13)
-c337    format(i4,3x,3(E11.5,1x))
+!337    format(i4,3x,3(E11.5,1x))
 337    format(i4,3x,3(E16.10,1x))
        endif
        endif
@@ -1399,7 +1403,7 @@ c337    format(i4,3x,3(E11.5,1x))
        subroutine move_rho(iflag)
        implicit double precision(a-h,o-z)
        integer iflag
-ccccccccc   This subroutine move the atomic electron charge with the atom
+!cccccccc   This subroutine move the atomic electron charge with the atom
 ***** iflag.eq.1, current rho_n correspond to xatom_old
 ***** iflag.eq.2, rho_n in wrhofile1000 corrspond to xatom_old, also using ug_n of xatom_old as current ug_n
 *****  The resulting rho_nL could be negative at some points, but that is okay to calc. potential.
@@ -1442,14 +1446,14 @@ ccccccccc   This subroutine move the atomic electron charge with the atom
              
         deallocate(rhonew1_nL)
                              
-ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!cccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         if(iflag.eq.2) then
          do iislda=1,islda
          do kpt=1,nkpt
           if((iislda-1)*nkpt+kpt.ge.kpt_slda_dis(1).and.
      &     (iislda-1)*nkpt+kpt.le.kpt_slda_dis(2)) then
-c         call ugIO(ug_n,kpt,2,1,iislda)    ! read out the xatom_old values
-c         call ugIO(ug_n,kpt,1,0,iislda)    ! write down as the current ug_n values
+!         call ugIO(ug_n,kpt,2,1,iislda)    ! read out the xatom_old values
+!         call ugIO(ug_n,kpt,1,0,iislda)    ! write down as the current ug_n values
          call ugIOBP(ug_n_BP,kpt,2,1,iislda,-1,nkpt,islda)    ! read out the xatom_old values
          call ugIOBP(ug_n_BP,kpt,1,0,iislda,-1,nkpt,islda)    ! write down as the current ug_n values
            endif
@@ -1462,7 +1466,7 @@ c         call ugIO(ug_n,kpt,1,0,iislda)    ! write down as the current ug_n val
 
 
 
-ccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!cccccccccccccccccccccccccccccccccccccccccccccccccccc
        subroutine deletefile()
        implicit double precision(a-h,o-z)
        character*8 fname
@@ -1534,7 +1538,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccc
        return
        end subroutine deletefile
        
-ccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!cccccccccccccccccccccccccccccccccccccccccccccccccccc
 
         end
       

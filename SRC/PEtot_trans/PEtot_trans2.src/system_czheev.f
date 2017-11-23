@@ -13,8 +13,8 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
       character*1 w1,w2
       integer n,m,lwork,info
-      complex*16 workx(1),z(1)
-      real*8 workrx(1),EE
+      complex*16 workx(*),z(*)
+      real*8 workrx(*),EE
 
 ccccc for T3E, lapack routine (cheev is for complex*16 in T3E)
 ccccc in Cray T3E, the single precision is defined as real*8 and complex*16

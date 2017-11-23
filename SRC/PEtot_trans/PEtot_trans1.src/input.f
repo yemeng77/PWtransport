@@ -11,9 +11,9 @@
      &  f_xatom,numref,nref_type,ivext_in,fvext_in,imv_cont,
      &  amx_mth0,amx_mth1,xgga,imask_in,fmask_in,dV_bias)
 ******************************************
-cc     Written by Lin-Wang Wang, March 30, 2001.  
-cc     Copyright 2001 The Regents of the University of California
-cc     The United States government retains a royalty free license in this work
+!c     Written by Lin-Wang Wang, March 30, 2001.  
+!c     Copyright 2001 The Regents of the University of California
+!c     The United States government retains a royalty free license in this work
 ******************************************
 
 ****************************************
@@ -57,6 +57,16 @@ cc     The United States government retains a royalty free license in this work
      & fvr_in(2),fvr_out(2),f_tmp,fxatom_out,fvext_in,fmask_in
 
        character*20 f_xatom,sym_file,kpt_file
+
+! begin add by Xiangwei Jiang
+       integer ntype0_CG, niter0_thisCG
+       integer ntype1_CG, niter1_thisCG
+       integer ii, iiter0, iiter1
+       integer iCGmth0_tmp, iCGmth1_tmp
+       integer itypeFermi0_tmp, itypeFermi1_tmp
+       real*8  FermidE0_tmp, FermidE1_tmp
+! end add by Xiangwei Jiang
+
 
        common /comcoul/icoul,xcoul
        common /comikpt_yno/ikpt_yno,ido_DOS          ! give to Etotcalc.f, decide whether to store sumdum_m
@@ -119,19 +129,31 @@ cc     The United States government retains a royalty free license in this work
        read(9,*,iostat=ierr) i1, totNel,mx,tolug,tolE
        write(26,*) i1, totNel,mx,tolug,tolE
        if(ierr.ne.0) call error_stop(i1)
-       read(9,*,iostat=ierr) i1, niter0,nline0
+! begin change by Xiangwei Jiang
+       read(9,*,iostat=ierr) i1, ntype0_CG,nline0
        mCGbad0=0
        if(ierr.ne.0) call error_stop(i1)
-         do i=1,niter0
-c         read(9,*,iostat=ierr) iCGmth0(i),iscfmth0(i),FermidE0(i),
-c     &   itypeFermi0(i)
-         read(9,*,iostat=ierr) iCGmth0(i),aiscfmth,FermidE0(i),
-     &   itypeFermi0(i)
-         iscfmth0(i)=aiscfmth+1.D-6
-         amx_mth0(i)=aiscfmth-iscfmth0(i)
-       if(ierr.ne.0) call error_stop(i1)
-         FermidE0(i)=FermidE0(i)/27.211396d0
-	 enddo
+
+       iiter0 = 0
+       do i = 1, ntype0_CG
+         read(9,*,iostat=ierr) niter0_thisCG,iCGmth0_tmp,aiscfmth,
+     &                         FermidE0_tmp,itypeFermi0_tmp
+
+         do ii = 1, niter0_thisCG
+           iiter0 = iiter0+1
+           iCGmth0(iiter0) = iCGmth0_tmp
+           FermidE0(iiter0) = FermidE0_tmp
+           itypeFermi0(iiter0) = itypeFermi0_tmp
+           iscfmth0(iiter0)=aiscfmth+1.D-6
+           amx_mth0(iiter0)=aiscfmth-iscfmth0(iiter0)
+           FermidE0(iiter0)=FermidE0(iiter0)/27.211396d0
+         enddo
+
+         if(ierr.ne.0) call error_stop(i1)
+       enddo   ! do i = 1, ntype0CG
+
+       niter0 = iiter0
+! end change by Xiangwei Jiang
 
          if(iCGmth0(1).eq.-1) then
          ido_DOS=1
@@ -150,19 +172,32 @@ c     &   itypeFermi0(i)
        read(9,*,iostat=ierr) i1, num_mov,tolforce,dtstart,
      &    dd_limit,fxatom_out,imv_cont
        if(ierr.ne.0) call error_stop(i1)
-       read(9,*,iostat=ierr) i1, niter1,nline1
+! begin change by Xiangwei Jiang
+       read(9,*,iostat=ierr) i1, ntype1_CG,nline1
        mCGbad1=0
        if(ierr.ne.0) call error_stop(i1)
-         do i=1,niter1
-c         read(9,*,iostat=ierr) iCGmth1(i),iscfmth1(i),FermidE1(i),
-c     &    itypeFermi1(i)
-         read(9,*,iostat=ierr) iCGmth1(i),aiscfmth,FermidE1(i),
-     &    itypeFermi1(i)
-         iscfmth1(i)=aiscfmth+1.D-6
-         amx_mth1(i)=aiscfmth-iscfmth1(i)
-       if(ierr.ne.0) call error_stop(i1)
-         FermidE1(i)=FermidE1(i)/27.211396d0
-	 enddo
+
+       iiter1 = 0
+       do i=1,ntype1_CG
+         read(9,*,iostat=ierr) niter1_thisCG,iCGmth1_tmp,aiscfmth,
+     &                         FermidE1_tmp,itypeFermi1_tmp
+
+         do ii = 1, niter1
+           iiter1 = iiter1 + 1
+           iCGmth1(iiter1) = iCGmth1_tmp
+           FermidE1(iiter1) = FermidE1_tmp
+           itypeFermi1(iiter1) = itypeFermi1_tmp
+           iscfmth1(iiter1)=aiscfmth+1.D-6
+           amx_mth1(iiter1)=aiscfmth-iscfmth1(i)
+           FermidE1(i)=FermidE1(i)/27.211396d0
+         enddo
+
+         if(ierr.ne.0) call error_stop(i1)
+       enddo ! do i=1,ntype1_CG
+
+       niter1 = iiter1
+! end change by Xiangwei Jiang
+
        read(9,*,iostat=ierr) i1, ilocal
        if(ierr.ne.0) call error_stop(i1)
        read(9,*,iostat=ierr) i1, rcut
@@ -316,13 +351,13 @@ c     &    itypeFermi1(i)
       if(iloc_t.eq.2) ip_ref_t=0
       if(iloc_t.eq.3) id_ref_t=0
 
-cccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccc
       if(ido_DOS.eq.1) then
       is_ref_t=1
       ip_ref_t=1
       id_ref_t=1
       endif
-ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!cccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       nref_type(ia)=is_ref_t+ip_ref_t*3+id_ref_t*5
 
@@ -369,10 +404,10 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
        enddo
        close(10)
 
-cccccccccccccccccccccccccccccccccccccccccccccccccccc
-cccc Now, re-arrange xatom, so the same atoms are consequentive together. 
-cccc This is useful to speed up the getwmask.f
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+!ccccccccccccccccccccccccccccccccccccccccccccccccccc
+!ccc Now, re-arrange xatom, so the same atoms are consequentive together. 
+!ccc This is useful to speed up the getwmask.f
+!ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
        ii=0
 100    continue

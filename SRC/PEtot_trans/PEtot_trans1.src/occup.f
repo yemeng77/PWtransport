@@ -140,8 +140,8 @@ c	enddo
 102   continue   ! iislda
 
 
-      real*8 weight_L(mst,nkpt,islda),weight_L_tmp(mst,nkpt,islda)
-      real*8 weight_R(mst,nkpt,islda),weight_R_tmp(mst,nkpt,islda)
+!      real*8 weight_L(mst,nkpt,islda),weight_L_tmp(mst,nkpt,islda)
+!      real*8 weight_R(mst,nkpt,islda),weight_R_tmp(mst,nkpt,islda)
 
       do iislda=1,islda
          call mpi_allreduce(weight_L,weight_L_tmp,mst*nkpt*islda,
@@ -273,7 +273,7 @@ c      write(6,*) 'Ef,Ef_L,Ef_R,dV_bias',Ef,Ef_L,Ef_R,dV_bias
 ccccccc TS is the kT*entropy term for free energy, F=E-TS
 ccccccc This term is needed in order for the total
 ccccccc energy (free energy) be the local minimont at
-ccccccc the Schrodinger's equation.
+ccccccc the Schrodinger equation.
 cccccccccccc The current formula is only correct for Fermi-Dirac distribution
 
       dV_bias_au = dV_bias/27.211396d0

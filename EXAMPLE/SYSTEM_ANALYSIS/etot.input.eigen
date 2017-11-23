@@ -1,4 +1,4 @@
-1   32   2   1            | nnodes_b, num_group_b, num_group_k
+1   27   1   1            | nnodes_b, num_group_b, num_group_k
 2   xatom.system          | atom configuration input file   
 3   324,96,96,324,96,96   | n1,n2,n3, n1L,n2L,n3L
 4   1, 0                 | islda (1:LDA; 2:LSDA), igga (0:no gga; 1: PBE-gga)
@@ -16,34 +16,11 @@
 16   0, symm.file        |isymm, symm.file, if isymm=1, read symm info from symm.file
 17   1, kpt.file         |ikpt, kpt.file,  if ikpt=1, read k-point inform from kpt.file
 18   17.,70, 1.E-20, 1.E-20    | totNel,mx,tolug,tolE
-19   20,  4              | niter0,nline0
-     3    0   0.1, 21    | iCG, iscf, dE(eV),itype  
-     3    0   0.1  21    | iCG, iscf, dE(eV),itype  
-     3    0   0.1  21    | iCG, iscf, dE(eV),itype  
-     3    0   0.1  21    | iCG, iscf, dE,    itype   
-     3    0   0.1  21    | iCG, iscf, dE,    itype   
-     3    0   0.1  21    | iCG, iscf, dE,    itype   
-     3    0   0.1  21    | iCG, iscf, dE,    itype   
-     3    0   0.1  21    | iCG, iscf, dE,    itype   
-     3    0   0.1  21    | iCG, iscf, dE,    itype   
-     3    0   0.1  21    | iCG, iscf, dE,    itype   
-     3    0   0.1  21    | iCG, iscf, dE,    itype   
-     3    0   0.1  21    | iCG, iscf, dE(eV),itype  
-     3    0   0.1  21    | iCG, iscf, dE,    itype   
-     3    0   0.1  21    | iCG, iscf, dE,    itype   
-     3    0   0.1  21    | iCG, iscf, dE,    itype   
-     3    0   0.1  21    | iCG, iscf, dE,    itype   
-     3    0   0.1  21    | iCG, iscf, dE,    itype   
-     3    0   0.1  21    | iCG, iscf, dE,    itype   
-     3    0   0.1  21    | iCG, iscf, dE,    itype   
-     3    0   0.1  21    | iCG, iscf, dE,    itype   
+19   1,  4              | niter0,nline0
+     20	3    0   0.1, 21    | iCG, iscf, dE(eV),itype  
 20   0, 1.E-5, 10., 0.4, xatom_out,0     | num_mov,tolforce,dstart,d_max,fxatom_out,iHess 
-21   5,  4               | niter,nline, mCGbad1 (mCGbad1 used only for iCG=2).
-     1    1.   0.1  21     | iCG, iscf, dE,   itype   
-     1    1.   0.1  21     | iCG, iscf, dE,   itype   
-     1    1.   0.1  21     | iCG, iscf, dE,   itype   
-     1    1.   0.1  21     | iCG, iscf, dE,   itype   
-     1    1.   0.1  21     | iCG, iscf, dE,   itype   
+21   1,  4               | niter,nline, mCGbad1 (mCGbad1 used only for iCG=2).
+     5	1    1.   0.1  21     | iCG, iscf, dE,   itype   
 22   3                   |  ilocal:1,2,3-> local, real sp NL, q sp NL.
 23   3.8                 | rcut (A.U)
 24  1                    | ntype 

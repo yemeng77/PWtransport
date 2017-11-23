@@ -30,6 +30,9 @@ c     integer iorg(2) ! node and ig number of origin
       call mpi_barrier(MPI_COMM_WORLD,ierr)
 
       ng_n = ngtotnod(inode,kpt)
+
+
+
       
       if(isign.eq.3.or.mt.le.1) then  
 
@@ -65,12 +68,14 @@ c Modificado por Txomin
 c      call cgemv('c',ng_n,mt,cc1,ug_nt,mg_nx,wg,1,cc2,sumdumc,1)
 c      call cgemv('c',ng_n,mt,cc1,ug_nt,mg_nx,wg,1,cc2,sumdumc_rec,1)
 cccccccc  IBM SP, blas
+       sumdumc=dcmplx(0.d0,0.d0)        ! ng_n could be zero, so need to initialize this 
       call zgemv('C',ng_n,mt,cc1,ug_nt,mg_nx,wg,1,cc2,sumdumc,1)
-      call zgemv('C',ng_n,mt,cc1,ug_nt,mg_nx,wg,1,cc2,sumdumc_rec,1)
-ccccccccccccccccccccccccccccc
+cc      call zgemv('C',ng_n,mt,cc1,ug_nt,mg_nx,wg,1,cc2,sumdumc_rec,1)  ! why need to do this?!
+
 
 c Modificado por Txomin
 c      call mpi_allreduce(sumdumc,sumdumc,mt,
+
       call mpi_allreduce(sumdumc,sumdumc_rec,mt,
      $     MPI_DOUBLE_COMPLEX,MPI_SUM,MPI_COMM_WORLD,ierr)
 	sumdumc = sumdumc_rec
@@ -79,6 +84,7 @@ c      call mpi_allreduce(sumdumc,sumdumc,mt,
        sumdumc(i) = sumdumc(i)*vol
        Zcoeff(i)=sumdumc(i)
       enddo
+
 
       cc1=dcmplx(-1.d0,0.d0)
       cc2=dcmplx(1.d0,0.d0)

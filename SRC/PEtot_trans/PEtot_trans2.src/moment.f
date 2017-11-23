@@ -97,7 +97,8 @@ c
 
        nr_n = nr/nnodes
 
-       mr_n=mr/nnodes
+c       mr_n=mr/nnodes
+       mr_n=mr/nnodes*(1+3.d0*nnodes/(n2*n3))  ! according to linwang's modification in mainMV.f, xiangwei June 2014
 
        mr=1
        mr_n=1

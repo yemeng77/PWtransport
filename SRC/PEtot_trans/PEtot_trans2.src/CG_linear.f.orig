@@ -28,8 +28,7 @@ cc     The United States government retains a royalty free license in this work
        real*8 vr(mr_n)
        real*8 prec(mg_nx)
        real*8 AL(3,3)
-c       complex*16 workr_n(mg_nx)
-       complex*16 workr_n(*)   ! original workr_n is of mr_n which is larger, xwjiang
+       complex*16 workr_n(mg_nx)
        complex*16 Zcoeff(mx,mstateT),zfac,cai
 **********************************************
 **** if iopt=0 is used, pghh_old can be deleted
@@ -62,13 +61,11 @@ cccccccccccccccccccccccc
        zbeta=dcmplx(0.d0,0.d0)
 
 cONA       mxc=mx-10
-       mxc=mx-mxlow      ! changed, lWW
-
+       mxc=mx-mxlow
 
        call orth_comp_N(wgp_n(1,iii),ug_n,mxc,2,kpt,Zcoeff(1,iii))
 
-cccccccccccccccccccccccccccccccccccccccccccccccc
-
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         do m=1,mxc
          dE=eigen(m)-Eref
          if(dabs(dE).lt.1.D-20) dE=1.D-20
@@ -85,10 +82,11 @@ ccccccccccccccc
          Zcoeff(m,iii)=Zcoeff(m,iii)-zfac*Zcoeff(m,iim)
          enddo
          enddo
+
          do iim=1,iii-1
          Zcoeff(m_max(iim),iii)=dcmplx(0.d0,0.d0)
          enddo
-
+ccccccccccccccc
 
         zmax=0.d0
         m_max(iii)=0
@@ -98,7 +96,6 @@ ccccccccccccccc
          m_max(iii)=m
          endif
         enddo
-
 cccccccccccccccccccccccccccccccccccccccccccc
 
        rr0=1.d+40
@@ -146,8 +143,6 @@ cccccccccccccccccccccccccccccccccccccccccccc
       E0=E0*vol
       E1=E1*vol
       err=dsqrt(dabs(err))
-
-
       if(err.lt.tol) goto 3001
  
 ************************************************
@@ -244,10 +239,9 @@ cccccccccccccccccccccccccccccccccccccccccccc
 **********************************************
 ***** debugging:
 **********************************************
-      if(inode.eq.1) then
-      write(6,777) nint2,E0,err,err2
-      endif
-777   format(i8,3(E20.12,2x))
+c      if(inode.eq.1) then
+c      write(6,*) nint2,E0,err
+c      endif
 **********************************************
 **** do 3000, is for the nline line minimization
 **********************************************
@@ -276,11 +270,6 @@ ccccccccccccccccccccccccccccccccccc
        call d3fft_comp(wgc_n,workr_n,-1,kpt)
 
 ccccccccccccccccccccccccccccccccccc
-cc debug, write out size, xwjiang
-c       if(inode.eq.1) then
-c         write(6,*) "nr_n = ", nr_n
-c         write(6,*) "size(workr_n) = ", size(workr_n)
-c       endif
 
        do ii=1,nr_n
        iit=ii+(inode-1)*nr_n-1

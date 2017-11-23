@@ -10,9 +10,7 @@
 
       implicit none
       integer init,isign,n,isys,ntable,nwork,info,i
-c      real*8 scale,table(1),work(1)
       real*8 scale,table(*),work(*)
-c      real*8 x(1),y(1),fact
       real*8 x(*),y(*),fact
 cccccccc complex to complex 1D FFT
 
@@ -39,30 +37,34 @@ c     &    table,ntable,work,nwork)
 c      endif
 cccccccccccccccccccccccccccccccccccc
 ccccccccc  for Intel KML lib
-c       if(init.eq.1) then
-c       call zfft1d(y,n,0,table)
-c       else
-c       do i=1,2*n
-c       y(i)=x(i)
-c       enddo
-c       call zfft1d(y,n,isign,table)
-c       if(isign.eq.1) then
-c       do i=1,2*n
-c       y(i)=y(i)*n*scale
-c       enddo
-c       endif
-c       endif
+       if(init.eq.1) then
+       call zfft1d(y,n,0,table)
+       else
+       do i=1,2*n
+       y(i)=x(i)
+       enddo
+       call zfft1d(y,n,isign,table)
+       if(isign.eq.1) then
+       do i=1,2*n
+       y(i)=y(i)*n*scale
+       enddo
+       endif
+       endif
 ccccccccccccccccccccccccccccccccccccccc
 ccccccccc  for AMD ACML lib
-       if(init.eq.1) then
-       call zfft1d(0,n,y,table,info)
-       else
-       fact=dsqrt(n*1.d0)*scale        ! this is bad, should this outside
-       do i=1,2*n
-       y(i)=x(i)*fact
-       enddo
-       call zfft1d(isign,n,y,table,info)
-       endif
+c       if(init.eq.1) then
+c       call zfft1d(0,n,y,table,info)
+c       else
+c       fact=dsqrt(n*1.d0)*scale        ! this is bad, should this outside
+c
+c       y(1:2*n)=fact*x(1:2*n)  !see if this improves vectorization
+c
+c!       do i=1,2*n
+c!       y(i)=x(i)*fact
+c!       enddo
+c
+c       call zfft1d(isign,n,y,table,info)
+c       endif
 ccccccccccccccccccccccccccccccccccccccc
 
                                                                                                                                                                          

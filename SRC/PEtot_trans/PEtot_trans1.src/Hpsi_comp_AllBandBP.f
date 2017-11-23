@@ -201,7 +201,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       subroutine nonlocal_realsp_m()
       implicit double precision (a-h,o-z)
       complex*16 y,cc1,cc0
-      parameter (nmap_max=13000)
+      parameter (nmap_max=30000)
       real*8 y_tmp1_m(nmap_max,nblock),y_tmp2_m(nmap_max,nblock)
       real*8 y_tmp31_m(nmap_max,nblock),y_tmp32_m(nmap_max,nblock)
       real*8 sumy1_m(mref,nblock),sumy2_m(mref,nblock)

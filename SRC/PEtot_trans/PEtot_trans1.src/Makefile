@@ -1,5 +1,5 @@
 #include makefile.bassi
-include makefile.franklin
+include makefile.intel
 
 .SUFFIXES: .f .f90
 .f.o:

@@ -39,37 +39,37 @@ c     &    table,ntable,work,nwork)
 c      endif
 cccccccccccccccccccccccccccccccccccc
 ccccc    for Intel KML
-c       if(init.eq.1) then
-c       call zdfft1d(y,n,0,table)
-c       else
-c       call zdfft1d(x,n,1,table)    ! isign, or -isign
-ccccc call zdfft1d(x,n,-1,table) is wrong ! The same result as zdfft1d(x,n,1,table)
-c        if(isign.eq.-1) then
-c        y(1)=x(1)*n*scale
-c        do i=2,n
-c        y(i)=x(n+2-i)*n*scale
-c        enddo
-c        else
-c        do i=1,n
-c        y(i)=x(i)*n*scale
-c        enddo
-c        endif
-c       endif
+       if(init.eq.1) then
+       call zdfft1d(y,n,0,table)
+       else
+       call zdfft1d(x,n,1,table)    ! isign, or -isign
+cccc call zdfft1d(x,n,-1,table) is wrong ! The same result as zdfft1d(x,n,1,table)
+        if(isign.eq.-1) then
+        y(1)=x(1)*n*scale
+        do i=2,n
+        y(i)=x(n+2-i)*n*scale
+        enddo
+        else
+        do i=1,n
+        y(i)=x(i)*n*scale
+        enddo
+        endif
+       endif
 ccccccccccccccccccccccccccccccccccccccccc
 ccccc    for AMD ACML lib
-       if(init.eq.1) then
-       call zdfft(0,n,y,table,info)
-       else
-          fact1=dsqrt(n*1.d0)*scale
-          fact2=-isign*fact1
-       do i=0,n/2
-        y(i+1)=fact1*x(2*i+1)
-        enddo
-        do i=1,(n-1)/2
-        y(n-i+1)=fact2*x(2*i+2)
-        enddo
-       call zdfft(1,n,y,table,info)
-       endif
+c       if(init.eq.1) then
+c       call zdfft(0,n,y,table,info)
+c       else
+c          fact1=dsqrt(n*1.d0)*scale
+c          fact2=-isign*fact1
+c       do i=0,n/2
+c        y(i+1)=fact1*x(2*i+1)
+c        enddo
+c        do i=1,(n-1)/2
+c        y(n-i+1)=fact2*x(2*i+2)
+c        enddo
+c       call zdfft(1,n,y,table,info)
+c       endif
 ccccccccccccccccccccccccccccccccccccccccc
 
 

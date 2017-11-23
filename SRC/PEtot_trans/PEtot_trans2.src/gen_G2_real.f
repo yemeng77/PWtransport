@@ -75,8 +75,13 @@ c
      &              (ALI(1,1)*i1+ALI(1,2)*j1+ALI(1,3)*k1)**2
      &              +(ALI(2,1)*i1+ALI(2,2)*j1+ALI(2,3)*k1)**2
      &              +(ALI(3,1)*i1+ALI(3,2)*j1+ALI(3,3)*k1)**2)
+
+               akkyz=0.5d0*(2*pi)**2*(
+     &              (ALI(2,1)*i1+ALI(2,2)*j1+ALI(2,3)*k1)**2
+     &              +(ALI(3,1)*i1+ALI(3,2)*j1+ALI(3,3)*k1)**2)
                
                if(akk.gt.Ecut2) goto 5
+c               if(akkyz.gt.Ecut2) goto 5        ! d3fft_real is never used in PEtot_trans2 nonselfconsistent calc. 
                if(k1.lt.0) goto 5
 c     
 c     list all columns including ones that contain no g vecs
@@ -116,6 +121,10 @@ c
 c     check  Ecut is contained in box n1*n2*n3
 c     by counting g vectors in box twice the size
 c     
+ccccc  slip this
+        goto 107
+
+   
          do k3= 1,n3*2
             do j3= 1,n2*2
                do i3= 1,n1*2
@@ -132,7 +141,12 @@ c
      &                 +(ALI(2,1)*i1+ALI(2,2)*j1+ALI(2,3)*k1)**2
      &                 +(ALI(3,1)*i1+ALI(3,2)*j1+ALI(3,3)*k1)**2)
 
+               akkyz=0.5d0*(2*pi)**2*(
+     &              (ALI(2,1)*i1+ALI(2,2)*j1+ALI(2,3)*k1)**2
+     &              +(ALI(3,1)*i1+ALI(3,2)*j1+ALI(3,3)*k1)**2)
+
                   if(akk.gt.Ecut2) goto 15
+c                  if(akkyz.gt.Ecut2) goto 15
                   if(k1.lt.0) goto 15
                   if(k1.eq.0.and.j1.lt.0) goto 15
                   if(k1.eq.0.and.j1.eq.0.and.i1.lt.0) goto 15
@@ -149,6 +163,8 @@ c
             write(*,*) " Ecut2 not contained in grid n1*n2*n3" 
            call mpi_abort(MPI_COMM_WORLD,ierr)
          endif
+
+107      continue
 
 c     
 c     sort columns using ngcol2 in ascending order of length 
@@ -202,8 +218,10 @@ c
                   akzt=(2*pi)*(ALI(3,1)*i1+ALI(3,2)*j1+ALI(3,3)*k1)
 
                   akkt=0.5d0*(akxt**2+akyt**2+akzt**2)
+                  akkyz=0.5d0*(akyt**2+akzt**2)
 
                   if(akkt.gt.Ecut2) goto 55
+c                  if(akkyz.gt.Ecut2) goto 55
                   if(k1.lt.0) goto 55
                   if(k1.eq.0.and.j1.lt.0) goto 55
                   if(k1.eq.0.and.j1.eq.0.and.i1.lt.0) goto 55

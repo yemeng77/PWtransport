@@ -118,8 +118,8 @@ c           sumdum(jj,ia)=sumdum(jj,ia)+wmask(ico2)*y
 c          enddo
 c        enddo
 cccccccccccccccccccccccccccccc
-        if(nmap(ia).gt.10000) then
-        write(6,*) "nmap.gt.10000, stop", nmap(ia),ia
+        if(nmap(ia).gt.20000) then
+        write(6,*) "nmap.gt.20000, stop", nmap(ia),ia
         call  mpi_abort(MPI_COMM_WORLD,ierr)
         endif
 

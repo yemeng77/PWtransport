@@ -136,7 +136,8 @@ cccccccccccccccccccccccccccccccccc
       nr3x=n3+2
       nr=n1*n2*n3
       mr=n1*n2*(n3+2)
-      mr_n=mr/nnodes
+c      mr_n=mr/nnodes
+      mr_n=mr/nnodes*(1+3.d0*nnodes/(n2*n3))  ! according to linwang's modification in mainMV.f, xiangwei June 2014
 
 
 c     Calculate the approx. no. of g points, so we can dimension arrays
@@ -146,7 +147,10 @@ c     Calculate the approx. no. of g points, so we can dimension arrays
       volume=dabs(volume)
       delta_k=(2*pi)**3/volume
       totg=(4.0d0/3.0d0*pi*(dsqrt(2.0d0*Ecut))**3)/delta_k
-      mg_nx=int(1.1*totg/nnodes)+100
+c      mg_nx=int(1.1*totg/nnodes)+100  ! original
+      mg_nx=int(1.1*totg/nnodes)+400   ! X
+
+
 
 c     Allocate all the arrays that depend on n1,n2,n3,nnodes
 
@@ -230,6 +234,9 @@ ccccc put the k' point inside the BZ, fine tune i1,j1,k1
 
       AGx=AG0(1,1)*ii1+AG0(1,2)*jj1+AG0(1,3)*kk1
       AGy=AG0(2,1)*ii1+AG0(2,2)*jj1+AG0(2,3)*kk1
+      AGz=AG0(3,1)*ii1+AG0(3,2)*jj1+AG0(3,3)*kk1
+
+      ss=(gkxt*AGx+gkyt*AGy+gkzt*AGz)/
       AGz=AG0(3,1)*ii1+AG0(3,2)*jj1+AG0(3,3)*kk1
 
       ss=(gkxt*AGx+gkyt*AGy+gkzt*AGz)/
@@ -481,6 +488,3 @@ c     Now read in the data for node nnodes
 
         return
         end subroutine get_ug
-
-        end
-

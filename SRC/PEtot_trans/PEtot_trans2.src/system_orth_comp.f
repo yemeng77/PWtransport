@@ -59,8 +59,9 @@ c     integer iorg(2) ! node and ig number of origin
 cccccc   T3E, blas, 
 c      call cgemv('c',ng_n,mt,cc1,ug_nt,mg_nx,wg,1,cc2,sumdumc,1)
 ccccccccc  IBM SP, blas
+      sumdumc=dcmplx(0.d0,0.d0)    ! ng_n could be zero
       call zgemv('C',ng_n,mt,cc1,ug_nt,mg_nx,wg,1,cc2,sumdumc,1)
-      call zgemv('C',ng_n,mt,cc1,ug_nt,mg_nx,wg,1,cc2,sumdumc_rec,1)
+cc      call zgemv('C',ng_n,mt,cc1,ug_nt,mg_nx,wg,1,cc2,sumdumc_rec,1)
 ccccccccccccccccccccccccccccc
 
 c      call mpi_allreduce(sumdumc,sumdumc,mt,

@@ -194,7 +194,11 @@ ccccc  mx passed from input from param.escan_real
 
        nr_n = nr/nnodes
 
-       mr_n=mr/nnodes
+c       mr_n=mr/nnodes
+       mr_n=mr/nnodes*(1+3.d0*nnodes/(n2*n3))  ! possible imbalance factor, some proc. has 2-3 more column, LWW, May, 2014
+       if(inode.eq.1) then
+         write(6,*) "mr_n = ", mr_n
+       endif
 
 c     Calculate the approx. no. of g points, so we can dimension arrays
       volume=al(3,1)*(al(1,2)*al(2,3)-al(1,3)*al(2,2))
@@ -209,7 +213,8 @@ c      totg=(4.0d0/3.0d0*pi*(dsqrt(2.0d0*Ecut))**3)/delta_k
 c      mg_nx=int(1.3d0*totg/nnodes)+200     ! spherical Ecut, original
 cccccc here are for cylinder
       totg=pi*(dsqrt(2.0d0*Ecut))**2*(2*pi*n1/alen1)/delta_k
-      mg_nx=int(1.3d0*totg/nnodes)+200
+c      mg_nx=int(1.3d0*totg/nnodes)+200  ! original 200
+      mg_nx=int(1.3d0*totg/nnodes)+700
 
 
       if(inode.eq.1) then
