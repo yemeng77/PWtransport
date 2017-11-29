@@ -19,11 +19,11 @@ cc     The United States government retains a royalty free license in this work
 ***********************************************
       integer status(MPI_STATUS_SIZE)
 
-       complex*16 pg(mg_nx),ugh(mg_nx),pgh(mg_nx)
+       complex*16 pg(mg_nx),ugh(mg_nx),ughh(mg_nx),pgh(mg_nx)
        complex*16 pg_old(mg_nx),ughh_old(mg_nx)
 
        complex*16 wgc_n(mg_nx),wgp_n0(mg_nx,mstateT)
-       complex*16, allocatable, dimension (:,:) :: wgp_n
+       complex*16, allocatable, dimension (:,:) :: wgp_n,wgp_nh
 
        real*8 vr(mr_n)
        real*8 prec(mg_nx)
@@ -47,6 +47,7 @@ c       complex*16 workr_n(mg_nx)
        cai=dcmplx(0.d0,1.d0)
 
        allocate(wgp_n(mg_nx,mstateT))
+       allocate(wgp_nh(mg_nx,mstateT))
 
        wgp_n=wgp_n0     ! keep the input wgp_n0 unchanged
 cccccccccccccccccccccccc
@@ -61,8 +62,19 @@ cccccccccccccccccccccccc
        iopt=1
        zbeta=dcmplx(0.d0,0.d0)
 
+************************************************
+**** wgp_nh = (H-Eref) * wgp_n
+************************************************
+       call Hpsi_comp(wgp_n(:,iii),wgp_nh(:,iii),ilocal,vr,workr_n,kpt)
+       do i=1,ng_n
+       wgp_nh(i)=wgp_nh(i,iii)-Eref*wgp_n(i,iii)
+       enddo
+
+
 cONA       mxc=mx-10
-       mxc=mx-mxlow      ! changed, lWW
+c       mxc=mx-mxlow      ! changed, lWW
+**** do not use the eigen state of H
+       mxc=0
 
 
        call orth_comp_N(wgp_n(1,iii),ug_n,mxc,2,kpt,Zcoeff(1,iii))
@@ -115,12 +127,19 @@ cccccccccccccccccccccccccccccccccccccccccccc
 
 ************************************************
 **** ugh = (H-Eref) * ug
+**** ughh = (H-Eref) * ugh
 ************************************************
       if(nint2.eq.1) then
         call Hpsi_comp(wgc_n,ugh,ilocal,vr,workr_n,kpt)
         do i=1,ng_n
         ugh(i)=ugh(i)-Eref*wgc_n(i)
         enddo
+
+        call Hpsi_comp(ugh,ughh,ilocal,vr,workr_n,kpt)
+        do i=1,ng_n
+        ughh(i)=ughh(i)-Eref*ugh(i)
+        enddo
+
       else
         do i=1,ng_n
         ugh(i)=ugh(i)+zbeta*pgh(i)
