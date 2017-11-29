@@ -67,7 +67,7 @@ cccccccccccccccccccccccc
 ************************************************
        call Hpsi_comp(wgp_n(:,iii),wgp_nh(:,iii),ilocal,vr,workr_n,kpt)
        do i=1,ng_n
-       wgp_nh(i)=wgp_nh(i,iii)-Eref*wgp_n(i,iii)
+       wgp_nh(i,iii)=wgp_nh(i,iii)-Eref*wgp_n(i,iii)
        enddo
 
 
