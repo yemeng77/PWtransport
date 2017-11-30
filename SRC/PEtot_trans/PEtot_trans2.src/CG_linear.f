@@ -123,7 +123,8 @@ cccccccccccccccccccccccccccccccccccccccccccc
        s=s+vr(i)
        enddo
 
-       call mpi_allreduce(s,s1,1,MPI_REAL8,MPI_SUM,MPI_COMM_WORLD,ierr)
+       call mpi_allreduce(s,s1,1,MPI_REAL8,MPI_SUM,
+       &     MPI_COMM_WORLD,ierr)
        Vavg=s1/nr
       
        if (inode==1) write(6,*) "Vavg,Ek=", Vavg,Ek
