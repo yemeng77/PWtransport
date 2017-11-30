@@ -123,14 +123,13 @@ cccccccccccccccccccccccccccccccccccccccccccc
        s=s+vr(i)
        enddo
 
-       call mpi_allreduce(s,s1,1,MPI_REAL8,MPI_SUM,
-       &     MPI_COMM_WORLD,ierr)
+       call mpi_allreduce(s,s1,1,MPI_REAL8,MPI_SUM,MPI_COMM_WORLD,ierr)
        Vavg=s1/nr
       
        if (inode==1) write(6,*) "Vavg,Ek=", Vavg,Ek
 
        do i=1,ng_n
-       x=((gkk_n(i)+Vavg-Eref)/Ek)**2
+       x=((gkk_n(i,kpt)+Vavg-Eref)/Ek)**2
        prec(i)=1.d0/(1.d0+x)
        wgc_n(i)=dcmplx(0.d0,0.d0)
        enddo
