@@ -30,7 +30,7 @@ cc     The United States government retains a royalty free license in this work
        real*8 AL(3,3)
 c       complex*16 workr_n(mg_nx)
        complex*16 workr_n(*)   ! original workr_n is of mr_n which is larger, xwjiang
-       complex*16 Zcoeff(mx,mstateT),zfac,cai
+       complex*16 Zcoeff(mx,mstateT),zfac,cai,Vavg
 **********************************************
 **** if iopt=0 is used, pghh_old can be deleted
 **********************************************
@@ -114,11 +114,24 @@ ccccccccccccccc
 cccccccccccccccccccccccccccccccccccccccccccc
 
        rr0=1.d+40
+       pi=4.0d0*datan(1.0d0)
+       akf=((32.0d0/10.26d0**3)*3.0d0*pi*2.0d0)**(1.d0/3.d0)
+       Ek=0.5d0*akf**2
+       s=0.0d0
+
+       do i=1,nr/nnodes
+       s=s+vr(i)
+       enddo
+
+       call mpi_allreduce(s,s1,1,MPI_REAL8,MPI_SUM,
+       &     MPI_COMM_WORLD,ierr)
+       Vavg=s1/nr
+      
+       if (inode==1) write(6,*) "Vavg,Ek=", Vavg,Ek
 
        do i=1,ng_n
-       x=gkk_n(i,kpt)/Ek
-       y=27.d0+x*(18.d0+x*(12.d0+x*8.d0))
-       prec(i)=y/(y+16.d0*x**4)
+       x=((gkk_n(i)+Vavg-Eref)/Ek)**2
+       prec(i)=1.d0/(1.d0+x)
        wgc_n(i)=dcmplx(0.d0,0.d0)
        enddo
 
@@ -142,7 +155,7 @@ cccccccccccccccccccccccccccccccccccccccccccc
 
       else
         do i=1,ng_n
-        ugh(i)=ugh(i)+zbeta*pgh(i)
+        ughh(i)=ughh(i)+zbeta*pgh(i)
         enddo
       endif
 
@@ -153,10 +166,10 @@ cccccccccccccccccccccccccccccccccccccccccccc
 
 
       do i=1,ng_n
-      pg(i)=ugh(i)+wgp_n(i,iii)
+      pg(i)=ughh(i)+wgp_nh(i,iii)
       err=err+cdabs(pg(i))**2
-      E0=E0+dreal(dconjg(wgc_n(i))*(ugh(i)+2*wgp_n(i,iii)))
-      E1=E1+dreal((2*wgp_n(i,iii)))
+      E0=E0+dreal(dconjg(wgc_n(i))*(ughh(i)+2*wgp_nh(i,iii)))
+      E1=E1+dreal((2*wgp_nh(i,iii)))
       enddo
       call global_sumr(err)
       call global_sumr(E0)
@@ -232,7 +245,7 @@ cccccccccccccccccccccccccccccccccccccccccccc
       App=0.d0
 
         do i=1,ng_n
-        Zpu=Zpu+dconjg(pg(i))*(ugh(i)+wgp_n(i,iii))
+        Zpu=Zpu+dconjg(pg(i))*(ughh(i)+wgp_nh(i,iii))
         App=App+dreal(pg(i)*dconjg(pgh(i)))
         enddo
 
