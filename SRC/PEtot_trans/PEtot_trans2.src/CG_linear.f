@@ -19,7 +19,8 @@ cc     The United States government retains a royalty free license in this work
 ***********************************************
       integer status(MPI_STATUS_SIZE)
 
-       complex*16 pg(mg_nx),ugh(mg_nx),ughh(mg_nx),pgh(mg_nx)
+       complex*16 ugh(mg_nx),ughh(mg_nx)
+       complex*16 pg(mg_nx),pgh(mg_nx),pghh(mg_nx)
        complex*16 pg_old(mg_nx),ughh_old(mg_nx)
 
        complex*16 wgc_n(mg_nx),wgp_n0(mg_nx,mstateT)
@@ -63,11 +64,11 @@ cccccccccccccccccccccccc
        zbeta=dcmplx(0.d0,0.d0)
 
 ************************************************
-**** wgp_nh = (H-Eref) * wgp_n
+**** wgp_nh = (H-Eref) * wgp_n0
 ************************************************
-       call Hpsi_comp(wgp_n(:,iii),wgp_nh(:,iii),ilocal,vr,workr_n,kpt)
+       call Hpsi_comp(wgp_n0(:,iii),wgp_nh(:,iii),ilocal,vr,workr_n,kpt)
        do i=1,ng_n
-       wgp_nh(i,iii)=wgp_nh(i,iii)-Eref*wgp_n(i,iii)
+       wgp_nh(i,iii)=wgp_nh(i,iii)-Eref*wgp_n0(i,iii)
        enddo
 
 
@@ -138,8 +139,7 @@ cccccccccccccccccccccccccccccccccccccccccccc
       do 3000 nint2=1,nline
 
 ************************************************
-**** ugh = (H-Eref) * ug
-**** ughh = (H-Eref) * ugh
+**** ughh = (H-Eref)^2 * ug
 ************************************************
       if(nint2.eq.1) then
         call Hpsi_comp(wgc_n,ugh,ilocal,vr,workr_n,kpt)
@@ -154,7 +154,7 @@ cccccccccccccccccccccccccccccccccccccccccccc
 
       else
         do i=1,ng_n
-        ughh(i)=ughh(i)+zbeta*pgh(i)
+        ughh(i)=ughh(i)+Zbeta*pghh(i)
         enddo
       endif
 
@@ -231,7 +231,7 @@ cccccccccccccccccccccccccccccccccccccccccccc
       pg(i)=s*pg(i)
       enddo
 **********************************************
-***** pgh = (H-Eref) * pg
+***** pghh = (H-Eref)^2 * pg
 **********************************************
 
       call Hpsi_comp(pg,pgh,ilocal,vr,workr_n,kpt)
@@ -239,13 +239,19 @@ cccccccccccccccccccccccccccccccccccccccccccc
         do i=1,ng_n
         pgh(i)=pgh(i)-Eref*pg(i)
         enddo
+
+      call Hpsi_comp(pgh,pghh,ilocal,vr,workr_n,kpt)
+
+        do i=1,ng_n
+        pghh(i)=pghh(i)-Eref*pgh(i)
+        enddo
 **********************************************
       Zpu=dcmplx(0.d0,0.d0)
       App=0.d0
 
         do i=1,ng_n
         Zpu=Zpu+dconjg(pg(i))*(ughh(i)+wgp_nh(i,iii))
-        App=App+dreal(pg(i)*dconjg(pgh(i)))
+        App=App+dreal(pg(i)*dconjg(pghh(i)))
         enddo
 
       call global_sumc(Zpu)
