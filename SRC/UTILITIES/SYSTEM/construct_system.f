@@ -208,6 +208,7 @@ cccccccccccccccccccccccccccccccccccccccccc
        nnodes=nnodes_c
        nr=n1*n2*n3
        nr_n=nr/nnodes
+       deallocate(vr_tmp)
        allocate(vr_tmp(nr_n))
 
 	write(6,*) "output potential in vr.system"
