@@ -23,6 +23,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
        read(12,*) nnL, nnR, iadd_L,dcut
        read(12,*) fileV1,fileV2      ! central, electrode
        read(12,*) fileXat1,fileXat2  ! central, electrode
+       read(12,*) nnodes_sys         ! new nnodes for system (to allow more nodes)
        close(12)
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
@@ -158,9 +159,11 @@ ccccccccccccccccccc
        stop
        endif
 
+       deallocate(vr_tmp)
+
 
 ccc Bias voltage in atomic units
-	dV = dV/27.211396d0
+        dV = dV/27.211396d0
 cccccc in the construction, the left electrode will be
 cccccc lowered by dV/2, while the right electrode will be raised by dV/2
 cccccc and the central part will be shifted to match the left and right
@@ -200,18 +203,18 @@ cccc it can be positive or negative, and should be smaller than n1e
         n1=(nnL+nnR)*n1e+ipR-ipL+1+iadd_L
         write(6,*) "n1,n2,n3",n1,n2,n3
 
-	AL_tot(:,1)=AL_el(:,1)*n1/n1e
+        AL_tot(:,1)=AL_el(:,1)*n1/n1e
         AL_tot(:,2)=AL_el(:,2)
         AL_tot(:,3)=AL_el(:,3)
 
 cccccccccccccccccccccccccccccccccccccccccc
-       nnodes=nnodes_c
+!       nnodes=nnodes_c
+       nnodes=nnodes_sys      ! new nnodes for system (to allow more nodes)
        nr=n1*n2*n3
        nr_n=nr/nnodes
-       deallocate(vr_tmp)
        allocate(vr_tmp(nr_n))
 
-	write(6,*) "output potential in vr.system"
+       write(6,*) "output potential in vr.system"
 
        open(11,file="vr.system",form="unformatted")
        rewind(11)
