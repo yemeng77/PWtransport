@@ -24,7 +24,7 @@ cc     The United States government retains a royalty free license in this work
        complex*16 pg_old(mg_nx),ughh_old(mg_nx)
 
        complex*16 wgc_n(mg_nx),wgp_n0(mg_nx,mstateT)
-       complex*16, allocatable, dimension (:,:) :: wgp_n,wgp_nh
+       complex*16, allocatable, dimension (:,:) :: wgp_nh
 
        real*8 vr(mr_n)
        real*8 prec(mg_nx)
@@ -47,10 +47,8 @@ c       complex*16 workr_n(mg_nx)
 
        cai=dcmplx(0.d0,1.d0)
 
-       allocate(wgp_n(mg_nx,mstateT))
        allocate(wgp_nh(mg_nx,mstateT))
 
-       wgp_n=wgp_n0     ! keep the input wgp_n0 unchanged
 cccccccccccccccccccccccc
 
        Zcoeff=dcmplx(0.d0,0.d0)
@@ -63,6 +61,14 @@ cccccccccccccccccccccccc
        iopt=1
        zbeta=dcmplx(0.d0,0.d0)
 
+************************************************
+**** wgp_nh = (H-Eref) * wgp_n0
+************************************************
+       call Hpsi_comp(wgp_n0(:,iii),wgp_nh(:,iii),ilocal,vr,workr_n,kpt)
+       do i=1,ng_n
+       wgp_nh(i,iii)=wgp_nh(i,iii)-Eref*wgp_n0(i,iii)
+       enddo
+
 
 cONA       mxc=mx-10
 c       mxc=mx-mxlow      ! changed, lWW
@@ -70,14 +76,14 @@ c       mxc=mx-mxlow      ! changed, lWW
        mxc=0
 
 
-       call orth_comp_N(wgp_n(1,iii),ug_n,mxc,2,kpt,Zcoeff(1,iii))
+       call orth_comp_N(wgp_nh(1,iii),ug_n,mxc,2,kpt,Zcoeff(1,iii))
 
 cccccccccccccccccccccccccccccccccccccccccccccccc
 
         do m=1,mxc
          dE=eigen(m)-Eref
          if(dabs(dE).lt.1.D-20) dE=1.D-20
-         Zcoeff(m,iii)=Zcoeff(m,iii)/dE
+         Zcoeff(m,iii)=Zcoeff(m,iii)/dE**2
         enddo
 ccccccccccccccc
 
@@ -85,7 +91,7 @@ ccccccccccccccc
          zfac=Zcoeff(m_max(iim),iii)/Zcoeff(m_max(iim),iim)
          if(zfac.ne.zfac) zfac=0
          do i=1,ng_n
-         wgp_n(i,iii)=wgp_n(i,iii)-zfac*wgp_n(i,iim)
+         wgp_nh(i,iii)=wgp_nh(i,iii)-zfac*wgp_nh(i,iim)
          enddo
          do m=1,mxc
          Zcoeff(m,iii)=Zcoeff(m,iii)-zfac*Zcoeff(m,iim)
@@ -104,15 +110,6 @@ ccccccccccccccc
          m_max(iii)=m
          endif
         enddo
-
-
-************************************************
-**** wgp_nh = (H-Eref) * wgp_n0
-************************************************
-       call Hpsi_comp(wgp_n(:,iii),wgp_nh(:,iii),ilocal,vr,workr_n,kpt)
-       do i=1,ng_n
-       wgp_nh(i,iii)=wgp_nh(i,iii)-Eref*wgp_n(i,iii)
-       enddo
 
 cccccccccccccccccccccccccccccccccccccccccccc
 
@@ -356,7 +353,7 @@ c       endif
 
 4000  continue
 
-      deallocate(wgp_n)
+
       deallocate(wgp_nh)
 ***********************************************
 
