@@ -63,14 +63,6 @@ cccccccccccccccccccccccc
        iopt=1
        zbeta=dcmplx(0.d0,0.d0)
 
-************************************************
-**** wgp_nh = (H-Eref) * wgp_n0
-************************************************
-       call Hpsi_comp(wgp_n0(:,iii),wgp_nh(:,iii),ilocal,vr,workr_n,kpt)
-       do i=1,ng_n
-       wgp_nh(i,iii)=wgp_nh(i,iii)-Eref*wgp_n0(i,iii)
-       enddo
-
 
 cONA       mxc=mx-10
 c       mxc=mx-mxlow      ! changed, lWW
@@ -91,6 +83,7 @@ ccccccccccccccc
 
          do iim=1,iii-1
          zfac=Zcoeff(m_max(iim),iii)/Zcoeff(m_max(iim),iim)
+         if(zfac.ne.zfac) zfac=0
          do i=1,ng_n
          wgp_n(i,iii)=wgp_n(i,iii)-zfac*wgp_n(i,iim)
          enddo
@@ -111,6 +104,15 @@ ccccccccccccccc
          m_max(iii)=m
          endif
         enddo
+
+
+************************************************
+**** wgp_nh = (H-Eref) * wgp_n0
+************************************************
+       call Hpsi_comp(wgp_n(:,iii),wgp_nh(:,iii),ilocal,vr,workr_n,kpt)
+       do i=1,ng_n
+       wgp_nh(i,iii)=wgp_nh(i,iii)-Eref*wgp_n(i,iii)
+       enddo
 
 cccccccccccccccccccccccccccccccccccccccccccc
 
@@ -355,6 +357,7 @@ c       endif
 4000  continue
 
       deallocate(wgp_n)
+      deallocate(wgp_nh)
 ***********************************************
 
       return
