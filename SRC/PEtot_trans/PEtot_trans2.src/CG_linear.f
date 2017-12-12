@@ -36,12 +36,12 @@ c       complex*16 workr_n(mg_nx)
 **** if iopt=0 is used, pghh_old can be deleted
 **********************************************
        integer lin_st(mst),m_max(mstateT)
-       real*8 E_st(mst),err_st(mst),eigen(mst),eigen_diff(mst)
+       real*8 E_st(mst),err_st(mst),eigen(mst),eigen_mxc
        real*8 Ef,occ(mst)
        complex*16 Zbeta,Zpu
 
-       real*8, allocatable, dimension (:) :: eigen_sort
-       complex*16, allocatable, dimension (:,:) :: ug_n_sort
+       real*8, allocatable, dimension (:) :: eigen_diff,eigen_temp
+       complex*16, allocatable, dimension (:,:) :: ug_n_temp
 
        common /com123b/m1,m2,m3,ngb,nghb,ntype,rrcut,msb
        common /comEk/Ek
@@ -55,39 +55,43 @@ c       complex*16 workr_n(mg_nx)
 cONA       mxc=mx-10
 c       mxc=mx-mxlow      ! changed, lWW
 **** do not use the eigen state of H
-       mxc=5
+       mxc=10
+
+       allocate(eigen_diff(mst))
+       allocate(eigen_temp(mst))
 
        do i=1,mst
        eigen_diff(i)=dabs(eigen(i)-Eref)
        enddo
 
-       allocate(eigen_sort(mst))
-       eigen_sort=eigen_diff
+       eigen_temp=eigen_diff
        
        do i=1,mst
        do j=1,mst-1
-       if(eigen_sort(j).gt.eigen_sort(j+1)) then
-        temp=eigen_sort(j)
-        eigen_sort(j)=eigen_sort(j+1)
-        eigen_sort(j+1)=temp
+       if(eigen_temp(j).gt.eigen_temp(j+1)) then
+        temp=eigen_temp(j)
+        eigen_temp(j)=eigen_temp(j+1)
+        eigen_temp(j+1)=temp
        endif
        enddo
        enddo
 
        if(mxc.gt.mst) mxc=mst
        if(mxc.lt.1) mxc=1
-       min=eigen_sort(mxc)
+       eigen_mxc=eigen_temp(mxc)
 
-       deallocate(eigen_sort)
+       deallocate(eigen_temp)
 
-       do index=1,mst
-       if(eigen_diff(i).le.min) exit
+       do i=1,mst
+       if(eigen_diff(i).le.eigen_mxc) exit
        enddo
 
-       allocate(eigen_sort(mxc))
-       allocate(ug_n_sort(ng_n,mxc))
-       eigen_sort=eigen(index:index+mxc-1)
-       ug_n_sort=ug_n(:,index:index+mxc-1)
+       deallocate(eigen_diff)
+
+       allocate(eigen_temp(mxc))
+       allocate(ug_n_temp(ng_n,mxc))
+       eigen_temp=eigen(i:i+mxc-1)
+       ug_n_temp=ug_n(:,i:i+mxc-1)
 
 
 cccccccccccccccccccccccc
@@ -110,12 +114,12 @@ cccccccccccccccccccccccc
        wgp_nh(i,iii)=wgp_nh(i,iii)-Eref*wgp_n0(i,iii)
        enddo
 
-       call orth_comp_N(wgp_nh(1,iii),ug_n_sort,mxc,2,kpt,Zcoeff(1,iii))
+       call orth_comp_N(wgp_nh(1,iii),ug_n_temp,mxc,2,kpt,Zcoeff(1,iii))
 
 cccccccccccccccccccccccccccccccccccccccccccccccc
 
         do m=1,mxc
-         dE=eigen_sort(m)-Eref
+         dE=eigen_temp(m)-Eref
          if(dabs(dE).lt.1.D-20) dE=1.D-20
          Zcoeff(m,iii)=Zcoeff(m,iii)/dE**2
         enddo
@@ -335,7 +339,7 @@ cccccccccccccccccccccccccccccccccccccccccccc
 
       do m=1,mxc
       do i=1,ng_n
-      wgc_n(i)=wgc_n(i)-Zcoeff(m,iii)*ug_n_sort(i,m)
+      wgc_n(i)=wgc_n(i)-Zcoeff(m,iii)*ug_n_temp(i,m)
       enddo
       enddo
 cccccccccccccccccccccccccccccccccccccc
@@ -389,8 +393,8 @@ c       endif
 
 
        deallocate(wgp_nh)
-       deallocate(eigen_sort)
-       deallocate(ug_n_sort)
+       deallocate(eigen_temp)
+       deallocate(ug_n_temp)
 ***********************************************
 
       return
