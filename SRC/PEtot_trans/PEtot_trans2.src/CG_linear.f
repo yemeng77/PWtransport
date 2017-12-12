@@ -35,9 +35,9 @@ c       complex*16 workr_n(mg_nx)
 **********************************************
 **** if iopt=0 is used, pghh_old can be deleted
 **********************************************
-       integer lin_st(mst),m_max(mstateT)
-       real*8 E_st(mst),err_st(mst),eigen(mst)
-       real*8 Ef,occ(mst)
+        integer lin_st(mst),m_max(mstateT)
+	real*8 E_st(mst),err_st(mst),eigen(mst)
+	real*8 Ef,occ(mst)
        complex*16 Zbeta,Zpu
 
        common /com123b/m1,m2,m3,ngb,nghb,ntype,rrcut,msb
@@ -48,11 +48,6 @@ c       complex*16 workr_n(mg_nx)
        cai=dcmplx(0.d0,1.d0)
 
        allocate(wgp_nh(mg_nx,mstateT))
-
-cONA       mxc=mx-10
-c       mxc=mx-mxlow      ! changed, lWW
-**** do not use the eigen state of H
-       mxc=5
 
 cccccccccccccccccccccccc
 
@@ -73,6 +68,13 @@ cccccccccccccccccccccccc
        do i=1,ng_n
        wgp_nh(i,iii)=wgp_nh(i,iii)-Eref*wgp_n0(i,iii)
        enddo
+
+
+cONA       mxc=mx-10
+c       mxc=mx-mxlow      ! changed, lWW
+**** do not use the eigen state of H
+       mxc=0
+
 
        call orth_comp_N(wgp_nh(1,iii),ug_n,mxc,2,kpt,Zcoeff(1,iii))
 
