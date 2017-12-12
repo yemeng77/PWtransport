@@ -55,7 +55,7 @@ c       complex*16 workr_n(mg_nx)
 cONA       mxc=mx-10
 c       mxc=mx-mxlow      ! changed, lWW
 **** do not use the eigen state of H
-       mxc=15
+       mxc=5
 
        do i=1,mst
        eigen_diff(i)=dabs(eigen(i)-Eref)
