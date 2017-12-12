@@ -116,7 +116,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccc
 
         do m=1,mxc
          Zcoeff(m,iii)=Zcoeff(m,iii)/eigen_sort(m)
-         if (inode==1) write(6,*) "eigen=", eigen_sort(m)
         enddo
 ccccccccccccccc
 
