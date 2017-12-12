@@ -157,8 +157,6 @@ cccccccccccccccccccccccccccccccccccccccccccc
 
        call mpi_allreduce(s,s1,1,MPI_REAL8,MPI_SUM,MPI_COMM_WORLD,ierr)
        Vavg=s1/nr
-      
-       if (inode==1) write(6,*) "Vavg,Ek=", Vavg,Ek
 
        do i=1,ng_n
        x=((gkk_n(i,kpt)+Vavg-Eref)/Ek)**2
