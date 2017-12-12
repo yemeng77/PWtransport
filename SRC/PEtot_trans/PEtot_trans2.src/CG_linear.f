@@ -35,9 +35,9 @@ c       complex*16 workr_n(mg_nx)
 **********************************************
 **** if iopt=0 is used, pghh_old can be deleted
 **********************************************
-        integer lin_st(mst),m_max(mstateT)
-	real*8 E_st(mst),err_st(mst),eigen(mst)
-	real*8 Ef,occ(mst)
+       integer lin_st(mst),m_max(mstateT)
+       real*8 E_st(mst),err_st(mst),eigen(mst)
+       real*8 Ef,occ(mst)
        complex*16 Zbeta,Zpu
 
        common /com123b/m1,m2,m3,ngb,nghb,ntype,rrcut,msb
@@ -73,7 +73,7 @@ cccccccccccccccccccccccc
 cONA       mxc=mx-10
 c       mxc=mx-mxlow      ! changed, lWW
 **** do not use the eigen state of H
-       mxc=0
+       mxc=15
 
 
        call orth_comp_N(wgp_nh(1,iii),ug_n,mxc,2,kpt,Zcoeff(1,iii))
@@ -125,8 +125,6 @@ cccccccccccccccccccccccccccccccccccccccccccc
 
        call mpi_allreduce(s,s1,1,MPI_REAL8,MPI_SUM,MPI_COMM_WORLD,ierr)
        Vavg=s1/nr
-      
-       if (inode==1) write(6,*) "Vavg,Ek=", Vavg,Ek
 
        do i=1,ng_n
        x=((gkk_n(i,kpt)+Vavg-Eref)/Ek)**2
