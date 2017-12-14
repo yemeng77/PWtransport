@@ -37,7 +37,7 @@ c       complex*16 workr_n(mg_nx)
 **********************************************
        integer lin_st(mst),m_max(mstateT)
        real*8 E_st(mst),err_st(mst),eigen(mst),eigen_temp
-       real*8 Ef,occ(mst)
+       real*8 Ef,E_wind,occ(mst)
        complex*16 Zbeta,Zpu
 
        real*8, allocatable, dimension (:) :: eigen_sort
@@ -84,10 +84,18 @@ c       complex*16 workr_n(mg_nx)
        deallocate(ug_n_temp)
 
 
-cONA       mxc=mx-10
+c       mxc=mx-10
 c       mxc=mx-mxlow      ! changed, lWW
 **** do not use the eigen state of H
-       mxc=15
+c       mxc=0
+       E_wind=1.0d0
+
+       E_wind=(E_wind/27.211396d0)**2
+       mxc=0
+       do i=1,mst
+       if (eigen_sort(i).gt.E_wind) exit
+       mxc=mxc+1
+       enddo
 
 
 cccccccccccccccccccccccc

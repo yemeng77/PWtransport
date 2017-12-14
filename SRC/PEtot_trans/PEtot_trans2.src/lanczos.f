@@ -127,13 +127,13 @@ c       complex*16 workr_n(mg_nx)
 **** w_temp = w_temp - alpha * v_temp, when nint=1
 **** w_temp = w_temp - alpha * v_temp - beta * v_temp(old), when nint>1
 ************************************************
-       alpha=0.d0
+       r=dcmplx(0.d0,0.d0)
        
        do i=1,ng_n
-       alpha=alpha+dreal(dconjg(w_temp(i))*v_temp(i))
+       r=r+dconjg(w_temp(i))*v_temp(i)
        enddo
-       call global_sumr(alpha)
-       alpha=dsqrt(alpha*vol)
+       call global_sumc(r)
+       alpha=dreal(r)*vol
 
        if (nint.eq.1) then
        do i=1,ng_n
