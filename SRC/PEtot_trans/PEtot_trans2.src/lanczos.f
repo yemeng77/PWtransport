@@ -38,8 +38,6 @@ cc     T is a mxc*mxc real symmetric tridiagonal matrix.
       real*8 AL(3,3)
 c       complex*16 workr_n(mg_nx)
       complex*16 workr_n(*)   ! original workr_n is of mr_n which is larger, xwjiang
-
-      real*8 D(mxc),E(mxc-1)
        
       complex*16, allocatable, dimension (:,:) :: V
       complex*16, allocatable, dimension (:) :: v_temp,vh_temp,w_temp
@@ -86,7 +84,7 @@ c       complex*16 workr_n(mg_nx)
 
       do 4000 nint=1,mxc
 
-       if nint.gt.1 then
+       if (nint.gt.1) then
 ************************************************
 **** beta = ||w_temp||
 **** v_temp = w_temp / beta
