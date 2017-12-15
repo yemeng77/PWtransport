@@ -1,6 +1,6 @@
-      subroutine lanczos_eigen(ilocal,nline,
+      subroutine lanczos(ilocal,nline,
      &  vr,workr_n,kpt,Eref,AL,mxc
-     &  eigen,ug_n)
+     &  eigen,ug_n,mst)
 ****************************************
 cc     Written by Meng Ye, December 13, 2017. 
 cc     Copyright 2017 The Regents of the University of California
@@ -19,7 +19,7 @@ cc     T is a mxc*mxc real symmetric tridiagonal matrix.
 *          
 *  E       the (mxc-1) subdiagonal elements of the tridiagonal matrix T
 *
-*  V       all elements of matrix V^dagger
+*  V       all elements of matrix V
 *
 *  =====================================================================
 
@@ -35,54 +35,58 @@ cc     T is a mxc*mxc real symmetric tridiagonal matrix.
 ***********************************************
       integer status(MPI_STATUS_SIZE)
 
-       real*8 AL(3,3)
+      real*8 AL(3,3)
 c       complex*16 workr_n(mg_nx)
-       complex*16 workr_n(*)   ! original workr_n is of mr_n which is larger, xwjiang
+      complex*16 workr_n(*)   ! original workr_n is of mr_n which is larger, xwjiang
 
-       real*8 D(mxc),E(mxc-1),Z(mxc,mxc)
-       real*8, allocatable, dimension(:,:) :: work
-       complex*16, allocatable, dimension (:,:) :: V
-       complex*16, allocatable, dimension (:) :: v_temp,vh_temp,w_temp
+      real*8 D(mxc),E(mxc-1)
+       
+      complex*16, allocatable, dimension (:,:) :: V
+      complex*16, allocatable, dimension (:) :: v_temp,vh_temp,w_temp
+      real*8, allocatable, dimension(:) :: D,E,work
+      real*8, allocatable, dimension(:,:) :: Z
 
-       common /com123b/m1,m2,m3,ngb,nghb,ntype,rrcut,msb
-       common /comEk/Ek
+      common /com123b/m1,m2,m3,ngb,nghb,ntype,rrcut,msb
+      common /comEk/Ek
 
-       real*8 ran1
+      real*8 ran1
 
-       ng_n=ngtotnod(inode,kpt)
+      ng_n=ngtotnod(inode,kpt)
 
-       allocate(V(mxc,ng_n))
-       allocate(v_temp(ng_n))
-       allocate(vh_temp(ng_n))
-       allocate(w_temp(ng_n))
+      allocate(D(mxc))
+      allocate(E(mxc))
+      allocate(V(mxc,ng_n))
+      allocate(v_temp(ng_n))
+      allocate(vh_temp(ng_n))
+      allocate(w_temp(ng_n))
 
 ************************************************
 **** generate random inital v_temp
 **** v_temp = v_temp / ||v_temp||
 ************************************************
-       iranm=-2291-inode*3651
-       do i=1,ng_n
-       x = ran1(iranm)
-       y = ran1(iranm)
-       v_temp(i)= dcmplx(x-0.5d0,y-0.5d0)
-       enddo
+      iranm=-2291-inode*3651
+      do i=1,ng_n
+      x=ran1(iranm)
+      y=ran1(iranm)
+      v_temp(i)=dcmplx(x-0.5d0,y-0.5d0)
+      enddo
 
-       s=0.d0
-       do i=1,ng_n
-       s=s+cdabs(v_temp(i))**2
-       enddo
+      s=0.d0
+      do i=1,ng_n
+      s=s+cdabs(v_temp(i))**2
+      enddo
        
-       call global_sumr(s)
-       s=1/dsqrt(s*vol)
+      call global_sumr(s)
+      s=dsqrt(s*vol)
 
-       do i=1,ng_n
-       v_temp(i)=s*v_temp(i)
-       enddo
+      do i=1,ng_n
+      v_temp(i)=s*v_temp(i)/s
+      enddo
       
 
       do 4000 nint=1,mxc
 
-       if nint.ne.1 then
+       if nint.gt.1 then
 ************************************************
 **** beta = ||w_temp||
 **** v_temp = w_temp / beta
@@ -94,6 +98,7 @@ c       complex*16 workr_n(mg_nx)
        do i=1,ng_n
        beta=beta+cdabs(w_temp(i))**2
        enddo
+
        call global_sumr(beta)
        beta=dsqrt(beta*vol)
        if (beta.eq.0.d0) exit
@@ -123,7 +128,7 @@ c       complex*16 workr_n(mg_nx)
 
 
 ************************************************
-**** alpha = w_temp^dagger * v_temp
+**** alpha = w_temp^dagger * v_temp, and it is the nint-th element of D
 **** w_temp = w_temp - alpha * v_temp, when nint=1
 **** w_temp = w_temp - alpha * v_temp - beta * v_temp(old), when nint>1
 ************************************************
@@ -134,37 +139,51 @@ c       complex*16 workr_n(mg_nx)
        enddo
        call global_sumc(r)
        alpha=dreal(r)*vol
+       D(nint)=alpha
 
        if (nint.eq.1) then
-       do i=1,ng_n
-       w_temp(i)=w_temp(i)-alpha*V(nint,i)
-       enddo
+          do i=1,ng_n
+            w_temp(i)=w_temp(i)-alpha*V(nint,i)
+          enddo
        else
-       do i=1,ng_n
-       w_temp(i)=w_temp(i)-alpha*V(nint,i)-beta*V(nint-1,i)
-       enddo
+         do i=1,ng_n
+           w_temp(i)=w_temp(i)-alpha*V(nint,i)-beta*V(nint-1,i)
+         enddo
        endif
 
 4000  continue
 
 
-      deallocate(v_temp)
-      deallocate(vh_temp)
-      deallocate(w_temp)
+       deallocate(v_temp)
+       deallocate(vh_temp)
+       deallocate(w_temp)
 ***********************************************
 
-************************************************
-**** V=V*
-************************************************
-      do i=1,mxc
-      do j=1,ng_n
-      V(i,j)=dconjg(V(i,j))
-      enddo
-      enddo
+       allocate(Z(mxc,mxc))
+       allocate(work(2*mxc-2))
 
-      call detev('V',mxc,D,E,Z,mxc,work,info)
+       call dstev('V',mxc,D,E,Z,mxc,work,info)
 
-      deallocate(V)
+       deallocate(work)
+
+       if (info.ne.0) stop
+
+       s=E_wind**2
+       mst=0
+       do i=1,mxc
+         if (D(i).le.s) then
+           mst=mst+1
+           do ii=1,ng_n
+             ug_n(ii,mst)=dcmplx(0.d0+0.d0)
+             do iii=1,mxc
+               ug_n(ii,mst)=ug_n(ii,mst)+Z(iii,i)*V(iii,i)
+             enddo
+           enddo
+         endif
+       enddo
+
+       deallocate(V)
+       deallocate(Z)
 
       return
       end
