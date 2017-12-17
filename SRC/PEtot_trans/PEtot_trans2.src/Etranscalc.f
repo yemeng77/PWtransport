@@ -411,11 +411,19 @@ ccccccccccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
-ccccc Inside CG_linear, the wr_real.E has already been written in real space. 
+ccccc Inside CG_linear, the wr_real.E has already been written in real space.
+       Ewind=1.d0
+       mx=200
+       
+       Ewind=Ewind/27.211396d0
 
-       call CG_linear(ilocal,nline,tolug,
-     &   wgp_n,vr_in_n(1,iislda),workr_n,
-     &   kpt,Eref,AL,eigen,mxlow,mstate)
+       call eigen_comp(ilocal,nline,
+     &  vr_in_n(1,iislda),workr_n,kpt,Eref,AL,Ewind
+     &  eigen,mxc)
+
+c       call CG_linear(ilocal,nline,tolug,
+c     &   wgp_n,vr_in_n(1,iislda),workr_n,
+c     &   kpt,Eref,AL,eigen,mxlow,mstate)
 
        call mpi_barrier(MPI_COMM_WORLD,ierr)
 
