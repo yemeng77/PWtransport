@@ -412,13 +412,10 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 ccccc Inside CG_linear, the wr_real.E has already been written in real space.
-       Ewind=1.d0
        mx=200
-       
-       Ewind=Ewind/27.211396d0
 
        call eigen_comp(ilocal,nline,
-     &  vr_in_n(1,iislda),workr_n,kpt,Eref,AL,Ewind
+     &  vr_in_n(1,iislda),workr_n,kpt,Eref,AL,1.d0/27.211396d0,
      &  eigen,mxc)
 
 c       call CG_linear(ilocal,nline,tolug,
