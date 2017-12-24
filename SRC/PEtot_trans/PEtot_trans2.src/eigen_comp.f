@@ -145,11 +145,15 @@ c       complex*16 workr_n(mg_nx)
 
        deallocate(work)
 
+       tol=1.d-6
+
        if (info.ne.0) stop
 
        mxc=0
 
        do m=1,mx
+       if (dabs(eigen_vec(mx,m)).le.tol/10.d0.and.
+     &     dabs(eigen_vec(mx-1,m)).le.tol) then
           Ediff=dsqrt(diag(m))
 c         if (Ediff.le.Ewind) then
            do i=1,ng_n
@@ -186,7 +190,7 @@ c         if (Ediff.le.Ewind) then
            endif
 
 c           mxc=mxc+1
-c         endif
+         endif
        enddo
 
        deallocate(diag)
