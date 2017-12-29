@@ -28,7 +28,7 @@ cccccc and write the converged wavefunction to           ugIO(ug_n,kpt,1,0,iisld
 ********************************************
        real*8 E_st(mst,nkpt,islda),err_st(mst,nkpt,islda) 
        real*8 occ(mst,nkpt,islda)
-       real*8 eigen(mst)
+       real*8 eigen(mst),Ewind(2)
 
 
        real*8,allocatable,dimension(:)  :: xyzmaptmp
@@ -407,16 +407,18 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccc
        enddo    ! istate=1,mstate
 ccccccccccccccccccccccccccccccccccccccccccccc
 
-
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 ccccc Inside CG_linear, the wr_real.E has already been written in real space.
-       mx=200
+       mp=2000
+       dE=1.0/27.211396d0
+       Ewind(1)=Eref-dE
+       Ewind(2)=Eref+dE
 
-       call eigen_comp(ilocal,nline,
-     &  vr_in_n(1,iislda),workr_n,kpt,Eref,AL,1.d0/27.211396d0,
-     &  eigen,mxc)
+       call eigen_comp(ilocal,nline,mp,tolE,
+     &  vr_in_n(1,iislda),workr_n,kpt,Ewind,
+     &  mxc,eigen)
 
 c       call CG_linear(ilocal,nline,tolug,
 c     &   wgp_n,vr_in_n(1,iislda),workr_n,

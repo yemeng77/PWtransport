@@ -1,5 +1,5 @@
       subroutine eigen_comp(ilocal,nline,mp,tol,
-     &  vr,workr_n,kpt,Ewind,AL,mxc,eigen)
+     &  vr,workr_n,kpt,Ewind,mxc,eigen)
 ****************************************
 cc     Written by Meng Ye, December 28, 2017. 
 cc     Copyright 2017 The Regents of the University of California
@@ -23,21 +23,23 @@ cc     See J. Comp. Phys. 325 (2016) 226–243
 ***********************************************
       integer status(MPI_STATUS_SIZE)
 
-      real*8 AL(3,3),Ewind(2)
+      real*8 Ewind(2),eigen(mst)
 c       complex*16 workr_n(mg_nx)
       complex*16 workr_n(*)   ! original workr_n is of mr_n which is larger, xwjiang
       integer mp,mxc,mstatus
 
       real*8 Emax,Emin,alpha,beta,c0,g0
 
-      real*8, allocatable, dimension (:) cn,gn,E_st,err_st,eigen
+      real*8, allocatable, dimension (:) :: cn,gn,E_st,err_st
       complex*16, allocatable, dimension (:,:) :: xg_n,yg_n,zg_n
 
       common /com123b/m1,m2,m3,ngb,nghb,ntype,rrcut,msb
       common /comEk/Ek
 
       ng_n=ngtotnod(inode,kpt)
-      call lanczos_comp(ilocal,niter,vr,workr_n,kpt,AL,Emax,Emin)
+
+      niter_lan=25
+      call lanczos_comp(ilocal,niter_lan,vr,workr_n,kpt,Emax,Emin)
 
 ****************************************
 cc    map the x in [Emin,Emax] to [-1,1] using alpha*x+beta
@@ -64,8 +66,8 @@ cc    The filter: ug=W(H)ug=\sum_0^mp gn*cn*Tn(alpha*H+beta)ug
       gn0=1.0d0
 
       do n=1,mp
-      cn(n)=2.0d0*(dsin(n*dacos(alpha*Ewind(2)+beta))-
-     &     (dsin(n*dacos(alpha*Ewind(2)+beta)))/(n*pi)
+      cn(n)=2.0d0*(dsin(n*dacos(alpha*Ewind(2)+beta))
+     &     -dsin(n*dacos(alpha*Ewind(2)+beta)))/(n*pi)
       gn(n)=(dsin(n*pi/(mp+1))/(n*pi/(mp+1)))**2
       enddo
 
@@ -128,8 +130,6 @@ cc     Exit if err_st<=tol for all Ritz values in the target interval.
 3000  continue
 3001  continue
 
-      allocate(eigen(mxc))
-
       mxc=0
       zg_n=ug_n
 
@@ -153,7 +153,7 @@ cc     Exit if err_st<=tol for all Ritz values in the target interval.
       if(inode.eq.1) then
        write(6,*) "*********************************"
        write(6,*) "eigen energies, in eV"
-       write(6,5(f12.8,1x)) (eigen(i)*27.211396d0, i=1,mx)
+       write(6,*) (eigen(i)*27.211396d0, i=1,mxc)
        write(6,*) "*********************************"
       endif
 
