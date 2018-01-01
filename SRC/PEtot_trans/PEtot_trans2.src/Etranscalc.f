@@ -412,7 +412,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 ccccc Inside CG_linear, the wr_real.E has already been written in real space.
        mx=30
-       mp=2000
+       mp=5000
        dE=1.0/27.211396d0
        Ewind(1)=Eref-dE
        Ewind(2)=Eref+dE

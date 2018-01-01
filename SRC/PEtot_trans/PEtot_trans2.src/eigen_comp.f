@@ -158,9 +158,11 @@ cc     Exit if err_st<=tol for all Ritz values in the target interval.
       if(inode.eq.1) then
        write(6,*) "*********************************"
        write(6,*) "eigen energies, in eV"
-       write(6,*) (eigen(i)*27.211396d0, i=1,mxc)
+       write(6,101) (eigen(i)*27.211396d0, i=1,mxc)
        write(6,*) "*********************************"
       endif
+
+101   format(5(f12.8,1x))
 
       return
 
