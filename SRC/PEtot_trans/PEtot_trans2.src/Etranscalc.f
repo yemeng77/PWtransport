@@ -342,11 +342,11 @@ cccccccc this will be the minimum change from the current file.
 
 
         allocate(wgp_n(mg_nx,mstate))
-	do i1=1,mstate
-	do i2=1,mg_nx
-	wgp_n(i2,i1)=dcmplx(0.d0,0.d0)
-	enddo
-	enddo
+        do i1=1,mstate
+          do i2=1,mg_nx
+          wgp_n(i2,i1)=dcmplx(0.d0,0.d0)
+          enddo
+        enddo
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -411,6 +411,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 ccccc Inside CG_linear, the wr_real.E has already been written in real space.
+       mx=30
        mp=2000
        dE=1.0/27.211396d0
        Ewind(1)=Eref-dE

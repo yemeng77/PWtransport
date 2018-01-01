@@ -1,5 +1,5 @@
       subroutine lanczos_comp(ilocal,niter,
-     &  vr,workr_n,kpt,Emax,Emin)
+     &  vr,workr_n,kpt,Ebound)
 
 ****************************************
 cc     Written by Meng Ye, December 28, 2017. 
@@ -25,7 +25,7 @@ cc     Use niter-step Lanczos algorithm to estimate the bound of eigenvalues of 
 
 c      complex*16 workr_n(mg_nx)
       complex*16 tmp,workr_n(*)   ! original workr_n is of mr_n which is larger, xwjiang
-      real*8 Emax,Emin,ran1
+      real*8 Emax,Emin,Ebound(2),ran1
 
       real*8, allocatable, dimension(:) :: diag,subdiag,work
       real*8, allocatable, dimension(:,:) :: eigen_vec
@@ -159,6 +159,9 @@ c      complex*16 workr_n(mg_nx)
        if (Emin.gt.E0-res) Emin=E0-res
 
       enddo
+
+      Ebound(1)=Emin
+      Ebound(2)=Emax
 
       if(inode.eq.1) then
       write(6,*) '*******************'

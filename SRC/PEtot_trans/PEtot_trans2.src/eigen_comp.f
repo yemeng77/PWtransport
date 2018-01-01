@@ -23,7 +23,7 @@ cc     See J. Comp. Phys. 325 (2016) 226–243
 ***********************************************
       integer status(MPI_STATUS_SIZE)
 
-      real*8 Ewind(2),eigen(mst)
+      real*8 Ewind(2),eigen(mst),Ebound(2)
 c       complex*16 workr_n(mg_nx)
       complex*16 workr_n(*)   ! original workr_n is of mr_n which is larger, xwjiang
       integer mp,mxc,mstatus
@@ -39,7 +39,10 @@ c       complex*16 workr_n(mg_nx)
       ng_n=ngtotnod(inode,kpt)
 
       niter_lan=25
-      call lanczos_comp(ilocal,niter_lan,vr,workr_n,kpt,Emax,Emin)
+      call lanczos_comp(ilocal,niter_lan,vr,workr_n,kpt,Ebound)
+
+      Emin=Ebound(1)
+      Emax=Ebound(2)
 
 ****************************************
 cc    map the x in [Emin,Emax] to [-1,1] using alpha*x+beta
@@ -61,13 +64,15 @@ cc    W(x) is a windows function, which is 1 in [Ewind(1),Ewind(2)] and 0 outsid
 cc    W(x)\approx\sum_0^mp gn*cn*Tn(alpha*x+beta)
 cc    The filter: ug=W(H)ug=\sum_0^mp gn*cn*Tn(alpha*H+beta)ug
 ****************************************
+      Emin=Ewind(1)
+      Emax=Ewind(2)
       pi=4.0d0*datan(1.0d0)
-      cn0=(dacos(alpha*Ewind(2)+beta)-dacos(alpha*Ewind(1)+beta))/pi
+      cn0=(dacos(alpha*Emax+beta)-dacos(alpha*Emin+beta))/pi
       gn0=1.0d0
 
       do n=1,mp
-      cn(n)=2.0d0*(dsin(n*dacos(alpha*Ewind(2)+beta))
-     &     -dsin(n*dacos(alpha*Ewind(2)+beta)))/(n*pi)
+      cn(n)=2.0d0*(dsin(n*dacos(alpha*Emax+beta))
+     &     -dsin(n*dacos(alpha*Emin+beta)))/(n*pi)
       gn(n)=(dsin(n*pi/(mp+1))/(n*pi/(mp+1)))**2
       enddo
 
@@ -136,8 +141,8 @@ cc     Exit if err_st<=tol for all Ritz values in the target interval.
       do m=1,mx
       if (E_st(m).ge.Ewind(1).and.E_st(m).le.Ewind(2)) then
       mxc=mxc+1
-      eigen(mxc)=E_st(mx)
-      ug_n(:,mxc)=zg_n(:,mx)
+      eigen(mxc)=E_st(m)
+      ug_n(:,mxc)=zg_n(:,m)
       endif
       enddo
 
