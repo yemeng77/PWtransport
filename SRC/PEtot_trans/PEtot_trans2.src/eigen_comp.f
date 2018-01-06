@@ -1,5 +1,5 @@
       subroutine eigen_comp(ilocal,nline,mp,tol,
-     &  vr,workr_n,kpt,Ewind,mxc,eigen)
+     &  vr,workr_n,kpt,Ewind,eigen,mxc)
 ****************************************
 cc     Written by Meng Ye, December 28, 2017. 
 cc     Copyright 2017 The Regents of the University of California
