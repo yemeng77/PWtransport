@@ -619,7 +619,6 @@ cccccccccccccccccccccccccccccccccccc
       deallocate(sum_w2)
       deallocate(cc_w1)
       deallocate(cc_w2)
-      deallocate(uc_test3)
 401   continue 
       goto 6000
 
@@ -1109,6 +1108,7 @@ cccccccccccccccccccccccccccccccc
 
       deallocate(uc_test)
       deallocate(uc_test2)
+      deallocate(uc_test3)
 
       aL_forward=aL_forward/aR_forward
       aL_bacward=aL_backward/aR_forward
