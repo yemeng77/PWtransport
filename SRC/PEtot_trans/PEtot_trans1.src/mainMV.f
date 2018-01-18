@@ -71,6 +71,11 @@
        character*20 file_tmp
 
        character*60 message
+
+! begin add by Meng Ye
+       real*8 Eescan(2)
+       integer nescan(2)
+! end add by Meng Ye
 *************************************************
 
        common /comNL2/occ_t,iiatom,icore,numref,ityatom
@@ -85,7 +90,7 @@
        common /comlll/lll,nbeta
        common /comcoul/icoul,xcoul
        common /comVext/ivext_in
-       common /comikpt_yno/ikpt_yno,ido_DOS
+       common /comikpt_yno/ikpt_yno,ido_DOS,ido_escan
 !
 ! saved arrays for mch_pulay
 !
@@ -191,7 +196,8 @@
      &  nrot,num_mov,tolforce,imov_at,dtstart,dd_limit,
      &  idens_out,kpt_dens,ispin_dens,iw_dens,fdens_out,
      &  f_xatom,numref,nref_type,ivext_in,fvext_in,imv_cont,
-     &  amx_mth0,amx_mth1,xgga,imask_in,fmask_in,dV_bias)
+     &  amx_mth0,amx_mth1,xgga,imask_in,fmask_in,dV_bias,
+     &  Eescan,nescan)
 
 	write(26,*) 'mx',mx
 
@@ -385,7 +391,7 @@
 !      mg_nx=int(1.3d0*totg/nnodes)+200  ! original 200
       mg_nx=int(1.3d0*totg/nnodes)+800
 
-      if(inode.eq.1) then
+      if(inode_tot.eq.1) then
       write(6,*) "cylinder mg_nx=",mg_nx
       endif
 
@@ -805,7 +811,7 @@
      &  iforce_cal,ido_rho,ido_vr,tolug,tolE,niter0,nline0,
      &  iCGmth0,iscfmth0,FermidE0,itypeFermi0,mCGbad0,E_st,err_st,AL,
      &  nkpt,ntype,convergE,islda,igga,iwg_out,fwg_out,ivr_rho_out,
-     &  amx_mth0,xgga,dV_bias)
+     &  amx_mth0,xgga,dV_bias,Eescan,nescan)
        time11=mpi_wtime()
 
        if(inode_tot.eq.1) write(6,*) "time for Etotcalc  ", time11-time00
@@ -969,7 +975,7 @@
      &  iforce_cal,ido_rho,ido_vr,tolug,tolE,niter1,nline1,
      &  iCGmth1,iscfmth1,FermidE1,itypeFermi1,mCGbad1,E_st,err_st,AL,
      &  nkpt,ntype,convergE,islda,igga,iwg_out,fwg_out,ivr_rho_out,
-     &  amx_mth1,xgga)
+     &  amx_mth1,xgga,Eescan,nescan)
 
 
 5002    continue
@@ -1040,7 +1046,7 @@
      &  iforce_cal,ido_rho,ido_vr,tolug,tolE,niter1,nline1,
      &  iCGmth1,iscfmth1,FermidE1,itypeFermi1,mCGbad1,E_st,err_st,AL,
      &  nkpt,ntype,convergE,islda,igga,iwg_out,fwg_out,ivr_rho_out,
-     &  amx_mth1,xgga)
+     &  amx_mth1,xgga,Eescan,nescan)
 
 5001   continue       ! skip the above Etotcalc
 **********************************************************

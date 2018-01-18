@@ -23,6 +23,8 @@ Proj2_comp.f\
 CG_comp.f\
 DIIS_comp.f\
 CG_AllBand.f\
+ChebFD_BP.f\
+lanczos_esti.f\
 orth_comp.f\
 orth_comp_DIIS.f\
 getpot2L.f\

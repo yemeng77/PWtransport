@@ -2,7 +2,7 @@
      & iforce_cal,ido_rho,ido_vr,tolug,tolE,niter,nline,
      &  iCGmth,iscfmth,FermidE,itypeFermi,mCGbad,E_st,err_st,AL,
      &  nkpt,ntype,convergE,islda,igga,iwg_out,fwg_out,
-     &  ivr_out,amx_mth,xgga,dV_bias)
+     &  ivr_out,amx_mth,xgga,dV_bias,Eescan,nescan)
 ******************************************
 cc     Written by Lin-Wang Wang, March 30, 2001.  
 *************************************************************************
@@ -79,6 +79,11 @@ cccccccccccccccccccccccc
        character*20 fdens_in,fdens_out
 *************************************************
 
+! begin add by Meng Ye
+       integer nescan(2)
+       real*8 Eescan(2)
+! end add by Meng Ye
+
        common /comNL2/occ_t,iiatom,icore,numref,ityatom
        common /comispd_ref/is_ref,ip_ref,id_ref
        common /comEk/Ek
@@ -91,7 +96,7 @@ cccccccccccccccccccccccc
 
        common /comMainEtot/iatom,totNel,
      &     smatr,nrot,ilocal,Ealpha,Ealphat
-       common /comikpt_yno/ikpt_yno,ido_DOS
+       common /comikpt_yno/ikpt_yno,ido_DOS,ido_escan
 
  
 c
@@ -450,7 +455,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
        nscf=0
        nint_last=1
 
-       if(ido_DOS.eq.1) niter=1
+       if(ido_DOS.eq.1.or.ido_escan.eq.1) niter=1
        num_kpt_proc=kpt_slda_dis(2)-kpt_slda_dis(1)+1
 
        do 2000 nint=1,niter
@@ -535,8 +540,14 @@ ccccc actually do writing and reading inside ugIOBP
      &    vr_n(1,iislda),workr_n,0,1.d0,kpt,iislda)
        endif
 
+      else if(iCGmth(nint).eq.40.and.ido_escan.eq.1) then
+       call ChebFD_BP(ilocal,nline,tolug,
+     &     E_st(1,kpt,iislda),err_st(1,kpt,iislda),
+     &     vr_n(1,iislda),workr_n,kpt,iislda,
+     &     Eescan,nescan(1),nescan(2),2)
+
       else
-         write(6,*) 'nint, iCGmth', nint, iCGmth
+         if(inode_tot.eq.1) write(6,*) 'nint, iCGmth', nint, iCGmth
          stop 'iCGmth is not recognized.'
       endif
 
@@ -610,7 +621,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccc
            errave=errave/(mx*nkpt*islda)
 
 ********************************************************
-         if(ido_DOS.eq.1) goto 99
+         if(ido_DOS.eq.1.or.ido_escan.eq.1) goto 99
          if(iscfmth(nint).le.0)  goto 99    ! non-self-consistent
            nscf=nscf+1
 
