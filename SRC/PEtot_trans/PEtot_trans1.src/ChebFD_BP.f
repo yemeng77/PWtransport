@@ -27,9 +27,10 @@ cc     See J. Comp. Phys. 325 (2016) 226–243
       real*8 vr(mr_n)
       complex*16 workr_n(mr_n)
 
-      real*8 Ebound(2),Ewind(2),eigen(mst)
+      real*8 Ebound(2),Ewind(2)
       real*8 E_st(mst),err_st(mst)
-      real*8 E_m(nblock_band_mx),err_m(nblock_band_mx)
+      real*8 E_m(nblock_band_mx)
+      real*8 err_m(nblock_band_mx)
       real*8 tmp_real(nblock_band_mx),dumm(mst)
       integer Np,Nlan,ikernel,info
 
@@ -170,6 +171,7 @@ cc     yg->xg zg->yg
 
 ****************************************
 cc     orthonormalize ug using Cholesky decompostion
+cc     ug^T*ug=S=U^T*U, then ug(U^-1) is orthonormalized vectors.
 ***************************************
 C        if(ipsp_all.eq.1) then
 C        call orthogonal_choleskyBP(ug_n_bp,mg_nx,nblock_band_mx,
