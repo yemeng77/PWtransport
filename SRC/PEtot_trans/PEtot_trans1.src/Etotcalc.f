@@ -80,7 +80,7 @@ cccccccccccccccccccccccc
 *************************************************
 
 ! begin add by Meng Ye
-       integer nescan(2)
+       integer nescan(3)
        real*8 Eescan(2)
 ! end add by Meng Ye
 
@@ -544,7 +544,7 @@ ccccc actually do writing and reading inside ugIOBP
        call ChebFD_BP(ilocal,nline,tolug,
      &     E_st(1,kpt,iislda),err_st(1,kpt,iislda),
      &     vr_n(1,iislda),workr_n,kpt,iislda,
-     &     Eescan,nescan(1),nescan(2),2)
+     &     Eescan,nescan(1),nescan(2),nescan(3))
 
       else
          if(inode_tot.eq.1) write(6,*) 'nint, iCGmth', nint, iCGmth

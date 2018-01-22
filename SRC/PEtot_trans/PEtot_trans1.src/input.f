@@ -70,7 +70,7 @@
        
 ! begin add by Meng Ye
        real*8 Eescan(2),Etmp1,Etmp2
-       integer nescan(2),iescan_mthd
+       integer nescan(3),iescan_mthd
 ! end add by Meng Ye
 
        common /comcoul/icoul,xcoul
@@ -227,7 +227,8 @@
 ! begin add by Meng Ye
        if(ido_escan.eq.1) then
         if(iescan_mthd.eq.0) then
-        read(9,*,iostat=ierr) i1, Etmp1, Etmp2, nescan(1), nescan(2)
+        read(9,*,iostat=ierr) i1,Etmp1,Etmp2,nescan(1),nescan(2),
+     &      nescan(3)
         Eescan(1)=dmin1(Etmp1,Etmp2)/27.211396d0
         Eescan(2)=dmax1(Etmp1,Etmp2)/27.211396d0
         else if (iescan_mthd.eq.1) then

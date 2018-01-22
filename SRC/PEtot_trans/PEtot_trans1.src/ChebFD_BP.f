@@ -28,7 +28,7 @@ cc     See J. Comp. Phys. 325 (2016) 226–243
       complex*16 workr_n(mr_n)
 
       real*8 Ebound(2),Ewind(2)
-      real*8 E_st(mst),err_st(mst)
+      real*8 E_st(mst),err_st(mst),err2_st(mst)
       real*8 E_m(nblock_band_mx)
       real*8 err_m(nblock_band_mx)
       real*8 tmp_real(nblock_band_mx),dumm(mst)
@@ -53,6 +53,7 @@ cc     See J. Comp. Phys. 325 (2016) 226–243
       common /comisNLa/isNLa,Dij0,Qij,ipsp_all,ipsp_type
 
       ng_n=ngtotnod(inode,kpt)
+      if(inode_tot.eq.1) write(6,*) "ipsp_all=",ipsp_all
 
       if(Nlan.lt.20) Nlan=20
       call lanczos_esti(ilocal,Nlan,vr,workr_n,kpt,iislda,Ebound)
@@ -88,7 +89,7 @@ cc    alpha=2/(Ebound(2)-Ebound(1)), beta=(Ebound(1)+Ebound(2))/(Ebound(1)-Eboun
       beta=(Ebound(1)+Ebound(2))/(Ebound(1)-Ebound(2))
 
       if(mst.ne.mx) then
-      write(6,*) "mst.ne.mx,stop"
+      if(inode_tot.eq.1) write(6,*) "mst.ne.mx,stop"
       call mpi_abort(MPI_COMM_WORLD,ierr)
       endif
 
@@ -233,15 +234,15 @@ cc     check convergency
 ***************************************
        err_m=0.d0
        do m=1,nblock_band_mx
-       if(ipsp_all.eq.1) then
+       if(ipsp_all.eq.2) then
          do i=1,ng_n
          err_m(m)=err_m(m)
-     &           +cdabs(xg_n_bp(i,m)-E_m(m)*ug_n_bp(i,m))**2
+     &           +cdabs(xg_n_bp(i,m)-E_m(m)*sug_m(i,m))**2
          enddo            
        else
          do i=1,ng_n
          err_m(m)=err_m(m)
-     &           +cdabs(xg_n_bp(i,m)-E_m(m)*sug_m(i,m))**2
+     &           +cdabs(xg_n_bp(i,m)-E_m(m)*ug_n_bp(i,m))**2
          enddo            
        endif
        enddo
@@ -263,13 +264,7 @@ cc     check convergency
        call mpi_allreduce(err_st,dumm,mst,MPI_REAL8,
      &      MPI_SUM,MPI_COMM_B2,ierr)
        err_st=dumm
-       
-c       do m=1,mst
-c       if (E_st(m).lt.Ewind(1).or.E_st(m).gt.Ewind(2)) then
-c         E_st(m)=(x-x)/(x-x) !make it NaN
-c         err_st(m)=0.d0
-c       endif
-c       enddo
+       err2_st=dumm
 
        if(inode_tot.eq.1) then
        write(6,*) "*********************************"
@@ -284,7 +279,10 @@ c       enddo
 ****************************************
 cc     Exit if err_st<=tol for all Ritz values in the target interval.
 ****************************************
-       if(all(err_st.lt.tol)) goto 3001
+       do m=1,mst
+       if (E_st(m).lt.Ewind(1).or.E_st(m).gt.Ewind(2)) err2_st(m)=0.d0
+       enddo
+       if(all(err2_st.lt.tol)) goto 3001
 
 3000  continue
 3001  continue
@@ -295,6 +293,13 @@ cc     Exit if err_st<=tol for all Ritz values in the target interval.
       deallocate(hh)
 
 ***********************************
+      do m=1,mst
+       if(err_st(m).gt.tol) then
+        E_st(m)=(E_st(m)-E_st(m))/(E_st(m)-E_st(m))
+        err_st(m)=0.d0
+       endif
+      enddo
+
       if(inode_tot.eq.1) then
        write(6,*) "*********************************"
        write(6,*) "****** kpt=",kpt

@@ -74,7 +74,7 @@
 
 ! begin add by Meng Ye
        real*8 Eescan(2)
-       integer nescan(2)
+       integer nescan(3)
 ! end add by Meng Ye
 *************************************************
 

@@ -48,7 +48,7 @@ cccccc this is just for one kpt.
               workr_n(i)=dcmplx(x1-0.5d0,x2-0.5d0)
            enddo
            call mpi_barrier(MPI_COMM_K,ierr)
-           call d3fft_comp(ug_n(1,m),workr_n,1,kpt)
+           call d3fft_comp(ug_n_bp(1,m),workr_n,1,kpt)
          enddo
       endif
 *************************************************
