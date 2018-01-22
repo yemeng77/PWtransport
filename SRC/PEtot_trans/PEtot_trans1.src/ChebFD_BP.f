@@ -75,6 +75,7 @@ cc     See J. Comp. Phys. 325 (2016) 226–243
       write(6,*) "*********************************"
       write(6,*) "energy windows to use the ChebFD, in eV"
       write(6,101) (Ewind(i)*27.211396d0, i=1,2)
+      write(6,*) "The degree of ChebFD:",Np
       write(6,*) "*********************************"
       endif
 
@@ -179,7 +180,7 @@ C      &      nblock_band_mx,ng_n,hh,1)      ! iflag=1, sug_m is rotated
  
 C        endif
        call dot_product_BP(ug_n_bp,ug_n_bp,ng_n,hh)
-       do i=2,mx
+       do i=1,mx
         hh(i,1:i-1)=dcmplx(0.0d0,0.0d0)
         hh(i,i:mx)=hh(i,i:mx)*vol
        enddo
@@ -206,9 +207,15 @@ cc     subspace diagonalization
        call Hpsi_comp_AllBandBP(ug_n_bp,xg_n_bp,
      &      nblock_band_mx,ilocal,vr,workr_n,kpt,1,
      &      sug_m,sumdum_m,iislda)
-       call dot_product_BP(xg_n_bp,ug_n_bp,ng_n,hh)
+       call dot_product_BP(ug_n_bp,xg_n_bp,ng_n,hh)
+
        call system_czheev('V','U',mx,hh,mst,E_st,workx,
      &      lwork,workrx,info,MPI_COMM_K1)
+       if(info.ne.0) then
+        if(inode_tot.eq.1) write(6,*) "Somthing is wrong with 
+     &    diagonalization of H. info", info
+       call mpi_abort(MPI_COMM_WORLD,ierr)
+       endif
 
        E_m(1:nblock_band_mx)=E_st(band_dis(1):band_dis(2))*vol
 
