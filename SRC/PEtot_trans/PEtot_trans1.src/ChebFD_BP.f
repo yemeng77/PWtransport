@@ -48,12 +48,12 @@ cc     See J. Comp. Phys. 325 (2016) 226–243
       complex*16 workx(lwork)
       real*8 workrx(3*mst)
 
-      common /com123b/m1,m2,m3,ngb,nghb,ntype,rrcut,msb
-      common /comEk/Ek
+      real*8  Dij0(32,32,mtype),Qij(32,32,mtype)
+      integer isNLa(9,matom),ipsp_type(mtype),ipsp_all
+
       common /comisNLa/isNLa,Dij0,Qij,ipsp_all,ipsp_type
 
       ng_n=ngtotnod(inode,kpt)
-      if(inode_tot.eq.1) write(6,*) "ipsp_all=",ipsp_all
 
       if(Nlan.lt.20) Nlan=20
       call lanczos_esti(ilocal,Nlan,vr,workr_n,kpt,iislda,Ebound)
