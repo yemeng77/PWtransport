@@ -24,13 +24,13 @@ cc     Use niter-step Lanczos algorithm to estimate the bound of eigenvalues of 
       integer status(MPI_STATUS_SIZE)
 
       real*8 vr(mr_n)
-      complex*16 tmp,workr_n(mr_n),sumdum(mref,natom)
+      complex*16 workr_n(mr_n),sumdum(mref,natom),tmp_complex
       real*8 Emax,Emin,Ebound(2),Etmp
-      complex*16 pg(mg_nx),pgh(mg_nx),qg(mg_nx),swg(mg_nx)
+      complex*16 qg(mg_nx)
 
       real*8, allocatable, dimension(:) :: diag,subdiag,work
       real*8, allocatable, dimension(:,:) :: eigen_vec
-      complex*16, allocatable, dimension (:,:) :: pg_n,pgh_n
+      complex*16, allocatable, dimension (:,:) :: pg_n,pgh_n,sug_m
 
       real*8  Dij0(32,32,mtype),Qij(32,32,mtype)
       integer isNLa(9,matom),ipsp_type(mtype),ipsp_all
@@ -39,25 +39,32 @@ cc     Use niter-step Lanczos algorithm to estimate the bound of eigenvalues of 
 
       allocate(diag(niter))
       allocate(subdiag(niter))
-      allocate(pg_n(niter,ng_n))
-      allocate(pgh_n(niter,ng_n))
+      allocate(pg_n(mg_nx,niter))
+      allocate(pgh_n(mg_nx,niter))
+      if(ipsp_all.eq.1) then
+      allocate(sug_m(1,niter))
+      else
+      allocate(sug_m(mg_nx,niter))
+      endif
+
+      ng_n=ngtotnod(inode,kpt)
 
 ************************************************
 **** pg is normalized random wavefunction
 **** qg = 0, beta = 1
 ************************************************
-      pg=ug_n_BP(1,1)
+      pg_n(:,1)=ug_n_bp(:,1)
       qg=dcmplx(0.d0,0.d0)
 
       s=0.d0
       do i=1,ng_n
-      s=s+cdabs(pg(i))**2
+      s=s+cdabs(pg_n(i,1))**2
       enddo
       call global_sumr(s)
       s=1.d0/dsqrt(s*vol)
 
       do i=1,ng_n
-      pg(i)=s*pg(i)
+      pg_n(i,1)=s*pg_n(i,1)
       enddo
       beta=1.d0
 
@@ -65,9 +72,8 @@ cc     Use niter-step Lanczos algorithm to estimate the bound of eigenvalues of 
 
        if (m.ne.1) then
          do i=1,ng_n
-           tmp=pg(i)
-           pg(i)=qg(i)/beta
-           qg(i)=-tmp*beta
+           pg_n(i,m)=qg(i)/beta
+           qg(i)=-pg_n(i,m-1)*beta
           enddo
        endif
 ************************************************
@@ -77,22 +83,22 @@ cc     Use niter-step Lanczos algorithm to estimate the bound of eigenvalues of 
 **** beta = ||qg||
 **** alpha and beta are the m-th element of diag and subdiag
 ************************************************
-       call Hpsi_comp_AllBandBP(pg,pgh,1,
+       call Hpsi_comp_AllBandBP(pg_n(1,m),pgh_n(1,m),1,
      &      ilocal,vr,workr_n,kpt,1,
-     &      swg,sumdum,iislda)
+     &      sug_m(1,m),sumdum,iislda)
        do i=1,ng_n
-       qg(i)=qg(i)+pgh(i)
+       qg(i)=qg(i)+pgh_n(i,m)
        enddo
 
        alpha=0.d0
        do i=1,ng_n
-       alpha=alpha+dreal(dconjg(pg(i))*qg(i))
+       alpha=alpha+dreal(dconjg(pg_n(i,m))*qg(i))
        enddo
        call global_sumr(alpha)
        alpha=alpha*vol
 
        do i=1,ng_n
-       qg(i)=qg(i)-alpha*pg(i)
+       qg(i)=qg(i)-alpha*pg_n(i,m)
        enddo
 
        beta=0.d0
@@ -103,16 +109,13 @@ cc     Use niter-step Lanczos algorithm to estimate the bound of eigenvalues of 
        beta=dsqrt(beta*vol)
 
        if (beta.eq.0.d0) then
-        if(inode_tot.eq.1) write(6,*) 'beta equals 0, stop, m=', m
+        if(inode_tot.eq.1) write(6,*) 'beta equals 0, Lanczos algorithm 
+     &     stop, m=', m
        call mpi_abort(MPI_COMM_WORLD,ierr)
        endif
 
        diag(m)=alpha
        subdiag(m)=beta
-       do i=1,ng_n
-       pg_n(m,i)=pg(i)
-       pgh_n(m,i)=pgh(i)
-       enddo
 
 4000  continue
 
@@ -120,9 +123,13 @@ cc     Use niter-step Lanczos algorithm to estimate the bound of eigenvalues of 
 ***********************************************
       allocate(eigen_vec(niter,niter))
       allocate(work(2*niter-2))
-
       call dstev('V',niter,diag,subdiag,eigen_vec,niter,work,info)
-
+      if (beta.eq.0.d0) then
+        if(inode_tot.eq.1) write(6,*) "Somthing is wrong with 
+     &    diagonalization of tridiagonal matrix. info",info
+        call mpi_abort(MPI_COMM_WORLD,ierr)
+      endif
+      deallocate(subdiag)
       deallocate(work)
 
       if (info.ne.0) stop
@@ -131,39 +138,51 @@ cc     Use niter-step Lanczos algorithm to estimate the bound of eigenvalues of 
       Emin=1.d20
 
       do m=1,niter
-        E0=diag(m)
-        res=0.d0
-        do i=1,ng_n
-         tmp=dcmplx(0.d0,0.d0)
-         do ii=1,niter
-         tmp=tmp+eigen_vec(ii,m)*(pgh_n(ii,i)-E0*pg_n(ii,i))
-         enddo
-         res=res+cdabs(tmp)**2
-        enddo
-        call global_sumr(res)
-        res=dsqrt(res*vol)
+        s=0.d0
+        if(ipsp_all.eq.2) then
+          do i=1,ng_n
+            tmp_complex=dcmplx(0.d0,0.d0)
+            do ii=1,niter
+            tmp_complex=tmp_complex+
+     &              (pgh_n(i,ii)-diag(m)*sug_m(i,ii))*eigen_vec(ii,m)
+            enddo
+            s=s+cdabs(tmp_complex)**2
+          enddo
+        else 
+          do i=1,ng_n
+            tmp_complex=dcmplx(0.d0,0.d0)
+            do ii=1,niter
+            tmp_complex=tmp_complex+
+     &              (pgh_n(i,ii)-diag(m)*pg_n(i,ii))*eigen_vec(ii,m)
+            enddo
+            s=s+cdabs(tmp_complex)**2
+          enddo
+        endif
+        call global_sumr(s)
+        s=dsqrt(s*vol)
 
-        Etmp=E0+res
+        Etmp=diag(m)+s
         if (Emax.lt.Etmp) Emax=Etmp
-        Etmp=E0-res
+        Etmp=diag(m)-s
         if (Emin.gt.Etmp) Emin=Etmp
 
       enddo
 
+      deallocate(pg_n)
+      deallocate(pgh_n)
+      deallocate(sug_m)
+      deallocate(diag)
+      deallocate(eigen_vec)
+
       call mpi_barrier(MPI_COMM_WORLD,ierr)
 
       call mpi_allreduce(Emin,Etmp,1,
-     &  MPI_REAL8,MPI_MAX,MPI_COMM_B2,ierr)
+     &     MPI_REAL8,MPI_MAX,MPI_COMM_B2,ierr)
       Ebound(1)=Etmp
       call mpi_allreduce(Emax,Etmp,1,
-     &  MPI_REAL8,MPI_MIN,MPI_COMM_B2,ierr)
+     &     MPI_REAL8,MPI_MIN,MPI_COMM_B2,ierr)
       Ebound(2)=Etmp
 
-      deallocate(diag)
-      deallocate(subdiag)
-      deallocate(pg_n)
-      deallocate(pgh_n)
-      deallocate(eigen_vec)
 
       return
 
