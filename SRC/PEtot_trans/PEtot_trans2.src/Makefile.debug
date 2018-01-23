@@ -68,8 +68,6 @@ getwq.f\
 atomMV.f\
 Etotcalc.f\
 Etranscalc.f\
-lanczos_comp.f\
-eigen_comp.f\
 CG_linear.f\
 find_wrl.f\
 wave_electrode_3kpts_LW.f\

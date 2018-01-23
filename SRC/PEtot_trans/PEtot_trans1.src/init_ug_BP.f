@@ -42,13 +42,14 @@ cccccc this is just for one kpt.
       if(iwg_in.eq.0) then
          ng_n = ngtotnod(inode,kpt)
          do m=1,nblock_band_mx
-           do ig=1, nr_n
+           do ig=1, ng_n
               x1 = ran1(iranm)
               x2 = ran1(iranm)
-              workr_n(i)=dcmplx(x1-0.5d0,x2-0.5d0)
+              ug_n_bp(ig,m) = dcmplx(x1-0.5d0,x2-0.5d0)
            enddo
-           call mpi_barrier(MPI_COMM_K,ierr)
-           call d3fft_comp(ug_n_bp(1,m),workr_n,1,kpt)
+           do ig=ng_n+1, mg_nx
+              ug_n_BP(ig,m) = dcmplx(0.d0,0.d0)
+           enddo
          enddo
       endif
 *************************************************

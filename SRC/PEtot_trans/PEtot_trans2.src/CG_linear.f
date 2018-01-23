@@ -1,5 +1,5 @@
       subroutine CG_linear(ilocal,nline,tol,
-     &  wgp_n0,vr,workr_n,kpt,Eref,AL,eigen,mxc,
+     &  wgp_n0,vr,workr_n,kpt,Eref,AL,eigen,
      &  mstateT)
 ****************************************
 cc     Written by Lin-Wang Wang, March 30, 2001. 
@@ -24,7 +24,7 @@ cc     The United States government retains a royalty free license in this work
        complex*16 pg_old(mg_nx),ughh_old(mg_nx)
 
        complex*16 wgc_n(mg_nx),wgp_n0(mg_nx,mstateT)
-       complex*16, allocatable, dimension (:,:) :: wgp_nh
+       complex*16, allocatable, dimension (:,:) :: wgp_nh,ug_tmp
 
        real*8 vr(mr_n)
        real*8 prec(mg_nx)
@@ -46,6 +46,17 @@ c       complex*16 workr_n(mg_nx)
        ng_n=ngtotnod(inode,kpt)
 
        cai=dcmplx(0.d0,1.d0)
+       
+       allocate(ug_tmp(mg_nx,mx))
+       mxc=0
+       do m=1,mx
+        if(eigen(m).eq.eigen(m)) then
+          mxc=mxc+1
+          ug_tmp(:,mxc)=ug_n(:,m)
+        endif
+       enddo
+       if(mxc.ne.mx) ug_n(:,1:mxc)=ug_tmp(:,1:mxc)
+       deallocate(ug_tmp)
 
        allocate(wgp_nh(mg_nx,mstateT))
 

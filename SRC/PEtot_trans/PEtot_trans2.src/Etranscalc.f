@@ -300,13 +300,13 @@ c       do 200 kpt=1,nkpt
        endif
 
 
-c       open(16,file="eigen_wg0")
-c       rewind(16)
-c       read(16,*) (eigen(i),i=1,mx)
-c       close(16)
-c       do i=1,mx
-c       eigen(i)=eigen(i)/27.211396d0
-c       enddo
+       open(16,file="eigen_wg0")
+       rewind(16)
+       read(16,*) (eigen(i),i=1,mx)
+       close(16)
+       do i=1,mx
+       eigen(i)=eigen(i)/27.211396d0
+       enddo
 
 
        if(inode.eq.1) then
@@ -411,18 +411,10 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 ccccc Inside CG_linear, the wr_real.E has already been written in real space.
-       mp=1500
-       dE=1.5/27.211396d0
-       Ewind(1)=Eref-dE
-       Ewind(2)=Eref+dE
-
-       call eigen_comp(ilocal,nline,mp,tolE,
-     &  vr_in_n(1,iislda),workr_n,kpt,Ewind,
-     &  eigen,mxc)
 
        call CG_linear(ilocal,nline,tolug,
      &   wgp_n,vr_in_n(1,iislda),workr_n,
-     &   kpt,Eref,AL,eigen,mxc,mstate)
+     &   kpt,Eref,AL,eigen,mstate)
 
        call mpi_barrier(MPI_COMM_WORLD,ierr)
 

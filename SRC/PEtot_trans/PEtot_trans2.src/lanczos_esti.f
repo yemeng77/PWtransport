@@ -1,4 +1,4 @@
-      subroutine lanczos_comp(ilocal,niter,
+      subroutine lanczos_esti(ilocal,niter,
      &  vr,workr_n,kpt,Ebound)
 
 ****************************************

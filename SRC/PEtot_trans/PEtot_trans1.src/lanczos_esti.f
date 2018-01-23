@@ -32,10 +32,10 @@ cc     Use niter-step Lanczos algorithm to estimate the bound of eigenvalues of 
       real*8, allocatable, dimension(:,:) :: eigen_vec
       complex*16, allocatable, dimension (:,:) :: pg_n,pgh_n
 
-      common /com123b/m1,m2,m3,ngb,nghb,ntype,rrcut,msb
-      common /comEk/Ek
+      real*8  Dij0(32,32,mtype),Qij(32,32,mtype)
+      integer isNLa(9,matom),ipsp_type(mtype),ipsp_all
 
-      ng_n=ngtotnod(inode,kpt)
+      common /comisNLa/isNLa,Dij0,Qij,ipsp_all,ipsp_type
 
       allocate(diag(niter))
       allocate(subdiag(niter))

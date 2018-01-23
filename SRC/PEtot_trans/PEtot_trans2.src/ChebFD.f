@@ -1,4 +1,4 @@
-      subroutine eigen_comp(ilocal,nline,mp,tol,
+      subroutine ChebFD(ilocal,nline,mp,tol,
      &  vr,workr_n,kpt,Ewind,eigen,mxc)
 ****************************************
 cc     Written by Meng Ye, December 28, 2017. 
@@ -39,7 +39,7 @@ c       complex*16 workr_n(mg_nx)
       ng_n=ngtotnod(inode,kpt)
 
       niter_lan=25
-      call lanczos_comp(ilocal,niter_lan,vr,workr_n,kpt,Ebound)
+      call lanczos_esti(ilocal,niter_lan,vr,workr_n,kpt,Ebound)
 
       Emin=Ebound(1)
       Emax=Ebound(2)
