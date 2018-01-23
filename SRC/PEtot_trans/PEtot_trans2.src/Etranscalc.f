@@ -84,6 +84,10 @@ c
 
        complex*16 workr_n(mr_n)
 
+       integer mxc
+       real*8 eigen_tmp(mst)
+       complex*16, allocatable, dimension (:,:) :: ug_n_tmp
+
 **************************************************
 c initialize mpi and number each node
 c
@@ -304,6 +308,21 @@ c       do 200 kpt=1,nkpt
        rewind(16)
        read(16,*) (eigen(i),i=1,mx)
        close(16)
+       mxc=0
+       allocate(ug_n_tmp(mg_nx,mx))
+       mxc=0
+       do m=1,mx
+        if(eigen(m).eq.eigen(m)) then ! do not use when eigen(m) is NaN
+          mxc=mxc+1
+          ug_n_tmp(:,mxc)=ug_n(:,m)
+          eigen_tmp(mxc)=eigen(m)
+        endif
+       enddo
+       if(mxc.ne.mx) then
+        ug_n=ug_n_tmp
+        eigen=eigen_tmp
+       endif
+       deallocate(ug_n_tmp)
        do i=1,mx
        eigen(i)=eigen(i)/27.211396d0
        enddo
@@ -414,7 +433,7 @@ ccccc Inside CG_linear, the wr_real.E has already been written in real space.
 
        call CG_linear(ilocal,nline,tolug,
      &   wgp_n,vr_in_n(1,iislda),workr_n,
-     &   kpt,Eref,AL,eigen,mstate)
+     &   kpt,Eref,AL,eigen,mxc,mstate)
 
        call mpi_barrier(MPI_COMM_WORLD,ierr)
 

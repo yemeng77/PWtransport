@@ -73,6 +73,8 @@ cc     See J. Comp. Phys. 325 (2016) 226–243
       if(Ewind(1).lt.Ebound(1)) Ewind(1)=Ebound(1)
       if(Ewind(2).gt.Ebound(2)) Ewind(2)=Ebound(2)
 
+      if(Np.lt.1000) Np=1000
+
       if(inode_tot.eq.1) then
       write(6,*) "*********************************"
       write(6,*) "energy windows to use the ChebFD, in eV"
@@ -101,6 +103,7 @@ cc    alpha=2/(Ebound(2)-Ebound(1)), beta=(Ebound(1)+Ebound(2))/(Ebound(1)-Eboun
       endif
       sug_m=0.d0
       allocate(hh(mst,mst))
+      err_ghost=10.d0*dsqrt(tol)
 
 ****************************************
 cc    W(x) is a windows function, which is 1 in [Ewind(1),Ewind(2)] and 0 outside
@@ -264,7 +267,6 @@ cc     check convergency
        call mpi_allreduce(err_st,dumm,mst,MPI_REAL8,
      &      MPI_SUM,MPI_COMM_B2,ierr)
        err_st=dumm
-       err2_st=dumm
 
        if(inode_tot.eq.1) then
        write(6,*) "*********************************"
@@ -279,8 +281,13 @@ cc     check convergency
 ****************************************
 cc     Exit if err_st<=tol for all Ritz values in the target interval.
 ****************************************
+       err2_st=err_st
        do m=1,mst
-       if (E_st(m).lt.Ewind(1).or.E_st(m).gt.Ewind(2)) err2_st(m)=0.d0
+       if (E_st(m).lt.Ewind(1).or.E_st(m).gt.Ewind(2)) then
+        err2_st(m)=0.d0
+       else
+        if(nint.gt.5.and.err_st(m).gt.err_ghost) err2_st(m)=0.d0 ! ignore the ghost states
+       endif
        enddo
        if(all(err2_st.lt.tol)) goto 3001
 
@@ -295,8 +302,7 @@ cc     Exit if err_st<=tol for all Ritz values in the target interval.
 ***********************************
       do m=1,mst
        if(err_st(m).gt.tol) then
-        E_st(m)=(E_st(m)-E_st(m))/(E_st(m)-E_st(m))
-        err_st(m)=0.d0
+        E_st(m)=(E_st(m)-E_st(m))/(E_st(m)-E_st(m)) ! Make it NaN
        endif
       enddo
 

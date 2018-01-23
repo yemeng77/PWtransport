@@ -1,6 +1,6 @@
       subroutine CG_linear(ilocal,nline,tol,
      &  wgp_n0,vr,workr_n,kpt,Eref,AL,eigen,
-     &  mstateT)
+     &  mxc,mstateT)
 ****************************************
 cc     Written by Lin-Wang Wang, March 30, 2001. 
 cc     Copyright 2001 The Regents of the University of California
@@ -35,7 +35,7 @@ c       complex*16 workr_n(mg_nx)
 **********************************************
 **** if iopt=0 is used, pghh_old can be deleted
 **********************************************
-       integer lin_st(mst),m_max(mstateT)
+       integer lin_st(mst),m_max(mstateT),mxc
        real*8 E_st(mst),err_st(mst),eigen(mst)
        real*8 Ef,E_wind,occ(mst)
        complex*16 Zbeta,Zpu
@@ -46,17 +46,6 @@ c       complex*16 workr_n(mg_nx)
        ng_n=ngtotnod(inode,kpt)
 
        cai=dcmplx(0.d0,1.d0)
-       
-       allocate(ug_tmp(mg_nx,mx))
-       mxc=0
-       do m=1,mx
-        if(eigen(m).eq.eigen(m)) then
-          mxc=mxc+1
-          ug_tmp(:,mxc)=ug_n(:,m)
-        endif
-       enddo
-       if(mxc.ne.mx) ug_n(:,1:mxc)=ug_tmp(:,1:mxc)
-       deallocate(ug_tmp)
 
        allocate(wgp_nh(mg_nx,mstateT))
 
