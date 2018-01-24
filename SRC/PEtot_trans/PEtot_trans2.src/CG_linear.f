@@ -35,15 +35,9 @@ c       complex*16 workr_n(mg_nx)
 **********************************************
 **** if iopt=0 is used, pghh_old can be deleted
 **********************************************
-<<<<<<< HEAD
-       integer lin_st(mst),m_max(mstateT)
-       real*8 E_st(mst),err_st(mst),eigen(mst)
-       real*8 Ef,occ(mst)
-=======
        integer lin_st(mst),m_max(mstateT),mxc
        real*8 E_st(mst),err_st(mst),eigen(mst)
        real*8 Ef,E_wind,occ(mst)
->>>>>>> test
        complex*16 Zbeta,Zpu
 
        common /com123b/m1,m2,m3,ngb,nghb,ntype,rrcut,msb
@@ -75,16 +69,6 @@ cccccccccccccccccccccccc
        wgp_nh(i,iii)=wgp_nh(i,iii)-Eref*wgp_n0(i,iii)
        enddo
 
-<<<<<<< HEAD
-
-cONA       mxc=mx-10
-c       mxc=mx-mxlow      ! changed, lWW
-**** do not use the eigen state of H
-       mxc=15
-
-
-=======
->>>>>>> test
        call orth_comp_N(wgp_nh(1,iii),ug_n,mxc,2,kpt,Zcoeff(1,iii))
 
 cccccccccccccccccccccccccccccccccccccccccccccccc
