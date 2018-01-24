@@ -41,7 +41,7 @@ cccccc this is just for one kpt.
 ************************************************
       if(iwg_in.eq.0) then
          ng_n = ngtotnod(inode,kpt)
-	do m=1,nblock_band_mx
+         do m=1,nblock_band_mx
            do ig=1, ng_n
               x1 = ran1(iranm)
               x2 = ran1(iranm)
@@ -50,7 +50,7 @@ cccccc this is just for one kpt.
            do ig=ng_n+1, mg_nx
               ug_n_BP(ig,m) = dcmplx(0.d0,0.d0)
            enddo
-	enddo
+         enddo
       endif
 *************************************************
 **** end generate the initial wavefunction from random

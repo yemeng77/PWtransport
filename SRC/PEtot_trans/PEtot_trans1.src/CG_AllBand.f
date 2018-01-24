@@ -83,7 +83,7 @@ c      complex*16 h(mst,mst),hh(mst,mst),chh(mst,mst)
       complex*16 beta_psi_tmp(nref_tot,mx/nnodes+1)
 
       if(mst.ne.mx) then
-      write(6,*) "mst.ne.mx,stop"
+      if(inode_tot.eq.1) write(6,*) "mst.ne.mx,stop"
       stop
       endif
 

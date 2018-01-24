@@ -9,7 +9,8 @@
      &  nrot,num_mov,tolforce,imov_at,dtstart,dd_limit,
      &  idens_out,kpt_dens,ispin_dens,iw_dens,fdens_out,
      &  f_xatom,numref,nref_type,ivext_in,fvext_in,imv_cont,
-     &  amx_mth0,amx_mth1,xgga,imask_in,fmask_in,dV_bias)
+     &  amx_mth0,amx_mth1,xgga,imask_in,fmask_in,dV_bias,
+     &  Eescan,nescan)
 ******************************************
 !c     Written by Lin-Wang Wang, March 30, 2001.  
 !c     Copyright 2001 The Regents of the University of California
@@ -66,10 +67,14 @@
        integer itypeFermi0_tmp, itypeFermi1_tmp
        real*8  FermidE0_tmp, FermidE1_tmp
 ! end add by Xiangwei Jiang
-
+       
+! begin add by Meng Ye
+       real*8 Eescan(2),Etmp1,Etmp2
+       integer nescan(3),iescan_mthd
+! end add by Meng Ye
 
        common /comcoul/icoul,xcoul
-       common /comikpt_yno/ikpt_yno,ido_DOS          ! give to Etotcalc.f, decide whether to store sumdum_m
+       common /comikpt_yno/ikpt_yno,ido_DOS,ido_escan          ! give to Etotcalc.f, decide whether to store sumdum_m
 **************************************************
 
        open(9,file='etot.input',status='old',action='read',iostat=ierr) 
@@ -169,6 +174,15 @@
        call mpi_abort(MPI_COMM_WORLD,ierr)
        endif
 
+! begin add by Meng Ye
+         if(iCGmth0(1)/10.eq.4) then
+         ido_escan=1
+         iescan_mthd=mod(iCGmth0(1),10)
+         else
+         ido_escan=0
+         endif
+! end add by Meng Ye
+
        read(9,*,iostat=ierr) i1, num_mov,tolforce,dtstart,
      &    dd_limit,fxatom_out,imv_cont
        if(ierr.ne.0) call error_stop(i1)
@@ -210,6 +224,20 @@
        enddo
        read(9,*,iostat=ierr) i1, imask_in,fmask_in,dV_bias
        if(ierr.ne.0) call error_stop(i1)
+! begin add by Meng Ye
+       if(ido_escan.eq.1) then
+        if(iescan_mthd.eq.0) then
+        read(9,*,iostat=ierr) i1,Etmp1,Etmp2,nescan(1),nescan(2),
+     &      nescan(3)
+        Eescan(1)=dmin1(Etmp1,Etmp2)/27.211396d0
+        Eescan(2)=dmax1(Etmp1,Etmp2)/27.211396d0
+        else if (iescan_mthd.eq.1) then
+        read(9,*,iostat=ierr) i1, Etmp1
+        Eescan(1)=Etmp1/27.211396d0
+        endif
+       if(ierr.ne.0) call error_stop(i1)
+       endif
+! end add by Meng Ye
        close(9)
 
         iflag=0
@@ -250,7 +278,7 @@
            else
        open(10,file=sym_file,status='old',action='read',iostat=ierr)
        if(ierr.ne.0) then
-       if(inode.eq.1)
+       if(inode_tot.eq.1)
      &   write(6,*) "sym_file ***", sym_file, "*** does not exist, stop"
        call mpi_abort(MPI_COMM_WORLD,ierr)
        endif

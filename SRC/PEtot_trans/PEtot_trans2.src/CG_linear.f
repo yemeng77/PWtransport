@@ -1,6 +1,6 @@
       subroutine CG_linear(ilocal,nline,tol,
-     &  wgp_n0,vr,workr_n,kpt,Eref,AL,eigen,mxlow,
-     &  mstateT)
+     &  wgp_n0,vr,workr_n,kpt,Eref,AL,eigen,
+     &  mxc,mstateT)
 ****************************************
 cc     Written by Lin-Wang Wang, March 30, 2001. 
 cc     Copyright 2001 The Regents of the University of California
@@ -24,7 +24,7 @@ cc     The United States government retains a royalty free license in this work
        complex*16 pg_old(mg_nx),ughh_old(mg_nx)
 
        complex*16 wgc_n(mg_nx),wgp_n0(mg_nx,mstateT)
-       complex*16, allocatable, dimension (:,:) :: wgp_nh
+       complex*16, allocatable, dimension (:,:) :: wgp_nh,ug_tmp
 
        real*8 vr(mr_n)
        real*8 prec(mg_nx)
@@ -35,9 +35,15 @@ c       complex*16 workr_n(mg_nx)
 **********************************************
 **** if iopt=0 is used, pghh_old can be deleted
 **********************************************
+<<<<<<< HEAD
        integer lin_st(mst),m_max(mstateT)
        real*8 E_st(mst),err_st(mst),eigen(mst)
        real*8 Ef,occ(mst)
+=======
+       integer lin_st(mst),m_max(mstateT),mxc
+       real*8 E_st(mst),err_st(mst),eigen(mst)
+       real*8 Ef,E_wind,occ(mst)
+>>>>>>> test
        complex*16 Zbeta,Zpu
 
        common /com123b/m1,m2,m3,ngb,nghb,ntype,rrcut,msb
@@ -69,6 +75,7 @@ cccccccccccccccccccccccc
        wgp_nh(i,iii)=wgp_nh(i,iii)-Eref*wgp_n0(i,iii)
        enddo
 
+<<<<<<< HEAD
 
 cONA       mxc=mx-10
 c       mxc=mx-mxlow      ! changed, lWW
@@ -76,13 +83,15 @@ c       mxc=mx-mxlow      ! changed, lWW
        mxc=15
 
 
+=======
+>>>>>>> test
        call orth_comp_N(wgp_nh(1,iii),ug_n,mxc,2,kpt,Zcoeff(1,iii))
 
 cccccccccccccccccccccccccccccccccccccccccccccccc
 
         do m=1,mxc
          dE=eigen(m)-Eref
-         if(dabs(dE).lt.1.D-20) dE=1.D-20
+         if(dabs(dE).lt.1.D-20) dE=1.D-2
          Zcoeff(m,iii)=Zcoeff(m,iii)/dE**2
         enddo
 ccccccccccccccc
@@ -352,7 +361,7 @@ c       endif
 4000  continue
 
 
-      deallocate(wgp_nh)
+       deallocate(wgp_nh)
 ***********************************************
 
       return

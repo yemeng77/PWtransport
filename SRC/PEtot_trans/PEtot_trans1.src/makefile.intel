@@ -2,7 +2,7 @@
 
 FC=ftn
 LDR=ftn
-#FFLAGS = -g -check bounds
+#FFLAGS = -g -traceback
 FFLAGS = -O1
 F90FLAGS = $(FFLAGS)
 #LIB = -L/opt/acml/3.6.1/pgi64/lib -lacml 
