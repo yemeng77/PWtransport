@@ -304,6 +304,9 @@ c       do 200 kpt=1,nkpt
        endif
 
 
+! begin add by Meng Ye
+       if(mxlow.lt.mx) then
+! end add by Meng Ye
        open(16,file="eigen_wg0")
        rewind(16)
        read(16,*) (eigen(i),i=1,mx)
@@ -326,6 +329,10 @@ c       do 200 kpt=1,nkpt
        do i=1,mx
        eigen(i)=eigen(i)/27.211396d0
        enddo
+! begin add by Meng Ye
+       else mxc=0
+       endif
+! end add by Meng Ye
 
 
        if(inode.eq.1) then
