@@ -305,15 +305,14 @@ c       do 200 kpt=1,nkpt
 
 
 ! begin add by Meng Ye
-       if(mxlow.lt.mx) then
+       mxc=0
+       if(mx.gt.0) then
 ! end add by Meng Ye
        open(16,file="eigen_wg0")
        rewind(16)
        read(16,*) (eigen(i),i=1,mx)
        close(16)
-       mxc=0
        allocate(ug_n_tmp(mg_nx,mx))
-       mxc=0
        do m=1,mx
         if(eigen(m).eq.eigen(m)) then ! do not use when eigen(m) is NaN
           mxc=mxc+1
@@ -330,7 +329,6 @@ c       do 200 kpt=1,nkpt
        eigen(i)=eigen(i)/27.211396d0
        enddo
 ! begin add by Meng Ye
-       else mxc=0
        endif
 ! end add by Meng Ye
 

@@ -118,7 +118,7 @@ c       nnodes = n$pes
 
 
 ! begin add by Meng Ye
-       if(iwg_in.eq.0) mxlow=mx
+       if(iwg_in.eq.0) mx=0
 ! end add by Meng Ye
 cccccccccccccccccccccccccccccccccccccccc
 cccc this is the correct estimation for n1,n2,n3 even for nonorthogonal AL(3,3)
