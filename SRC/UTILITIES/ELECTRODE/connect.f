@@ -23,8 +23,9 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       character*20 fwr_all
 
 
-      write(6,*) "input nst,nkpt (e.g., nkpt=101)"
-      read(5,*) nst,nkpt
+      open(10,file="connect.input")
+      read(10,*) nst,nkpt
+      close(10)
 	nkpt0=nkpt-1
       allocate(Eband(nst,nkpt))
       allocate(err_band(nst,nkpt))
