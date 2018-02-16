@@ -23,9 +23,9 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      &   iflag_band
       integer ind_g2s(100,1000),ind_s2g(1000),ind_s2g2(1000),nst_g(100)
       integer nkpt_band(1000),mgl(1000)
-      complex*16 cai,tmp_complex
-      complex*16, allocatable, dimension(:,:) cc_coeff,cc_tmp,rotate,
-     &   rotate_tmp 
+      complex*16 cai
+      complex*16, allocatable, dimension(:,:) :: cc_coeff,cc_tmp
+      complex*16, allocatable, dimension(:,:) :: rotate,rotate_tmp 
 
       character*20 fwr_all
 
@@ -124,7 +124,7 @@ ccccccccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccccccccccc
       do iislda=ispin_i,ispin_f
-      do m=iw_i,iw_f-1
+      do m=iw_i,iw_f
       do iproc=1,nnodes
        read(12) (ucR(i),i=1,nr_n), (ucI(i),i=1,nr_n)
        do ii=1,nr_n
@@ -168,7 +168,7 @@ ccccc assuming all the states are normalized in the same way!
       do k=1,n3
       do j=1,n2
       do i=1,n1
-       sum00=sum00+abs(uc(i,j,k,1))**2
+       sum00=sum00+cdabs(uc(i,j,k,1))**2
       enddo
       enddo
       enddo
@@ -178,21 +178,21 @@ ccccccccccccccccccccccccccccccccc
       allocate(rotate(nst,nst))
       allocate(rotate_tmp(nst,nst))
 
-      cc_coeff=dcmplx(0.d0,0.d0)
       cc_tmp=dcmplx(0.d0,0.d0)
       
       do iislda=ispin_i,ispin_f
-      do ist1=iw_i,iw_f-1
-      do iproc=1,nnodes
-       read(11) (ucR(i),i=1,nr_n), (ucI(i),i=1,nr_n)
-       if(inode.eq.1) write(10) (ucR(i),i=1,nr_n), (ucI(i),i=1,nr_n)
-       do ii=1,nr_n
-       jj=ii+(iproc-1)*nr_n
-       i=(jj-1)/(n2*n3)+1
-       j=(jj-1-(i-1)*n2*n3)/n3+1
-       k=jj-(i-1)*n2*n3-(j-1)*n3
-       uc_tmp(i,j,k)=dcmplx(ucR(ii),ucI(ii))
-       enddo
+      do ist1=iw_i,iw_f
+       do iproc=1,nnodes
+        read(11) (ucR(i),i=1,nr_n), (ucI(i),i=1,nr_n)
+        if(inode.eq.1) write(10) (ucR(i),i=1,nr_n), (ucI(i),i=1,nr_n)
+        do ii=1,nr_n
+        jj=ii+(iproc-1)*nr_n
+        i=(jj-1)/(n2*n3)+1
+        j=(jj-1-(i-1)*n2*n3)/n3+1
+        k=jj-(i-1)*n2*n3-(j-1)*n3
+        uc_tmp(i,j,k)=dcmplx(ucR(ii),ucI(ii))
+        enddo
+       enddo !end loop over iproc
        do 301 ig=1,num_g
         if(abs(Eband(ist1,ikpt)-
      &     Eband(ind_g2s(1,ig),ikpt+1)).gt.0.2) goto 301
@@ -202,16 +202,15 @@ ccccccccccccccccccccccccccccccccc
           do k=1,n3
           do j=1,n2
           do i=1,n1
-          cc=cc+uc_tmp(i,j,k)*dconjg(uc2(i,j,k,ist2))*
-     &    cphase(i,j,k)
+          cc=cc+uc_tmp(i,j,k)*dconjg(uc(i,j,k,ist2))*cphase(i,j,k)
           enddo
           enddo
           enddo
-          cc_tmp(ist1,ist2)=cc/sum00
+          cc=cc/sum00
+          cc_tmp(ist1,ist2)=cc
         enddo
 301    continue
-      enddo !end loop over iproc
-      enddo !end loop over m
+      enddo !end loop over ist1
       enddo !end loop over iislda
       
       if(inode.eq.1) then
@@ -286,7 +285,7 @@ ccccccccccccccc
        enddo
 ccccccccccccccc
        E_tmp=E_tmp/sum     ! E_tmp is the energy, uc_tmp is the state         !
-       cc_coeff=cc_coeff/dsqrt(sum)    ! renormalize the coeff, to be used below.
+       cc_coeff(ist1,:)=cc_coeff(ist1,:)/dsqrt(sum)    ! renormalize the coeff, to be used below.
        connectX(ist1,ikpt)=sum
 
 ccccccc  uc_tmp=cc_coeff(ist1,ist2)*uc2(ist2)
@@ -321,7 +320,7 @@ cccc first, project out the uc_tmp from the remaining states
          cc_tmp(:,ist2)=cc_tmp(:,ist2)
      &     -cc_coeff(ist1,ist2)*dconjg(cc_coeff(ist1,m))*cc_coeff(:,m)
         enddo
-        sum=dsqrt(sum00/sum)
+        sum=dsqrt(1.d0/sum)
         do i=1,nst_g(mg)
           m=ind_g2s(i,mg)
           rotate_tmp(ist2,m)=rotate_tmp(ist2,m)*sum
@@ -377,20 +376,19 @@ ccccccccccccccc, now, do a Gram Schmidt orthogonalization among the nst_g(mg) st
         do j=1,i-1
          n=ind_g2s(j,mg)
          cc=dcmplx(0.d0,0.d0)
-         do k=1,nst
-         cc=cc+rotate(i,k)*dconjg(rotate(j,k))
+         do l=1,nst
+         cc=cc+rotate(m,l)*dconjg(rotate(n,l))
          enddo
-         cc=cc/sum00
-         rotate(i,:)=rotate(i,:)-cc*rotate(j,:)
-         cc_coeff(:,i)=cc_coeff(:,i)-dconjg(cc)*cc_coeff(:,j)
+         rotate(m,:)=rotate(m,:)-cc*rotate(n,:)
+         cc_coeff(:,m)=cc_coeff(:,m)-dconjg(cc)*cc_coeff(:,n)
         enddo
         sum=0.d0
         do k=1,nst
-        sum=sum+cdabs(rotate(i,k))**2
+        sum=sum+cdabs(rotate(m,k))**2
         enddo
-        sum=dsqrt(sum)
-        rotate(i,:)=rotate(i,:)*sum
-        cc_coeff(:,i)=cc_coeff(:,i)*sum
+        sum=dsqrt(1.d0/sum)
+        rotate(m,:)=rotate(m,:)*sum
+        cc_coeff(:,m)=cc_coeff(:,m)*sum
        enddo
  
 cccccccccccccccccccccccccccccccccccccccccccccccc
@@ -412,7 +410,7 @@ cc       need to write out the wavefunction uc2, it has been changed, rotated
       nr_n=nr/nnodes
 
       do iislda=ispin_i,ispin_f
-       do ist=iw_i,iw_f-1
+       do ist=iw_i,iw_f
         uc_tmp=dcmplx(0.d0,0.d0)
         do m=1,nst
         uc_tmp(:,:,:)=uc_tmp(:,:,:)+rotate(ist,m)*uc(:,:,:,m)
@@ -473,9 +471,10 @@ ccccccccccccccccccccccccccccccccccccccccccc
      &       MPI_COMM_WORLD,status,ierr)
         endif
         write(6,*) "num_g=",num_g
-        do ist=1,nst
-        write(10,700) ikpt,ist,iconnect(ist,ikpt),connectX(ist,ikpt)
-        write(6,444) ikpt,ist,iconnect(ist,ikpt),mgl(ist),
+        do ist11=1,nst
+        write(10,700) ikpt,ist11,iconnect(ist11,ikpt),
+     &   connectX(ist11,ikpt)
+        write(6,444) ikpt,ist11,iconnect(ist11,ikpt),mgl(ist11),
      &   connectX(ist11,ikpt)
        enddo
        enddo
@@ -498,9 +497,9 @@ ccccc
        iflag_band=0
        iband=0
        do 800 ikpt11=1,nkpt-1
-       if(ikpt.ne.1) then
-       call mpi_recv(Eband(1,ikpt+1),nst,MPI_REAL8,ikpt-1,105,
-     &       MPI_COMM_WORLD,ierr)
+       if(ikpt11.ne.1) then
+       call mpi_recv(Eband(1,ikpt11+1),nst,MPI_REAL8,ikpt11-1,105,
+     &       MPI_COMM_WORLD,status,ierr)
        endif
        do 800 ist11=1,nst
         if(iflag_band(ist11,ikpt11).eq.1) goto 800
@@ -518,7 +517,7 @@ ccccc
         do ikpt=ikpt11,nkpt-1     ! do this just for a single band  
         if(connectX(ist,ikpt).lt.0.01) then
         nkpt_band(iband)=ikpt-ikpt11+1       ! end of the band
-        goto 303
+        goto 304
         endif
         
         ist=iconnect(ist,ikpt)
@@ -529,7 +528,7 @@ ccccc
         enddo
         
         nkpt_band(iband)=nkpt-ikpt11+1
-303    continue
+304    continue
        if(nkpt_band(iband).lt.3) iband=iband-1      ! remove the short bands, at the top 
 ccccccccccccccccccccccccccccccccccccc
 800    continue

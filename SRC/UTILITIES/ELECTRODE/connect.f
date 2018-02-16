@@ -87,7 +87,7 @@ ccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccc
 
       do iislda=ispin_i,ispin_f
-      do m=iw_i,iw_f-1
+      do m=iw_i,iw_f
 
       do iproc=1,nnodes
 
@@ -140,7 +140,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccc
       nr_n=nr/nnodes
 
       do iislda=ispin_i,ispin_f
-      do m=iw_i,iw_f-1
+      do m=iw_i,iw_f
 
       do iproc=1,nnodes
 
@@ -381,7 +381,7 @@ cc       need to write out the wavefunction uc2, it has been changed, rotated
       nr_n=nr/nnodes
 
       do iislda=ispin_i,ispin_f
-      do m=iw_i,iw_f-1
+      do m=iw_i,iw_f
 
       do iproc=1,nnodes
 
