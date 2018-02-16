@@ -23,9 +23,8 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       character*20 fwr_all
 
 
-      open(10,file="connect.input")
-      read(10,*) nst,nkpt
-      close(10)
+      write(6,*) "input nst,nkpt (e.g., nkpt=101)"
+      read(5,*) nst,nkpt
 	nkpt0=nkpt-1
       allocate(Eband(nst,nkpt))
       allocate(err_band(nst,nkpt))
@@ -87,7 +86,7 @@ ccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccc
 
       do iislda=ispin_i,ispin_f
-      do m=iw_i,iw_f
+      do m=iw_i,iw_f-1
 
       do iproc=1,nnodes
 
@@ -140,7 +139,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccc
       nr_n=nr/nnodes
 
       do iislda=ispin_i,ispin_f
-      do m=iw_i,iw_f
+      do m=iw_i,iw_f-1
 
       do iproc=1,nnodes
 
@@ -381,7 +380,7 @@ cc       need to write out the wavefunction uc2, it has been changed, rotated
       nr_n=nr/nnodes
 
       do iislda=ispin_i,ispin_f
-      do m=iw_i,iw_f
+      do m=iw_i,iw_f-1
 
       do iproc=1,nnodes
 
