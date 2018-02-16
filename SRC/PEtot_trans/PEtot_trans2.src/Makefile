@@ -3,8 +3,8 @@
 
 FC=ftn
 LDR=ftn
-#FFLAGS = -g -traceback -c
-FFLAGS = -O3 -c
+#FFLAGS = -g -traceback
+FFLAGS = -O3
 F90FLAGS = $(FFLAGS)
 #LIB = -L/opt/acml/3.6.1/pgi64/lib -lacml 
 #LIB = -lacml
