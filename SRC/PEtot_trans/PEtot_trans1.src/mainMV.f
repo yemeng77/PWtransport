@@ -199,7 +199,7 @@
      &  amx_mth0,amx_mth1,xgga,imask_in,fmask_in,dV_bias,
      &  Eescan,nescan)
 
-	write(26,*) 'mx',mx
+        if(inode_tot.eq.1) write(6,*) 'mx',mx
 
 !ccccccccccccccccccccccccccccccccccccccc
         n_tmp1=nkpt*islda/num_group_k
@@ -243,7 +243,7 @@
 !cccccccccc since no where nblock_band is used, and everyone is calculating using nblock_band_mx, to make things simpler
 !cccccccccc we will just redefine mx
          mx=nblock*num_group_b
-	write(26,*) 'after redifining, mx',mx
+        if(inode_tot.eq.1) write(6,*) 'after redifining, mx',mx
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         icolor_tmp=mx/nblock
         if(icolor_b.le.icolor_tmp-1) then

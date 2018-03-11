@@ -79,7 +79,7 @@
 
        open(9,file='etot.input',status='old',action='read',iostat=ierr) 
        if(ierr.ne.0) then
-       if(inode.eq.1)  
+       if(inode_tot.eq.1)  
      &  write(6,*) "file ***etot.input*** does not exist, stop"
        call mpi_abort(MPI_COMM_WORLD,ierr)
        endif
@@ -97,11 +97,11 @@
        if(ierr.ne.0) call error_stop(i1)
        read(9,*,iostat=ierr) i1, icoul,xcoul(1),xcoul(2),xcoul(3)
        if(ierr.ne.0) call error_stop(i1)
-       if(islda.ne.1.and.islda.ne.2.and.inode.eq.1) then
+       if(islda.ne.1.and.islda.ne.2.and.inode_tot.eq.1) then
        write(6,*) "islda must be 1 (lda) or 2 (slda), stop", islda
        call mpi_abort(MPI_COMM_WORLD,ierr)
        endif
-       if(igga.ne.0.and.igga.ne.1.and.inode.eq.1) then
+       if(igga.ne.0.and.igga.ne.1.and.inode_tot.eq.1) then
        write(6,*) "igga must be 0 (no gga) or 1 (gga), stop", igga
        call mpi_abort(MPI_COMM_WORLD,ierr)
        endif
@@ -132,7 +132,7 @@
        call readkpt()
          
        read(9,*,iostat=ierr) i1, totNel,mx,tolug,tolE
-       write(26,*) i1, totNel,mx,tolug,tolE
+       if(inode_tot.eq.1) write(6,*) i1, totNel,mx,tolug,tolE
        if(ierr.ne.0) call error_stop(i1)
 ! begin change by Xiangwei Jiang
        read(9,*,iostat=ierr) i1, ntype0_CG,nline0
@@ -246,7 +246,7 @@
         if(idens_out.eq.2.or.idens_out.eq.21.or.idens_out.eq.22) 
      &                  iflag=iflag+1
         if(iflag.gt.1) then
-        if(inode.eq.1) write(6,*)
+        if(inode_tot.eq.1) write(6,*)
      &  "irho_out,ivr_out,idens_out cannot have more than one 2",
      &   irho_out,ivr_out,idens_out
         stop

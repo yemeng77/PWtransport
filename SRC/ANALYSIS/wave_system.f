@@ -2,11 +2,11 @@
      &  nnodes,mstate)
 
       implicit double precision (a-h,o-z)
-      parameter (nm=200)
+      parameter (nm=400)
 
       complex*16, allocatable, dimension (:) :: uc_tmp
-      complex*16 uc(n1,n2,n3,20)   ! uc does not contain uc^*
-      real*8 sum_st(30),sum_tmp(100)
+      complex*16 uc(n1,n2,n3,100)   ! uc does not contain uc^*
+      real*8 sum_st(100),sum_tmp(100)
 
       complex*16 cc
 ***********************************************************
