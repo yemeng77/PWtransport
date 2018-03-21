@@ -50,8 +50,9 @@
      
       integer  numw(nm),ist_linew(nm,nm),ikpt_linew(nm,nm)
 
-      integer ist_evan(500),ikpt_evan(500),iGX_evan(500),iband_evan(500)
-      real*8 E_evan(500),E_evanC(500)
+      integer ist_evan(2000),ikpt_evan(2000),iGX_evan(2000),
+     &        iband_evan(2000)
+      real*8 E_evan(2000),E_evanC(2000)
       integer idble1(400),idble2(400),iposit1(400),iposit2(400)
 
       character*7 fileh
@@ -105,8 +106,8 @@ cccccccccccccccccccccccccccccccccc
       pi=4*datan(1.d0)
       allocate(cphase(n1w,n2,n3))
       allocate(phase(n1w,n2,n3))
-      allocate(ucw1(n1w,n2,n3,40))
-      allocate(ucw2(n1w,n2,n3,40))
+      allocate(ucw1(n1w,n2,n3,100))
+      allocate(ucw2(n1w,n2,n3,100))
 
       do k=1,n3
       do j=1,n2
@@ -208,8 +209,8 @@ cccccccc  These wavefuncitons in real space are the output from the special PEto
 
 !      if(mstate.gt.20) then
 !      write(6,*) "mstate.gt.20,stop",mstate
-      if(mstate.gt.30) then                       ! by xwjiang
-      write(6,*) "mstate.gt.30,stop",mstate
+      if(mstate.gt.100) then                       ! by xwjiang
+      write(6,*) "mstate.gt.100,stop",mstate
       stop
       endif
 

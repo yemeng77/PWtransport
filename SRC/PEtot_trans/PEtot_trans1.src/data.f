@@ -52,7 +52,7 @@ c      complex*16,allocatable,dimension(:,:)  :: ug_n,sug_n, ug_n_bp
       real*8,allocatable,dimension(:,:,:,:)  :: Dij
 
       
-      integer,parameter :: matom=1800
+      integer,parameter :: matom=4000
 
       integer npulay_max
       integer mr_n,mg_nx,mst

@@ -85,8 +85,7 @@ c
        complex*16 workr_n(mr_n)
 
        integer mxc
-       real*8 eigen_tmp(mst)
-       complex*16, allocatable, dimension (:,:) :: ug_n_tmp
+       integer index_st(mst)
 
 **************************************************
 c initialize mpi and number each node
@@ -307,28 +306,22 @@ c       do 200 kpt=1,nkpt
 ! begin add by Meng Ye
        mxc=0
        if(mx.gt.0) then
-! end add by Meng Ye
        open(16,file="eigen_wg0")
        rewind(16)
        read(16,*) (eigen(i),i=1,mx)
        close(16)
-       allocate(ug_n_tmp(mg_nx,mx))
        do m=1,mx
         if(eigen(m).eq.eigen(m)) then ! do not use when eigen(m) is NaN
           mxc=mxc+1
-          ug_n_tmp(:,mxc)=ug_n(:,m)
-          eigen_tmp(mxc)=eigen(m)
+          index_st(mxc)=m
         endif
        enddo
        if(mxc.ne.mx) then
-        ug_n=ug_n_tmp
-        eigen=eigen_tmp
+        do i=1,mxc
+          eigen(i)=eigen(index_st(i))/27.211396d0
+          ug_n(:,i)=ug_n(:,index_st(i))
+        enddo
        endif
-       deallocate(ug_n_tmp)
-       do i=1,mx
-       eigen(i)=eigen(i)/27.211396d0
-       enddo
-! begin add by Meng Ye
        endif
 ! end add by Meng Ye
 
@@ -353,8 +346,9 @@ cccccc read it. It is a bit stupid, but it is okay
 cccccccc this will be the minimum change from the current file. 
         if(inode.eq.1) then
         Ew=Eref*27.211396d0    ! change back to eV
-        call find_wrl(Ew,n1w,n1,n2,n3,nnodes,dV,dE_evan,
-     &  dk_same,AL,mstateT)
+c        call find_wrl(Ew,n1w,n1,n2,n3,nnodes,dV,dE_evan,
+c     &  dk_same,AL,mstateT)
+        mstateT=1    ! use find_wrl outside PEtot_trans2
         write(17) iii,Eref*27.211396d0,mstateT
         endif
 

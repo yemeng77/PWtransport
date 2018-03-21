@@ -53,7 +53,15 @@ cc     Use niter-step Lanczos algorithm to estimate the bound of eigenvalues of 
 **** pg is normalized random wavefunction
 **** qg = 0, beta = 1
 ************************************************
-      pg_n(:,1)=ug_n_bp(:,1)
+      iranm=-4513*(iislda-1)-1371*kpt-5616*inode_b-72601*icolor_b
+      do ig=1, ng_n
+         x1=ran1(iranm)
+         x2=ran1(iranm)
+         pg_n(ig,1)=dcmplx(x1-0.5d0,x2-0.5d0)
+      enddo
+      do ig=ng_n+1,mg_nx
+         pg_n(ig,1)=dcmplx(0.d0,0.d0)
+      enddo
       qg=dcmplx(0.d0,0.d0)
 
       s=0.d0

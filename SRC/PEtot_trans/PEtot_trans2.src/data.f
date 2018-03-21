@@ -33,7 +33,7 @@ cc     The United States government retains a royalty free license in this work
 
       
 !      integer,parameter :: matom=600
-      integer,parameter :: matom=800
+      integer,parameter :: matom=4000
       integer,parameter :: nmax=20  
 
       integer mr_n,mg_nx,mst

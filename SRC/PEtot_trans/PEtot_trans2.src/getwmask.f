@@ -231,10 +231,20 @@ c
       r2=r/rcut
 
       ir=1+r2*200.d0
-      f1=(ri(ir+1)-r2)/(ri(ir+1)-ri(ir))
-      f2=(r2-ri(ir))/(ri(ir+1)-ri(ir))
 
-      y=amr(ir)*f1+amr(ir+1)*f2
+ccccc Make it the same as in PEtot_trans1
+c      f1=(ri(ir+1)-r2)/(ri(ir+1)-ri(ir))
+c      f2=(r2-ri(ir))/(ri(ir+1)-ri(ir))
+c      y=amr(ir)*f1+amr(ir+1)*f2
+cccccccccc This is necessary to get accurate force, etc.
+cccccccccc  changed, Jan.18,2007, Lin-Wang
+      if(ir.ge.200) ir=200-1
+      x=(r2-ri(ir))/(ri(ir+1)-ri(ir))
+      f1=1-x-0.5d0*x*(1-x)
+      f2=x+x*(1-x)
+      f3=-0.5d0*x*(1-x)
+      y=amr(ir)*f1+amr(ir+1)*f2+amr(ir+2)*f3
+
 
       if(imap.gt.mrb2) then
       write(6,*) "imap > mrb2, stop", imap,mrb2
