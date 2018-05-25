@@ -27,9 +27,9 @@ cccccccc
       complex*16 cphase(n1w,n2,n3)
       complex*16 uc(n1,n2,n3,50)
       real*8  phase(n1w,n2,n3)
-      real*8 E_evan(500),E_evanC(500)
-      integer ist_evan(500),ikpt_evan(500),iGX_evan(500),i
-     &     used_evan(500)
+      real*8 E_evan(2000),E_evanC(2000)
+      integer ist_evan(2000),ikpt_evan(2000),iGX_evan(2000),i
+     &     used_evan(2000)
        real*8 dE_dk(400),ak_w(400)
       real*8 weight(90),aI_tmp(400)
       integer nline_w(400)
@@ -132,6 +132,18 @@ cccccccc
       ak=ak2
       endif
 
+      if(num_st.gt.1.and.ist_linew(i1,j).eq.i_st1w(num_st-1).and.
+     &  ikpt_linew(i1,j).eq.ikpt_st1w(num_st-1).and.ist_linew(i2,j).eq.
+     &  i_st2w(num_st-1).and.ikpt_linew(i2,j).eq.ikpt_st2w(num_st-1)
+     &  .and.ist_linew(i3,j).eq.i_st3w(num_st-1).and.ikpt_linew(i3,j)
+     &  .eq.ikpt_st3w(num_st-1)) then
+         if(abs(ak1).gt.abs(ak2)) then
+         ak=ak1
+         else
+         ak=ak2
+         endif
+      endif
+
       if(abs(ak).gt.1) then
       write(6,*) "ak.gt.1, strange, stop",ak
       stop
@@ -172,6 +184,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       write(6,*) "XXXXXXXXXXXXXXXXXXXXXX"
       write(6,*) "The number of running waves =", num_st
+c      do i=1,num_st
+c        write(6,*) i_st1w(i),ak_w(i),dE_dk(i)
+c      enddo
       write(6,301) (ikpt_st1w(i),i=1,num_st)
       write(6,302) (i_st1w(i),i=1,num_st)
       write(6,*) "XXXXXXXXXXXXXXXXXXXXXX"
@@ -519,7 +534,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccc
       sum2=sum2+abs(uc(i+nnposit,j,k,num1))**2
       diff=diff+abs(uc(i+nnposit,j,k,num1)-uc_test(i,j,k))**2
 ccccc THE CHANGE !
-      uc_R(i,j,k,num1)=uc(i+nnposit,j,k,num1)-uc_test2(i,j,k)      ! uc_test2 does not include the evanescent states
+      uc_R(i,j,k,num1)=uc(i+nnposit,j,k,num1)-uc_test(i,j,k)      ! uc_test2 does not include the evanescent states
       enddo
       enddo
       enddo

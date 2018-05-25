@@ -256,6 +256,18 @@ cccccccc
       ak=ak2
       endif
 
+      if(num_st.gt.1.and.ist_linew(i1,j).eq.i_st1w(num_st-1).and.
+     &  ikpt_linew(i1,j).eq.ikpt_st1w(num_st-1).and.ist_linew(i2,j).eq.
+     &  i_st2w(num_st-1).and.ikpt_linew(i2,j).eq.ikpt_st2w(num_st-1)
+     &  .and.ist_linew(i3,j).eq.i_st3w(num_st-1).and.ikpt_linew(i3,j)
+     &  .eq.ikpt_st3w(num_st-1)) then
+         if(abs(ak1).gt.abs(ak2)) then
+         ak=ak1
+         else
+         ak=ak2
+         endif
+      endif
+
 204    format(3I5,3(e12.5,1x))	
 
 
