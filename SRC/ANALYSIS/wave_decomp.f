@@ -19,13 +19,8 @@ cccccccc
       parameter (nm=400)
 
       complex*16, allocatable, dimension (:,:,:) :: uc_test,
-     &   uc_test2,S
+     &   uc_test2
       complex*16, allocatable, dimension (:,:,:,:) :: uc_R
-      complex*16, allocatable, dimension (:,:) :: S_m,hh,vec1,vec2
-      complex*16, allocatable, dimension (:) :: vec_tmp
-      real*8, allocatable, dimension(:):: EE
-      real*8, allocatable, dimension (:,:) :: E_st
-
       complex*16 ccy2_st(90,90),cc_R(90,90)
       complex*16 ucw(n1w,n2,n3,40)
       complex*16 cphase_ucw(400)
@@ -42,11 +37,13 @@ cccccccc
       real*8 E_linew(nm,nm)
 
       integer ikpt_st1w(400),ikpt_st2w(400),
-     &   i_st1w(400),i_st2w(400),
+     &   ikpt_st3w(400),
+     &   i_st1w(400),
+     &  i_st2w(400),i_st3w(400),
      &  numw(nm),ist_linew(nm,nm),ikpt_linew(nm,nm),
      &  num_mx(400),imx(10,400)
 
-      real*8 x_st1w(400),x_st2w(400)
+      real*8 x_st1w(400),x_st2w(400),x_st3w(400)
       real*8 kk1,kk2,kk3,k1k2,k2k3,
      &     k2k1,k3k1,k3k2,k1k3
 
@@ -69,39 +66,6 @@ cccccccc
       num_st=0
       iposit_next=1
       num_iter=0
-
-
-      open(77,file="overlap.matrix",form="unformatted")
-      rewind(77)
-      read(77) ispin_i,ispin_f
-      read(77) nst,nkpt
-      read(77) iislda
-      allocate(S(nst,nst,nkpt-1))
-      do ikpt=1,nkpt-1
-        read(77) ikptt
-        do ist2=1,nst
-        read(77) (S(ist1,ist2,ikpt),ist1=1,nst)
-        enddo
-      enddo
-      close(77)
-      allocate(S_m(nst,nst))
-
-
-      allocate(E_st(nst,nkpt))
-      E_st=0.d0
-      do j=1,nstw    ! go through different band-line
-      do i=1,numw(j)-1    ! the number of k-points in each band-line
-       E_st(ist_linew(i,j),ikpt_linew(i,j))=E_linew(i,j)
-      enddo
-      enddo
-
-      allocate(hh(nst,nst))
-      allocate(EE(nst))
-      allocate(vec_tmp(nst))
-      allocate(vec1(nst,400))
-      allocate(vec2(nst,400))
-
-
 3000  continue
       num_iter=num_iter+1
 ccccccccccccccccccccccccccccccccccccccc
@@ -122,85 +86,62 @@ ccccccccc  find the running waves
       idble(num_st)=2
       ievan(num_st)=0
 
-      kpt=ikpt_linew(i,j)
-
-      S_m(:,:)=S(:,:,kpt)
-      do m1=1,nst
-      do m2=1,m1-1
-        cc=dcmplx(0.d0,0.d0)
-        do m3=1,nst
-           cc=cc+S_m(m3,m1)*dconjg(S_m(m3,m2))
-        enddo
-        do m3=1,nst
-           S_m(m3,m1)=S_m(m3,m1)-cc*S_m(m3,m2)
-        enddo
-      enddo
-        sum=0.d0
-        do m3=1,nst
-          sum=sum+cdabs(S_m(m3,m1))**2
-        enddo
-        sum=1/dsqrt(sum)
-        do m3=1,nst
-          S_m(m3,m1)=S_m(m3,m1)*sum
-        enddo
-      enddo  ! m1
-
-      Ek1=E_linew(i,j)
-      Ek2=E_linew(i+1,j)
-      ak=(Ew-Ek1)/(Ek2-Ek1)
-      ist_min=min(ist_linew(i,j),ist_linew(i+1,j))
-      ist_max=max(ist_linew(i,j),ist_linew(i+1,j))
-
-      tol_err=1.D-6
-
-1007  continue
-      call energy_interp(ak,nst,E_st(1,kpt),S_m,0,
-     &  ist_min,ist_max,Ew,Ek,vec1(1,num_st))
-
-      ak_mov=1.D-8
-      call energy_interp(ak-ak_mov,nst,E_st(1,kpt),S_m,0,
-     &  ist_min,ist_max,Ek,Ek1,vec_tmp)
-      call energy_interp(ak+ak_mov,nst,E_st(1,kpt),S_m,0,
-     &  ist_min,ist_max,Ek,Ek2,vec_tmp)
-      dEdk=(Ek2-Ek1)/(2*ak_mov)
-
-      if(dabs(Ek-Ew).gt.tol_err*1.D-1) then
-        ak=ak+(Ew-Ek)/dEdk
-        goto 1007
+      if(i.eq.1) then
+       i33=i+2
+      elseif(i.eq.(numw(j)-1)) then
+       i33=i-1
+      else
+       if(abs(E_linew(i+2,j)-Ew).gt.abs(E_linew(i-1,j)-Ew)) then
+          i33=i-1
+       else
+          i33=i+2
+       endif
       endif
 
-      do m1=1,nst
-        do m2=1,nst
-          S_m(m1,m2)=dconjg(S(m2,m1,kpt))
-        enddo
-      enddo
-      do m1=1,nst
-      do m2=1,m1-1
-        cc=dcmplx(0.d0,0.d0)
-        do m3=1,nst
-           cc=cc+S_m(m3,m1)*dconjg(S_m(m3,m2))
-        enddo
-        do m3=1,nst
-           S_m(m3,m1)=S_m(m3,m1)-cc*S_m(m3,m2)
-        enddo
-      enddo
-        sum=0.d0
-        do m3=1,nst
-          sum=sum+cdabs(S_m(m3,m1))**2
-        enddo
-        sum=1/dsqrt(sum)
-        do m3=1,nst
-          S_m(m3,m1)=S_m(m3,m1)*sum
-        enddo
-      enddo  ! m1
+cccccccccccccccccccccccccccccccccccccccccc
+cccc note, assuming (it is correct), ikpt_linew(i,j) and i has the same order. They can only be shifted by a number
+      if(i33.eq.i+2) then
+      i1=i
+      i2=i+1
+      i3=i+2
+      else
+      i1=i-1
+      i2=i
+      i3=i+1
+      endif
+ccccccccccccccccccccccccccccccccccccccccc
+      E1=E_linew(i1,j)
+      E2=E_linew(i2,j)
+      E3=E_linew(i3,j)
+ccccccccccccccccccccccccccccccccccccc
+cccc assume E(k)=a1*k^2+a2*k+a3, and k=0 at i2, -1 at i1, 1 at i3 : E(-1)=E1,E(0)=E2,E(1)=E3
+ccccc then
+      a1=(E3+E1-2*E2)/2
+      a2=(E3-E1)/2
+      a3=E2
+ccccc Then: E(k)=E1*(k^2-k)/2+E2*(1-k^2)+E3*(k^2+k)/2=E1*w1+E2*w2+E3*w3   ! the linear coeff for w1,w2,w3
+ccccccccccccccccccccccccccc
+cccc Then solve Ew=a1*ak^2+a2*ak+a3 to find ak
+cccc ak is the kpoint distance from ikpt_linew(i2,j)
+cccccccc
+      ak1=(-a2+dsqrt(abs(a2**2-4*a1*(a3-Ew))))/(2*a1)
+      ak2=(-a2-dsqrt(abs(a2**2-4*a1*(a3-Ew))))/(2*a1)
+      if(abs(ak1).lt.abs(ak2)) then
+      ak=ak1
+      else
+      ak=ak2
+      endif
 
-      call energy_interp(ak,nst,E_st(1,kpt),S_m,1,
-     &  ist_min,ist_max,Ek,Ek2,vec2(1,num_st))
-
-      if(dabs(Ek2-Ew).gt.tol_err) then
-        write(6,*) "Somthing is wrong with
-     &   interpolation. akw,Ek1,Ek2,ak",dble(kpt)+ak,Ek,Ek2
-        stop
+      if(num_st.gt.1.and.ist_linew(i1,j).eq.i_st1w(num_st-1).and.
+     &  ikpt_linew(i1,j).eq.ikpt_st1w(num_st-1).and.ist_linew(i2,j).eq.
+     &  i_st2w(num_st-1).and.ikpt_linew(i2,j).eq.ikpt_st2w(num_st-1)
+     &  .and.ist_linew(i3,j).eq.i_st3w(num_st-1).and.ikpt_linew(i3,j)
+     &  .eq.ikpt_st3w(num_st-1)) then
+         if(abs(ak1).gt.abs(ak2)) then
+         ak=ak1
+         else
+         ak=ak2
+         endif
       endif
 
       if(abs(ak).gt.1) then
@@ -208,17 +149,27 @@ ccccccccc  find the running waves
       stop
       endif
 ccccccccccccccccccccccccccccccccccccccccccccccccc
-      ikpt_st1w(num_st)=ikpt_linew(i,j)
-      ikpt_st2w(num_st)=ikpt_linew(i+1,j)  
+      dE_dk3=(2*a1*ak+a2)/(pi/a11/(nkptw-1))
+      dE_dk(num_st)=dE_dk3
+      w1=(ak**2-ak)/2
+      w2=1.d0-ak**2
+      w3=(ak**2+ak)/2
 
-      i_st1w(num_st)=ist_linew(i,j)
-      i_st2w(num_st)=ist_linew(i+1,j)
+cccccccccccccccccccccccccccccccccccccccccccccccccccccc
+      ikpt_st1w(num_st)=ikpt_linew(i1,j)
+      ikpt_st2w(num_st)=ikpt_linew(i2,j) 
+      ikpt_st3w(num_st)=ikpt_linew(i3,j) 
 
-      x_st1w(num_st) = 1.d0-ak
-      x_st2w(num_st) = ak
+      i_st1w(num_st)=ist_linew(i1,j)
+      i_st2w(num_st)=ist_linew(i2,j)
+      i_st3w(num_st)=ist_linew(i3,j)
 
-      dE_dk(num_st)=dEdk/(pi/a11/(nkptw-1))
-      ak_w(num_st)=ak+dble(kpt)
+      x_st1w(num_st) = w1
+      x_st2w(num_st) = w2
+      x_st3w(num_st) = w3
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+      ak_w(num_st)=ak+ikpt_linew(i2,j)
 
       nline_w(num_st)=j
 
@@ -233,21 +184,14 @@ ccccccccccccccccccccccccccccccccccccccccccccccccc
 
       write(6,*) "XXXXXXXXXXXXXXXXXXXXXX"
       write(6,*) "The number of running waves =", num_st
-      do i=1,num_st
-        write(6,*) i_st1w(i),ak_w(i),dE_dk(i)
-      enddo
+c      do i=1,num_st
+c        write(6,*) i_st1w(i),ak_w(i),dE_dk(i)
+c      enddo
       write(6,301) (ikpt_st1w(i),i=1,num_st)
       write(6,302) (i_st1w(i),i=1,num_st)
       write(6,*) "XXXXXXXXXXXXXXXXXXXXXX"
 301   format("ikpt= ",20(i4,1x)) 
 302   format("i_st= ",20(i4,1x)) 
-
-      deallocate(S_m)
-      deallocate(E_st)
-      deallocate(hh)
-      deallocate(EE)
-      deallocate(vec_tmp)
-
 
 
       if(num_st.eq.0) then
@@ -337,16 +281,17 @@ ccccccccccccccccccccccccccccccccccccccccccccc
       fileh="wr.new."
       do 1020 ii=num_st_old+1,num_st
       if(num_iter.eq.1) then
-      call wave_electrode_interp(ikpt_st1w(ii),ikpt_st2w(ii),
-     & nst,vec1(1,ii),vec2(1,ii),
-     & x_st1w(ii),x_st2w(ii),
-     & ucw(1,1,1,ii),n1w,n2,n3,fileh)
+      call wave_electrode_3kpts(ikpt_st1w(ii),
+     & ikpt_st2w(ii),
+     & ikpt_st3w(ii),
+     & i_st1w(ii),i_st2w(ii),i_st3w(ii),
+     & x_st1w(ii),x_st2w(ii),x_st3w(ii),
+     & ucw(1,1,1,ii),n1w,n2,n3,fileh,1,cphase,phase)
       else
       call wave_electrode(ikpt_st1w(ii),ikpt_st2w(ii),
      & i_st1w(ii),i_st2w(ii),x_st1w(ii),x_st2w(ii),
      & ucw(1,1,1,ii),n1w,n2,n3,fileh,1,cphase,phase)
       endif
-
 
         if(idble(ii).eq.1) then     ! make ucw real, Note, even for X-point evanescent states, we can make it real
         cc=dcmplx(0.d0,0.d0)
@@ -382,9 +327,6 @@ ccccccccccccccccccccccccccccccccccccccccccccc
 
 
 1020  continue
-
-      deallocate(vec1)
-      deallocate(vec2)
 ccccccccccccccccccccccccccccccccccc
  
 ccccccccccccccccccccccccccccccccccccccccccccccccccc
