@@ -1,0 +1,4 @@
+#!/bin/bash
+
+module load python python_numpy python_scipy/0.15.1
+python Eline-spline.py
