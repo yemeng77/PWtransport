@@ -1,7 +1,8 @@
       program analyWaveM
 
       implicit double precision (a-h,o-z)
-      parameter (nm=400)
+      parameter (nm=1200)
+      parameter (nevan=2000)
       real*8 AL(3,3)
       real*8 E_line(nm,nm),E_linew(nm,nm)
       real*8 dE_dk1(400),dE_dk2(400)
@@ -50,9 +51,9 @@
      
       integer  numw(nm),ist_linew(nm,nm),ikpt_linew(nm,nm)
 
-      integer ist_evan(2000),ikpt_evan(2000),iGX_evan(2000),
-     &        iband_evan(2000)
-      real*8 E_evan(2000),E_evanC(2000)
+      integer ist_evan(nevan),ikpt_evan(nevan),iGX_evan(nevan),
+     &        iband_evan(nevan)
+      real*8 E_evan(nevan),E_evanC(nevan)
       integer idble1(400),idble2(400),iposit1(400),iposit2(400)
 
       character*7 fileh
@@ -70,7 +71,7 @@ ccccccc the current run in n1,n1w direction
       rewind(10)
       read(10,*) dV
       read(10,*) n1,n2,n3,n1w
-      read(10,*) nnposit1,nnposit2 
+      read(10,*) nnposit1,nnposit2
       read(10,*) ist_init,ist_final
       read(10,*) AL(1,1)
       read(10,*) num_iter_evan,dE_evanL,dE_evanR
@@ -86,7 +87,7 @@ cccccccccccccccccccccccccccccccccccccccccccccc
 cccc preprocessing for the electrode wavefunction information
 cccc These are the information for the electrode states, their energy, index in the wavefunction file, etc.
       open(14,file="E_line_W2K2")
-      read(14,*) nstw,nkptw
+      read(14,*) nstw,nkptw,nintep
       do j=1,nstw
       read(14,*) j1,numw(j)
       read(14,*) (E_linew(i,j),i=1,numw(j))
@@ -245,8 +246,8 @@ cccccccc  The relative electrode energy is E+dV/2
       call wave_decomp(ccy2_st1(1,1),Ew0,num_stw1,
      &  num_run1,idble1,iposit1,nnposit1,ucw1,
      &  n1w,n1,n2,n3,cphase_ucw1,dE_dk1,ak_w1,nline_w1,
-     &  numw,E_linew,ist_linew,ikpt_linew,nstw,nkptw,num_mx,imx,
-     &  cphase,phase,num_stWell,uc,E_evan,E_evanC,ist_evan,
+     &  numw,E_linew,ist_linew,ikpt_linew,nstw,nkptw,num_mx,nintep,
+     &  imx,cphase,phase,num_stWell,uc,E_evan,E_evanC,ist_evan,
      &  ikpt_evan,iGX_evan,num_evan,weight1,a11,num_iter_evan,dE_evanL,
      &  cc_R1)
 
@@ -261,8 +262,8 @@ cccccccc  The current flow from the left hand side to right hand side.
       call wave_decomp(ccy2_st2(1,1),Ew0,num_stw2,
      &  num_run2,idble2,iposit2,nnposit2,ucw2,
      &  n1w,n1,n2,n3,cphase_ucw2,dE_dk2,ak_w2,nline_w2,
-     &  numw,E_linew,ist_linew,ikpt_linew,nstw,nkptw,num_mx,imx,
-     &  cphase,phase,num_stWell,uc,E_evan,E_evanC,ist_evan,
+     &  numw,E_linew,ist_linew,ikpt_linew,nstw,nkptw,num_mx,nintep,
+     &  imx,cphase,phase,num_stWell,uc,E_evan,E_evanC,ist_evan,
      &  ikpt_evan,iGX_evan,num_evan,weight2,a11,num_iter_evan,dE_evanR,
      &  cc_R2)
       write(6,*) "************************************************"
@@ -726,8 +727,8 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       num_tmp=0
       num_tmp2=0
-      do i1=1,2*num_stWell
 
+      do i1=1,2*num_stWell
       weight_max=-1.d0
       do i2=1,2*num_stWell
       if(weight_st(i2).gt.weight_max) then

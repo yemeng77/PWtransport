@@ -425,7 +425,7 @@ ccccc Note, the k-point might not be correct here for plotting
 ccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
        open(14,file="E_line_W2K2")
-       write(14,*) nband,nkpt
+       write(14,*) nband,nkpt,nintp
        do j=1,nband
        write(14,*) j,nkpt_band(j)
        write(14,120) (E_band(j,i),i=1,nkpt_band(j))
@@ -433,7 +433,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccc
        write(14,121) (ikpt_band(j,i),i=1,nkpt_band(j))
        enddo
        close(14)
-120    format(5(f10.6,1x))
+120    format(5(f12.8,1x))
 121    format(5(i5,6x))
 ccccc we will use the file as the data pass here, find_evan is 
 ccccc  an independent code

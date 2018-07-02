@@ -2,7 +2,7 @@
      & num_run,idble,iposit,nnposit,ucw,
      & n1w,n1,n2,n3,cphase_ucw,dE_dk,ak_w,nline_w,
      & numw,E_linew,ist_linew,ikpt_linew,nstw,nkptw,
-     & num_mx,imx,cphase,phase,num_stWell,uc,E_evan,E_evanC,
+     & num_mx,nintep,imx,cphase,phase,num_stWell,uc,E_evan,E_evanC,
      & ist_evan,ikpt_evan,iGX_evan,num_evan,weight,a11,
      & num_iter_evan,dE_evan,cc_R)
 
@@ -16,7 +16,8 @@ cccccccc
 
       implicit double precision (a-h,o-z)
 
-      parameter (nm=400)
+      parameter (nm=1200)
+      parameter (nevan=2000)
 
       complex*16, allocatable, dimension (:,:,:) :: uc_test,
      &   uc_test2
@@ -27,9 +28,9 @@ cccccccc
       complex*16 cphase(n1w,n2,n3)
       complex*16 uc(n1,n2,n3,50)
       real*8  phase(n1w,n2,n3)
-      real*8 E_evan(2000),E_evanC(2000)
-      integer ist_evan(2000),ikpt_evan(2000),iGX_evan(2000),i
-     &     used_evan(2000)
+      real*8 E_evan(nevan),E_evanC(nevan)
+      integer ist_evan(nevan),ikpt_evan(nevan),iGX_evan(nevan),i
+     &     used_evan(nevan)
        real*8 dE_dk(400),ak_w(400)
       real*8 weight(90),aI_tmp(400)
       integer nline_w(400)
@@ -286,11 +287,11 @@ ccccccccccccccccccccccccccccccccccccccccccccc
      & ikpt_st3w(ii),
      & i_st1w(ii),i_st2w(ii),i_st3w(ii),
      & x_st1w(ii),x_st2w(ii),x_st3w(ii),
-     & ucw(1,1,1,ii),n1w,n2,n3,fileh,1,cphase,phase)
+     & ucw(1,1,1,ii),n1w,n2,n3,fileh,1,cphase,phase,nintep)
       else
       call wave_electrode(ikpt_st1w(ii),ikpt_st2w(ii),
      & i_st1w(ii),i_st2w(ii),x_st1w(ii),x_st2w(ii),
-     & ucw(1,1,1,ii),n1w,n2,n3,fileh,1,cphase,phase)
+     & ucw(1,1,1,ii),n1w,n2,n3,fileh,1,cphase,phase,nintep)
       endif
 
         if(idble(ii).eq.1) then     ! make ucw real, Note, even for X-point evanescent states, we can make it real
