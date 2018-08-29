@@ -49,7 +49,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       open(13,file="wr.interp.new",form="unformatted")
       rewind(13)
-      write(13) npkt,npkt0,nintp,nst
+      write(13) nkpt,nst,nkpt0,nintp
 
       do ist=1,nst
         read(12) (cc1_kpt2(i,ist),i=1,nst)

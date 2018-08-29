@@ -3,6 +3,9 @@ cccccc AL is the lattice of the large cell
 cccccc ALw is the lattice of the electrode unit cell
 
       implicit double precision (a-h,o-z)
+      include "mpif.h"
+
+      integer status(MPI_STATUS_SIZE)
 
       parameter (nm=1200)
       parameter (nevan=2000)
@@ -44,6 +47,11 @@ cccccc ALw is the lattice of the electrode unit cell
       complex*16 cc
 
       character*7 fileh
+
+      call mpi_init(ierr)
+      call mpi_comm_size(MPI_COMM_WORLD,nnodes,ierr)
+      call mpi_comm_rank(MPI_COMM_WORLD,inode,ierr)      
+      inode=inode+1
 
       open(10,file="find_wrl.input")
       rewind(10)

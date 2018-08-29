@@ -159,6 +159,10 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccc
      &   char(48+ikpt_1)      
       open(13,file=fwr_all,form="unformatted")
       rewind(13)
+      fwr_all="wr.rotation"//char(48+ikpt_100)//char(48+ikpt_10)//
+     &   char(48+ikpt_1)      
+      open(14,file=fwr_all,form="unformatted")
+      rewind(14)
 
       uc1=uc2
 
@@ -245,6 +249,9 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccc
         S_m(m1,m3)=S_m(m1,m3)*sum
         enddo
       enddo
+
+      write(14) S_m
+      close(14)
 
       do iintp=1,nintp-1
         w2=dble(iintp)/dble(nintp)
@@ -369,6 +376,9 @@ C         enddo
         open(24,file="wr.overlap",form="unformatted")
         rewind(24)
         write(24) nkpt,nst
+        open(25,file="wr.rotation",form="unformatted")
+        rewind(25)
+        write(25) nkpt,nst
 
         do ikpt=1,nkpt0
         coeff1=dcmplx(0.d0,0.d0)
@@ -390,11 +400,19 @@ C         enddo
      &     char(48+ikpt_1)      
         open(13,file=fwr_all,form="unformatted")
         rewind(13)
+        fwr_all="wr.rotation"//char(48+ikpt_100)//char(48+ikpt_10)//
+     &     char(48+ikpt_1)      
+        open(14,file=fwr_all,form="unformatted")
+        rewind(14)
         do i=1,5
           read(13) S
           write(24) S
         enddo
         close(13,status='delete')
+
+        read(14) S
+        write(25) S
+        close(14,status='delete')
 
         do iintp=1,nintp-1
           do ist=1,nst
@@ -417,6 +435,7 @@ C         enddo
         enddo
         close(23)
         close(24)
+        close(25)
       endif
 
 103   format(5(f12.8,1x))
