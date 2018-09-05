@@ -14,7 +14,7 @@ cccccc ALw is the lattice of the electrode unit cell
       integer i_st1w(nm),i_st2w(nm),i_st3w(nm)
       real*8 x_st1w(nm),x_st2w(nm),x_st3w(nm)
       real*8 dE_dk(nm),ak_w(nm)
-      integer itag(nm)
+      integer itag(nm),iGX(nm)
       complex*16 cphase_ucw(nm)
       integer num_st_dis(2)
 
@@ -49,10 +49,10 @@ cccccc ALw is the lattice of the electrode unit cell
       inode=inode+1
 
       if(inode.eq.1) then
-      open(10,file="find_wrl.input")
+      open(10,file="find_state.input")
       rewind(10)
       read(10,*) n1,n2,n3,n1w,nnodes0
-      read(10,*) Ew,dV,dE_evan,dk_same
+      read(10,*) Ew,dV,dE_evanL,dE_evanR,dk_same
       close(10)
       open(21,file="wr.new.001",form="unformatted")
       rewind(21)
@@ -295,8 +295,6 @@ ccccccccccccccccccccccccccccccccc
       deallocate(num2)
       deallocate(ikw)
       deallocate(Ekw)
-      write(6,*) "The number of running waves in left and right
-     & elctrodes =",num_left,num_right
       endif !for inode=1
 
       call mpi_barrier(MPI_COMM_WORLD,ierr)
@@ -344,11 +342,11 @@ ccccccccccccccccccccccccccccccccc
 
       num_wl=0
       if(inode.eq.1) then
-        open(22,file="wr.left_run",form="unformatted")
+        open(22,file="wr.run_left",form="unformatted")
         rewind(22)
         write(22) n1w,n2,n3,nnodesw,num_left
         write(22) ALw
-        open(23,file="wr.right_run",form="unformatted")
+        open(23,file="wr.run_right",form="unformatted")
         rewind(23)
         write(23) n1w,n2,n3,nnodesw,num_right
         write(23) ALw
@@ -387,11 +385,13 @@ ccccccccccccccccccccccccccccccccc
           enddo !end loop over iproc
           if(itag(ist).ne.2) then
             num_wl=num_wl+1
-            call write_wl(n1,n2,n3,n1w,nnodesw,uc,AL,num_wl)
+            call write_wl(n1,n2,n3,n1w,nnodes0,uc,AL,num_wl)
           endif
         enddo
       close(22)
       close(23)
+      write(6,*) "The number of running waves in left and right
+     & elctrodes =",num_left,num_right
       endif
 
       num_run=num_st
@@ -417,12 +417,12 @@ cccccc   calculate the evanescence states
       num_right=0
       do ii=1,nevan1
       dE1=Ew1-E_evan(ii)
-      if(dabs(dE1).lt.dE_evan.and.dE1*E_evanC(ii).le.0.d0) then
+      if(dabs(dE1).lt.dE_evanL.and.dE1*E_evanC(ii).le.0.d0) then
         num_left=num_left+1
         itag_evan(ii)=itag_evan(ii)+1 ! use for left electorde
       endif
       dE2=Ew2-E_evan(ii)
-      if(dabs(dE2).lt.dE_evan.and.dE2*E_evanC(ii).le.0.d0) then
+      if(dabs(dE2).lt.dE_evanR.and.dE2*E_evanC(ii).le.0.d0) then
         num_right=num_right+1
         itag_evan(ii)=itag_evan(ii)+2 ! use for right electorde
       endif
@@ -433,6 +433,7 @@ cccccc   calculate the evanescence states
         num_st=num_st+1
         ikpt_st1w(num_st)=ikpt_evan(ii)
         i_st1w(num_st)=ist_evan(ii)
+        iGX(num_st)=iGX_evan(ii)
         itag(num_st)=itag_evan(ii)
         ak=ikpt_evan(ii)
         ak_w(num_st)=ak
@@ -478,6 +479,7 @@ cccccccccccccccccccccccccccccccccccccccccccccc
         num_st=num_st+2
         ikpt_st1w(num_st-1)=ikpt_linew(inum_max(ii),iband_max(ii))
         i_st1w(num_st-1)=ist_linew(inum_max(ii),iband_max(ii))
+        iGX(num_st-1)=2
         itag(num_st-1)=itag_evan(ii)
         ak=ikpt_st1w(num_st-1)
         ak_w(num_st-1)=ak
@@ -485,6 +487,7 @@ cccccccccccccccccccccccccccccccccccccccccccccc
         cphase_ucw(num_st-1)=cdexp(dcmplx(0.d0,pi*(ak-1.d0)/(nkptw-1)))
         ikpt_st1w(num_st)=ikpt_linew(inum_min(ii),iband_min(ii))
         i_st1w(num_st)=ist_linew(inum_min(ii),iband_min(ii))
+        iGX(num_st)=2
         itag(num_st)=itag_evan(ii)
         ak=ikpt_st1w(num_st)
         ak_w(num_st)=ak
@@ -503,8 +506,6 @@ cccccccccccccccccccccccccccccccccccccccccccccc
         write(6,501) ii,ikpt_st1w(ii),i_st1w(ii)
       enddo
 501   format("evanescent state:ind,ikpt,ist: ",3(i4,1x))
-      write(6,*) "The number of evanescent states in left and right
-     & elctrodes =",num_left,num_right
       deallocate(numw)
       deallocate(E_linew)
       deallocate(ist_linew)
@@ -545,11 +546,11 @@ cccccccccccccccccccccccccccccccccccccccccccccc
       call mpi_barrier(MPI_COMM_WORLD,ierr)
 
       if(inode.eq.1) then
-        open(22,file="wr.left_evan",form="unformatted")
+        open(22,file="wr.evan_left",form="unformatted")
         rewind(22)
         write(22) n1w,n2,n3,nnodesw,num_left
         write(22) ALw
-        open(23,file="wr.right_evan",form="unformatted")
+        open(23,file="wr.evan_right",form="unformatted")
         rewind(23)
         write(23) n1w,n2,n3,nnodesw,num_right
         write(23) ALw
@@ -564,14 +565,14 @@ cccccccccccccccccccccccccccccccccccccccccccccc
           read(11) uc
           close(11,status='delete')
           num_wl=num_wl+1
-          call write_wl(n1,n2,n3,n1w,nnodesw,uc,AL,num_wl)
+          call write_wl(n1,n2,n3,n1w,nnodes0,uc,AL,num_wl)
           if(itag(ist).eq.1.or.itag(ist).eq.3) then
-          write(22) ikpt_st1w(ist),i_st1w(ist),ak_w(ist),dE_dk(ist)
-     &         ,cphase_ucw(ist)
+          write(22) ikpt_st1w(ist),i_st1w(ist),iGX(ist),
+     &         ak_w(ist),dE_dk(ist),cphase_ucw(ist)
           endif
           if(itag(ist).eq.2.or.itag(ist).eq.3) then
-          write(23) ikpt_st1w(ist),i_st1w(ist),ak_w(ist),dE_dk(ist)
-     &         ,cphase_ucw(ist)
+          write(23) ikpt_st1w(ist),i_st1w(ist),iGX(ist),
+     &         ak_w(ist),dE_dk(ist),cphase_ucw(ist)
           endif
           do iproc=1,nnodesw
           do ii=1,nr_n
@@ -592,6 +593,8 @@ cccccccccccccccccccccccccccccccccccccccccccccc
         enddo
       close(22)
       close(23)
+      write(6,*) "The number of evanescent states in left and right
+     & elctrodes =",num_left,num_right
       deallocate(ucR)
       deallocate(uCI)
       endif

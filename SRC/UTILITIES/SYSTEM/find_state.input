@@ -1,0 +1,2 @@
+768, 192, 192, 24, 768    ! n1,n2,n3 (grid numbers of total system) ,n1w (grid number of electrode),nnodes0(nnodes to write wl)
+2.0, 0.d0, 0.2, 0.03       ! Ew,dV,dE_evanL(eV),dE_evanR(eV),dk_same(Xkpt=1)
