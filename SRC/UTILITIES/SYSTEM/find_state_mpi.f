@@ -12,6 +12,7 @@ cccccc AL is the lattice of the large cell
 cccccc ALw is the lattice of the electrode unit cell
       integer ikpt_st1w(nm),ikpt_st2w(nm),ikpt_st3w(nm)
       integer i_st1w(nm),i_st2w(nm),i_st3w(nm)
+      integer n_linew(nm)
       real*8 x_st1w(nm),x_st2w(nm),x_st3w(nm)
       real*8 dE_dk(nm),ak_w(nm)
       integer itag(nm),iGX(nm)
@@ -267,6 +268,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccc
       w2=1.d0-ak**2
       w3=(ak**2+ak)/2
 cccccccccccccccccccccccccccccccccccccccccccccccccccccc
+      n_linew(num_st)=j
       ikpt_st1w(num_st)=ikpt_linew(i1,j)
       ikpt_st2w(num_st)=ikpt_linew(i2,j) 
       ikpt_st3w(num_st)=ikpt_linew(i3,j)
@@ -370,8 +372,8 @@ ccccccccccccccccccccccccccccccccc
           else
             iout=23
           endif
-          write(iout) ikpt_st1w(ist),i_st1w(ist),ak_w(ist),dE_dk(ist)
-     &         ,cphase_ucw(ist)
+          write(iout) ikpt_st1w(ist),i_st1w(ist),n_linew(ist),
+     &     ak_w(ist),dE_dk(ist),cphase_ucw(ist)
           do iproc=1,nnodesw
           do ii=1,nr_n
             jj=ii+(iproc-1)*nr_n
@@ -435,6 +437,7 @@ cccccc   calculate the evanescence states
         i_st1w(num_st)=ist_evan(ii)
         iGX(num_st)=iGX_evan(ii)
         itag(num_st)=itag_evan(ii)
+        n_linew(num_st)=iband_evan(ii)
         ak=ikpt_evan(ii)
         ak_w(num_st)=ak
         dE_dk(num_st)=0.d0
@@ -481,6 +484,7 @@ cccccccccccccccccccccccccccccccccccccccccccccc
         i_st1w(num_st-1)=ist_linew(inum_max(ii),iband_max(ii))
         iGX(num_st-1)=2
         itag(num_st-1)=itag_evan(ii)
+        n_linew(num_st-1)=iband_max(ii)
         ak=ikpt_st1w(num_st-1)
         ak_w(num_st-1)=ak
         dE_dk(num_st-1)=0.d0
@@ -489,6 +493,7 @@ cccccccccccccccccccccccccccccccccccccccccccccc
         i_st1w(num_st)=ist_linew(inum_min(ii),iband_min(ii))
         iGX(num_st)=2
         itag(num_st)=itag_evan(ii)
+        n_linew(num_st)=iband_min(ii)
         ak=ikpt_st1w(num_st)
         ak_w(num_st)=ak
         dE_dk(num_st)=0.d0
@@ -567,11 +572,11 @@ cccccccccccccccccccccccccccccccccccccccccccccc
           num_wl=num_wl+1
           call write_wl(n1,n2,n3,n1w,nnodes0,uc,AL,num_wl)
           if(itag(ist).eq.1.or.itag(ist).eq.3) then
-          write(22) ikpt_st1w(ist),i_st1w(ist),iGX(ist),
+          write(22) ikpt_st1w(ist),i_st1w(ist),iGX(ist),n_linew(ist),
      &         ak_w(ist),dE_dk(ist),cphase_ucw(ist)
           endif
           if(itag(ist).eq.2.or.itag(ist).eq.3) then
-          write(23) ikpt_st1w(ist),i_st1w(ist),iGX(ist),
+          write(23) ikpt_st1w(ist),i_st1w(ist),iGX(ist),n_linew(ist),
      &         ak_w(ist),dE_dk(ist),cphase_ucw(ist)
           endif
           do iproc=1,nnodesw
