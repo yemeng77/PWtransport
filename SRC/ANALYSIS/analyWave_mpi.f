@@ -5,7 +5,7 @@
       integer status(MPI_STATUS_SIZE)
 
       parameter (nm=1200)
-      parameter (neven=4000)
+      parameter (nevan=4000)
       parameter (nstm=200)
       parameter (nwellm=400)
 
@@ -65,6 +65,9 @@
       integer num_wr_dis(2)
       complex*16 tmp_complex(nwellm,nwellm)
       real*8 tmp_real(nwellm)
+      integer inode,nnodes
+
+      common /mpi_data/inode,nnodes
 
       call mpi_init(ierr)
       call mpi_comm_size(MPI_COMM_WORLD,nnodes,ierr)
@@ -210,8 +213,7 @@ ccccccccccccccccccccccccccccccccccccccccccccc
       deallocate(phase)
       deallocate(ucw1)
       deallocate(ucw2)
-      deallocate(ucL)
-      deallocate(ucR)
+      deallocate(uc)
       call mpi_abort(MPI_COMM_WORLD,1,ierr)
       endif
 
@@ -289,7 +291,7 @@ cccccccc  The relative electrode energy is E+dV/2
      &  numw,E_linew,ist_linew,ikpt_linew,nstw,nkptw,num_mx,nintep,imx,
      &  cphase,phase,num_stWell,num_wr_dis,uc,E_evan,E_evanC,ist_evan,
      &  ikpt_evan,iGX_evan,num_evan,weight1,a11,num_iter_evan,dE_evanL,
-     &  cc_R1,inode)
+     &  cc_R1)
       call mpi_barrier(MPI_COMM_WORLD,ierr)
       call mpi_allreduce(ccy2_st1,tmp_complex,nwellm*nwellm,
      $     MPI_DOUBLE_COMPLEX,MPI_SUM,MPI_COMM_WORLD,ierr)
@@ -318,7 +320,7 @@ cccccccc  The current flow from the left hand side to right hand side.
      &  numw,E_linew,ist_linew,ikpt_linew,nstw,nkptw,num_mx,nintep,imx,
      &  cphase,phase,num_stWell,num_wr_dis,uc,E_evan,E_evanC,ist_evan,
      &  ikpt_evan,iGX_evan,num_evan,weight2,a11,num_iter_evan,dE_evanR,
-     &  cc_R2,inode)
+     &  cc_R2)
       call mpi_barrier(MPI_COMM_WORLD,ierr)
       call mpi_allreduce(ccy2_st2,tmp_complex,nwellm*nwellm,
      $     MPI_DOUBLE_COMPLEX,MPI_SUM,MPI_COMM_WORLD,ierr)
@@ -671,7 +673,7 @@ cccccccccccccc   from the Well states
       do k=1,n3
       do j=1,n2
       do i=1,n1
-      uc_test(i,j,k)=uc_test(i,j,k)+dconjg(uc(i,j,k,iiist)*cc_y(j1)     ! uc_test is the scattering state
+      uc_test(i,j,k)=uc_test(i,j,k)+dconjg(uc(i,j,k,iiist))*cc_y(j1)     ! uc_test is the scattering state
       enddo
       enddo
       enddo

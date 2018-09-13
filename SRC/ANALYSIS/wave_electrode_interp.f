@@ -14,9 +14,10 @@
       else
         open(12,file="wr.interp.new",form="unformatted")
         rewind(12)
-        read(12) nkpt,nkpt0,nintp,nst
+        read(12) nkpt,nst,nkpt0,nintp
         if(nintp.ne.nintep) then
           write(6,*) "nintep .ne. nintp, stop",nintep,nintp
+          stop
         endif
         allocate(cc1(nst))
         allocate(cc2(nst))

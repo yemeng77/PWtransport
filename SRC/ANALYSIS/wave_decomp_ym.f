@@ -4,7 +4,7 @@
      & numw,E_linew,ist_linew,ikpt_linew,nstw,nkptw,
      & num_mx,nintep,imx,cphase,phase,num_stWell,num_wr_dis,uc,
      & E_evan,E_evanC,ist_evan,ikpt_evan,iGX_evan,num_evan,weight,a11,
-     & num_iter_evan,dE_evan,cc_R,inode)
+     & num_iter_evan,dE_evan,cc_R)
 
 ccccccccc  this subroutine generates the electrod state
 ccccccccc  coefficients "ccy2_st" for "num_stWell" given input system wavefunction "uc". 
@@ -15,15 +15,18 @@ cccccccc  the j_Well_st  well states uc and uc^* are in j, and j+num_stWell
 cccccccc
 
       implicit double precision (a-h,o-z)
+      include 'mpif.h'
 
-      parameter (nm=1nwellm)
-      parameter (nevan=nwellm0)
-      parameter (nstm=nwellm)
+      integer status(MPI_STATUS_SIZE)
+
+      parameter (nm=1200)
+      parameter (nevan=4000)
+      parameter (nstm=200)
       parameter (nwellm=400)
 
       complex*16 uc(n1,n2,n3,10)
       real*8 E_linew(nm,nm)
-      integer numw(nm),ist_linew(nm,nm),ikpt_linew(nm,nm),
+      integer numw(nm),ist_linew(nm,nm),ikpt_linew(nm,nm)
       real*8 E_evan(nevan),E_evanC(nevan)
       integer ist_evan(nevan),ikpt_evan(nevan),iGX_evan(nevan),i
      &     used_evan(nevan)
@@ -31,7 +34,7 @@ cccccccc
       real*8 phase(n1w,n2,n3)
       complex*16 cphase(n1w,n2,n3)
       complex*16 ucw(n1w,n2,n3,nstm)
-      real*8 dE_dk(nstm),ak_w(nstm)aI_tmp(nstm)
+      real*8 dE_dk(nstm),ak_w(nstm),aI_tmp(nstm)
       integer nline_w(nstm)
       integer ikpt_st1w(nstm),ikpt_st2w(nstm),
      &   ikpt_st3w(nstm),
@@ -46,6 +49,7 @@ cccccccc
       complex*16, allocatable, dimension (:,:,:) :: uc_test,
      &   uc_test2
       complex*16, allocatable, dimension (:,:,:,:) :: uc_R
+      complex*16, allocatable, dimension (:) :: uc_tmp
 
       real*8 weight(nwellm)
       complex*16 ccy2_st(nwellm,nwellm),cc_R(nwellm,nwellm)
@@ -58,9 +62,26 @@ cccccccc
       character*7 fileh
 
       integer num_wr_dis(2)
+      integer inode,nnodes
+
+      common /mpi_data/inode,nnodes
  
       dE_min=0.d0
       if(inode.eq.1) write(6,*) "Ew=",Ew
+
+      fileh="wr.new."
+      open(77,file=trim(fileh)//"001",form="unformatted")
+      rewind(77)
+      read(77) n1t,n2t,n3t,mnodes
+      close(77)
+      if(n1.ne.m1.or.n2.ne.m2.or.n3.ne.m3) then
+      if(inode.eq.1) write(6,*) "n1w,n2,n3.ne.n1t,n2t,n3t,stop",
+     &   n1w,n2,n3,n1t,n2t,n3t
+      call mpi_abort(MPI_COMM_WORLD,1,ierr)
+      endif
+      mr=n1w*n2*n3
+      mr_n=mr/mnodes
+      allocate(uc_tmp(mr_n))
 
       pi=4*datan(1.d0)
 
@@ -73,6 +94,7 @@ cccccccc
 ccccccccccccccccccccccccccccccccccccccc
       if(num_iter.gt.1) goto 1000
 ccccccccc  find the running waves
+      if(inode.eq.1) then
       num_st_old=0
 
       do j=1,nstw    ! go through different band-line
@@ -147,7 +169,7 @@ cccccccc
       endif
 
       if(abs(ak).gt.1) then
-      if(inode.eq.1) write(6,*) "ak.gt.1, strange, stop",ak
+      write(6,*) "ak.gt.1, strange, stop",ak
       stop
       endif
 ccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -184,7 +206,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       enddo
       enddo
 
-      if(inode.eq.1) then
       write(6,*) "XXXXXXXXXXXXXXXXXXXXXX"
       write(6,*) "The number of running waves =", num_st
 c      do i=1,num_st
@@ -195,7 +216,10 @@ c      enddo
       write(6,*) "XXXXXXXXXXXXXXXXXXXXXX"
 301   format("ikpt= ",20(i4,1x)) 
 302   format("i_st= ",20(i4,1x))
-      endif
+      endif ! end for inode.eq.1
+
+      call mpi_barrier(MPI_COMM_WORLD,ierr)
+      call mpi_bcast(num_st,1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
 
       if(num_st.eq.0) then
       goto 1000      ! go straight to calculate the evanescence states
@@ -207,23 +231,27 @@ ccccccccccccccccccccccccccccccccccccccccccccccccc
 1000  continue        ! calculate the evanescence states
 
       num_st_old=num_st
-
       dE_min=1000.d0
-      do j=1,num_evan 
 
+      if(inode.eq.1) then
+      do j=1,num_evan 
       dE=Ew-E_evan(j)
        if(iused_evan(j).eq.0.and.
      &  dE*E_evanC(j).le.0) then
-
        if(abs(dE).lt.dE_min) then
        dE_min=abs(dE)
        j_min=j
        endif
        endif
       enddo
+      endif
 
-       if(dE_min.gt.dE_evan) goto 5000      !  end
+      call mpi_barrier(MPI_COMM_WORLD,ierr)
+      call mpi_bcast(dE_min,1,MPI_REAL8,0,MPI_COMM_WORLD,ierr)
+
+      if(dE_min.gt.dE_evan) goto 5000      !  end
 cccccccccccccccccccccccc
+      if(inode.eq.1) then
       iused_evan(j_min)=1
       num_st=num_st+1
       iposit(num_st)=iposit_next
@@ -251,7 +279,6 @@ cccccccccccccccccccccccc
       ak=ikpt_evan(j_min)
       cphase_ucw(num_st)=cdexp(dcmplx(0.d0,pi*(ak-1.d0)/(nkptw-1)))
 
-      if(inode.eq.1) then
       write(6,*) "YYYYYYYYYYYYYYYYYY"
       write(*,*) "evanescent state,ind,ist,iGX,E_evan0,dE_min "
       write(6,501)  num_st-num_run,ist_evan(j_min),iGX_evan(j_min),
@@ -265,6 +292,8 @@ cccccccccccccccccccccccccccccccccccccccccccccc
 1001  continue       ! end calc. of running wave and evanescence states
 
 ccccccccccccccccccccccccccccccc
+      call mpi_barrier(MPI_COMM_WORLD,ierr)
+      call mpi_bcast(iposit_next,1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
       num_tot=iposit_next-1
 
       if(inode.eq.1) then
@@ -281,10 +310,18 @@ ccccccccccccccccccccccccccccccc
       ccy3=dcmplx(0.d0,0.d0)
       ipiv=0
       endif
+
+      call mpi_barrier(MPI_COMM_WORLD,ierr)
+      call mpi_bcast(num_st,1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
+      call mpi_bcast(ipiv,num_st,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
+      call mpi_bcast(iposit,num_st,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
+      call mpi_bcast(idble,num_st,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
+      call mpi_bcast(ievan,num_st,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
+      call mpi_bcast(dE_dk,num_st,MPI_REAL8,0,MPI_COMM_WORLD,ierr)
+
 cccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccccc
-
-      fileh="wr.new."
+      if(inode.eq.1) then
       do 1020 ii=num_st_old+1,num_st
       if(num_iter.eq.1) then
       call wave_electrode_3kpts(ikpt_st1w(ii),
@@ -375,19 +412,48 @@ cccccccccc    test
         enddo
         enddo
         enddo
-        if(ii1.eq.1) sum000=sum
-        fact=dsqrt(sum000/sum)
-        sum=0.d0
-        do k=1,n3
-        do j=1,n2
-        do i=1,n1w
-        ucw(i,j,k,ii1)=ucw(i,j,k,ii1)*fact
-        sum=sum+abs(ucw(i,j,k,ii1))**2
-        enddo
-        enddo
-        enddo
-        
+        if(ii1.eq.1) then
+          sum000=sum
+        else
+          fact=dsqrt(sum000/sum)
+          do k=1,n3
+          do j=1,n2
+          do i=1,n1w
+          ucw(i,j,k,ii1)=ucw(i,j,k,ii1)*fact
+          enddo
+          enddo
+          enddo
+        endif
+      
         enddo     ! ii1
+      endif
+
+
+      do ist=num_st_old+1,num_st
+        do iread=1,mnodes
+        if(inode.eq.1) then
+         do ii=1,mr_n
+         jj=ii+(iread-1)*mr_n
+         i=(jj-1)/(n2*n3)+1
+         j=(jj-1-(i-1)*n2*n3)/n3+1
+         k=jj-(i-1)*n2*n3-(j-1)*n3
+         uc_tmp(ii)=ucw(i,j,k,ist)
+         enddo
+        endif
+        call mpi_barrier(MPI_COMM_WORLD,ierr)
+        call mpi_bcast(uc_tmp,mr_n,MPI_DOUBLE_COMPLEX,0,
+     &       MPI_COMM_WORLD,ierr)
+        if(inode.ne.1) then
+         do ii=1,mr_n
+         jj=ii+(iread-1)*mr_n
+         i=(jj-1)/(n2*n3)+1
+         j=(jj-1-(i-1)*n2*n3)/n3+1
+         k=jj-(i-1)*n2*n3-(j-1)*n3
+         ucw(i,j,k,ist)=uc_tmp(ii)
+         enddo
+        endif
+        enddo
+      enddo
 
 ccccccccccccccccccccccccccccccccccc
       do ii1=num_st_old+1,num_st
@@ -432,9 +498,8 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
 
       num_bad=0
 
-      ist=0
       do 600 num1=num_wr_dis(1),num_wr_dis(2)
-      ist=ist+1
+      ist=num1-num_wr_dis(1)+1
       do ii1=num_st_old+1,num_st
       cc1=dcmplx(0.d0,0.d0)
       cc2=dcmplx(0.d0,0.d0)
@@ -612,7 +677,15 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       enddo
       cc_R=dconjg(cc_R)     ! important
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+      call mpi_barrier(MPI_COMM_WORLD,ierr)
+      call mpi_bcast(nline_w,nwellm,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
+      call mpi_bcast(ak_w,nwellm,MPI_REAL8,0,MPI_COMM_WORLD,ierr)
+      call mpi_bcast(dE_dk,nwellm,MPI_REAL8,0,MPI_COMM_WORLD,ierr)
+      call mpi_bcast(cphase_ucw,nwellm,MPI_DOUBLE_COMPLEX,0,
+     &    MPI_COMM_WORLD,ierr)
+
       deallocate(uc_test)
+      deallocate(uc_tmp)
 ccccccc output is ccy2_st and ucw
 
       return
