@@ -7,7 +7,7 @@ SRCL0=analyWave.f wave_decomp.f wave_system.f wave_electrode_3kpts.f wave_electr
 
 OBJL0=$(SRCL0:.f=.o)
 
-SRCL1=analyWave_mpi.f wave_decomp_ym.f wave_system_ym.f wave_electrode_3kpts.f wave_electrode.f wave_electrode_interp.f
+SRCL1=analyWave_mpi.f find_state.f wave_decomp_ym.f wave_system_ym.f wave_electrode_3kpts.f wave_electrode.f wave_electrode_interp.f
 
 OBJL1=$(SRCL1:.f=.o)
 

@@ -63,8 +63,6 @@
       real*8,allocatable,dimension(:) :: s_scale,rwork_tmp
 
       integer num_wr_dis(2)
-      complex*16 tmp_complex(nwellm,nwellm)
-      real*8 tmp_real(nwellm)
       integer inode,nnodes
 
       common /mpi_data/inode,nnodes
@@ -182,7 +180,7 @@ ccccccccccccccccccccccccccccccccccccccc
 
       open(66,file="coefficients.out")
       rewind(66)
-      write(66,*) 'Tranwellmission and coefficients of system'//
+      write(66,*) 'Transmission and coefficients of system'//
      & 'states for each scattering state'
       
       endif
@@ -282,9 +280,6 @@ cccccccc  The relative electrode energy is E+dV/2
       write(6,*) "**** electrode decomposition for left hand side"
       endif
       Ew0=E+dV/2
-      ccy2_st1=dcmplx(0.d0,0.d0)
-      cc_R1=dcmplx(0.d0,0.d0)
-      weight1=0.d0
       call wave_decomp(ccy2_st1(1,1),Ew0,num_stw1,
      &  num_run1,idble1,iposit1,nnposit1,ucw1,
      &  n1w,n1,n2,n3,cphase_ucw1,dE_dk1,ak_w1,nline_w1,
@@ -292,17 +287,6 @@ cccccccc  The relative electrode energy is E+dV/2
      &  cphase,phase,num_stWell,num_wr_dis,uc,E_evan,E_evanC,ist_evan,
      &  ikpt_evan,iGX_evan,num_evan,weight1,a11,num_iter_evan,dE_evanL,
      &  cc_R1)
-      call mpi_barrier(MPI_COMM_WORLD,ierr)
-      call mpi_allreduce(ccy2_st1,tmp_complex,nwellm*nwellm,
-     $     MPI_DOUBLE_COMPLEX,MPI_SUM,MPI_COMM_WORLD,ierr)
-      ccy2_st1=tmp_complex
-      call mpi_allreduce(cc_R1,tmp_complex,nwellm*nwellm,
-     $     MPI_DOUBLE_COMPLEX,MPI_SUM,MPI_COMM_WORLD,ierr)
-      cc_R1=tmp_complex
-      call mpi_allreduce(weight1,tmp_real,nwellm,
-     $     MPI_REAL8,MPI_SUM,MPI_COMM_WORLD,ierr)
-      weight1=tmp_real
-
 cccccccc  Second: the right hand side electrode, the results are  ..ww2 
 cccccccc  The relative electrode energy is E-dV/2
 cccccccc  The current flow from the left hand side to right hand side. 
@@ -311,9 +295,6 @@ cccccccc  The current flow from the left hand side to right hand side.
       write(6,*) "**** electrode decomposition for right hand side"
       endif
       Ew0=E-dV/2
-      ccy2_st2=dcmplx(0.d0,0.d0)
-      cc_R2=dcmplx(0.d0,0.d0)
-      weight2=0.d0
       call wave_decomp(ccy2_st2(1,1),Ew0,num_stw2,
      &  num_run2,idble2,iposit2,nnposit2,ucw2,
      &  n1w,n1,n2,n3,cphase_ucw2,dE_dk2,ak_w2,nline_w2,
@@ -321,16 +302,6 @@ cccccccc  The current flow from the left hand side to right hand side.
      &  cphase,phase,num_stWell,num_wr_dis,uc,E_evan,E_evanC,ist_evan,
      &  ikpt_evan,iGX_evan,num_evan,weight2,a11,num_iter_evan,dE_evanR,
      &  cc_R2)
-      call mpi_barrier(MPI_COMM_WORLD,ierr)
-      call mpi_allreduce(ccy2_st2,tmp_complex,nwellm*nwellm,
-     $     MPI_DOUBLE_COMPLEX,MPI_SUM,MPI_COMM_WORLD,ierr)
-      ccy2_st2=tmp_complex
-      call mpi_allreduce(cc_R2,tmp_complex,nwellm*nwellm,
-     $     MPI_DOUBLE_COMPLEX,MPI_SUM,MPI_COMM_WORLD,ierr)
-      cc_R2=tmp_complex
-      call mpi_allreduce(weight2,tmp_real,nwellm,
-     $     MPI_REAL8,MPI_SUM,MPI_COMM_WORLD,ierr)
-      weight2=tmp_real
       if(inode.eq.1) then
       write(6,*) "************************************************"
       endif
@@ -638,7 +609,7 @@ ccccccccccccccccc  test, test
        fit_err33=fit_err33+dconjg(cc_y(j1))*cc_s2(j1,j2)*cc_y(j2)
        enddo
        enddo
-       endif
+      endif ! inode.eq.1
 
       call mpi_barrier(MPI_COMM_WORLD,ierr)
       call mpi_bcast(cc_y,num_st+2*n_tmp,MPI_DOUBLE_COMPLEX,0,
