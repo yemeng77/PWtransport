@@ -125,6 +125,10 @@ ccccccccccccccccccccccccccc
 cccc Then solve Ew=a1*ak^2+a2*ak+a3 to find ak
 cccc ak is the kpoint distance from ikpt_linew(i2,j)
 cccccccc
+      if(a1.le.1.D-8) then ! It is linear!
+        ak=(Ew-a3)/a2
+        dE_dk3=a2/(pi/a11/(nkptw-1))
+      else
       ak1=(-a2+dsqrt(abs(a2**2-4*a1*(a3-Ew))))/(2*a1)
       ak2=(-a2-dsqrt(abs(a2**2-4*a1*(a3-Ew))))/(2*a1)
       if(abs(ak1).lt.abs(ak2)) then
@@ -151,6 +155,8 @@ cccccccc
       endif
 ccccccccccccccccccccccccccccccccccccccccccccccccc
       dE_dk3=(2*a1*ak+a2)/(pi/a11/(nkptw-1))
+      endif
+
       dE_dk(num_st)=dE_dk3
       w1=(ak**2-ak)/2
       w2=1.d0-ak**2

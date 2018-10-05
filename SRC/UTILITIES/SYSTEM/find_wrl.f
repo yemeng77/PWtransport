@@ -378,7 +378,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
      &  iGX_evan(ii),E_evan(ii)
 
 501    format("evanescent state:ind,ist,ikpt,E,iGX: ",
-     & 	4(i3,1x),f9.6,1x)
+     & 	4(i4,1x),f9.6,1x)
 
       enddo !end loop over num_evan
 
