@@ -37,7 +37,7 @@ c       complex*16 workr_n(mg_nx)
 **********************************************
        integer lin_st(mst),m_max(mstateT),mxc
        real*8 E_st(mst),err_st(mst),eigen(mst)
-       real*8 Ef,E_wind,occ(mst)
+       real*8 Eref
        complex*16 Zbeta,Zpu
 
        common /com123b/m1,m2,m3,ngb,nghb,ntype,rrcut,msb
@@ -54,10 +54,6 @@ cccccccccccccccccccccccc
 
        wgp_n=wgp_n0
        Zcoeff=dcmplx(0.d0,0.d0)
-
-       pi=4.0d0*datan(1.0d0)
-       akf=((32.0d0/10.26d0**3)*3.0d0*pi*2.0d0)**(1.d0/3.d0)
-       Ek=0.5d0*akf**2
 
        s=0.0d0
        do i=1,nr/nnodes
