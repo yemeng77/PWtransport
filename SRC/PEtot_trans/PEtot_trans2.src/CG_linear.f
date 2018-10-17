@@ -31,7 +31,7 @@ cc     The United States government retains a royalty free license in this work
        real*8 AL(3,3)
 c       complex*16 workr_n(mg_nx)
        complex*16 workr_n(*)   ! original workr_n is of mr_n which is larger, xwjiang
-       complex*16 Zcoeff(mx,mstateT),zfac,cai,Vavg
+       complex*16 Zcoeff(mx,mstateT),zfac,cai
 **********************************************
 **** if iopt=0 is used, pghh_old can be deleted
 **********************************************
@@ -55,11 +55,27 @@ cccccccccccccccccccccccc
        wgp_n=wgp_n0
        Zcoeff=dcmplx(0.d0,0.d0)
 
+       pi=4.0d0*datan(1.0d0)
+       akf=((32.0d0/10.26d0**3)*3.0d0*pi*2.0d0)**(1.d0/3.d0)
+       Ek=0.5d0*akf**2
+
+       s=0.0d0
+       do i=1,nr/nnodes
+       s=s+vr(i)
+       enddo
+       call global_sumr(s)
+       Vavg=s/nr
+
+       do i=1,ng_n
+       x=((gkk_n(i,kpt)+Vavg-Eref)/Ek)**2
+       prec(i)=1.d0/(1.d0+x)
+       enddo
+
        do 4000 iii=1,mstateT
 
        err2=1.d0
-       ughh_old = (0.0d0,0.0d0)
-       pg_old = (0.0d0,0.0d0)
+       ughh_old=dcmplx(0.0d0,0.0d0)
+       pg_old=dcmplx(0.0d0,0.0d0)
        iopt=1
        zbeta=dcmplx(0.d0,0.d0)
 
@@ -109,23 +125,7 @@ ccccccccccccccc
 cccccccccccccccccccccccccccccccccccccccccccc
 
        rr0=1.d+40
-       pi=4.0d0*datan(1.0d0)
-       akf=((32.0d0/10.26d0**3)*3.0d0*pi*2.0d0)**(1.d0/3.d0)
-       Ek=0.5d0*akf**2
-       s=0.0d0
-
-       do i=1,nr/nnodes
-       s=s+vr(i)
-       enddo
-
-       call mpi_allreduce(s,s1,1,MPI_REAL8,MPI_SUM,MPI_COMM_WORLD,ierr)
-       Vavg=s1/nr
-
-       do i=1,ng_n
-       x=((gkk_n(i,kpt)+Vavg-Eref)/Ek)**2
-       prec(i)=1.d0/(1.d0+x)
-       wgc_n(i)=dcmplx(0.d0,0.d0)
-       enddo
+       wgc_n=dcmplx(0.d0,0.d0)
 
 
       do 3000 nint2=1,nline
