@@ -186,8 +186,6 @@ cccccccccccccccccccccccccccccccccccccccccccc
        pg(i)=-zg(i)+beta*pg_old(i)
        enddo
 ************************************************
-      call orth_comp(pg,ug_n,mxc,2,kpt)
-
       s=0.d0
       do i=1,ng_n
       s=s+cdabs(pg(i))**2
