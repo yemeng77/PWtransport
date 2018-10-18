@@ -308,6 +308,11 @@ c       do 200 kpt=1,nkpt
        if(mx.gt.0) then
        open(16,file="eigen_wg0")
        rewind(16)
+       do i=1,4
+         read(16,*)
+       enddo
+       read(16,*) (err_st(i,1,1),i=1,mx)
+       read(16,*)
        read(16,*) (eigen(i),i=1,mx)
        close(16)
        do m=1,mx
@@ -319,6 +324,7 @@ c       do 200 kpt=1,nkpt
        if(mxc.ne.mx) then
         do i=1,mxc
           eigen(i)=eigen(index_st(i))/27.211396d0
+          err_st(i,1,1)=err_st(index_st(i),1,1)
           ug_n(:,i)=ug_n(:,index_st(i))
         enddo
        endif
@@ -432,7 +438,7 @@ ccccc Inside CG_linear, the wr_real.E has already been written in real space.
 
        call CG_linear(ilocal,nline,tolug,
      &   wgp_n,vr_in_n(1,iislda),workr_n,
-     &   kpt,Eref,AL,eigen,mxc,mstate)
+     &   kpt,Eref,AL,eigen,err_st(1,1,1),mxc,mstate)
 
        call mpi_barrier(MPI_COMM_WORLD,ierr)
 

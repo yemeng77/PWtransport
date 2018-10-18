@@ -1,6 +1,6 @@
       subroutine CG_linear(ilocal,nline,tol,
      &  wgp_n0,vr,workr_n,kpt,Eref,AL,eigen,
-     &  mxc,mstateT)
+     &  err_st,mxc,mstateT)
 ****************************************
 cc     Written by Lin-Wang Wang, March 30, 2001. 
 cc     Copyright 2001 The Regents of the University of California
@@ -22,6 +22,7 @@ cc     The United States government retains a royalty free license in this work
        complex*16 ugh(mg_nx),ughh(mg_nx)
        complex*16 pg(mg_nx),pgh(mg_nx),pghh(mg_nx)
        complex*16 pg_old(mg_nx),ughh_old(mg_nx)
+       complex*16 zg(mg_nx)
 
        complex*16 wgc_n(mg_nx),wgp_n0(mg_nx,mstateT)
        complex*16, allocatable, dimension (:,:) :: wgp_n,wgp_nh
@@ -31,13 +32,13 @@ cc     The United States government retains a royalty free license in this work
        real*8 AL(3,3)
 c       complex*16 workr_n(mg_nx)
        complex*16 workr_n(*)   ! original workr_n is of mr_n which is larger, xwjiang
-       complex*16 Zcoeff(mx,mstateT),zfac,cai
+       complex*16 Zcoeff(mx),zfac,cai
 **********************************************
 **** if iopt=0 is used, pghh_old can be deleted
 **********************************************
        integer lin_st(mst),m_max(mstateT),mxc
        real*8 E_st(mst),err_st(mst),eigen(mst)
-       real*8 Eref
+       real*8 Eref,coeff(mst)
        complex*16 Zbeta,Zpu
 
        common /com123b/m1,m2,m3,ngb,nghb,ntype,rrcut,msb
@@ -67,6 +68,12 @@ cccccccccccccccccccccccc
        prec(i)=1.d0/(1.d0+x)
        enddo
 
+       do i=1,mxc
+         dE=eigen(m)-Eref
+         if(dE.lt.1.D-20) dE=1.D-20
+         coeff(m)=1.D0/(dE**2+err_st**2)
+       enddo
+
        do 4000 iii=1,mstateT
 
        err2=1.d0
@@ -74,41 +81,6 @@ cccccccccccccccccccccccc
        pg_old=dcmplx(0.0d0,0.0d0)
        iopt=1
        zbeta=dcmplx(0.d0,0.d0)
-
-       call orth_comp_N(wgp_n(1,iii),ug_n,mxc,2,kpt,Zcoeff(1,iii))
-
-cccccccccccccccccccccccccccccccccccccccccccccccc
-
-        do m=1,mxc
-         dE=eigen(m)-Eref
-         if(dabs(dE).lt.1.D-20) dE=1.D-20
-         Zcoeff(m,iii)=Zcoeff(m,iii)/dE
-        enddo
-ccccccccccccccc
-
-         do iim=1,iii-1
-         zfac=Zcoeff(m_max(iim),iii)/Zcoeff(m_max(iim),iim)
-         if(zfac.ne.zfac) zfac=0
-         do i=1,ng_n
-         wgp_n(i,iii)=wgp_n(i,iii)-zfac*wgp_n(i,iim)
-         enddo
-         do m=1,mxc
-         Zcoeff(m,iii)=Zcoeff(m,iii)-zfac*Zcoeff(m,iim)
-         enddo
-         enddo
-         do iim=1,iii-1
-         Zcoeff(m_max(iim),iii)=dcmplx(0.d0,0.d0)
-         enddo
-
-
-        zmax=0.d0
-        m_max(iii)=0
-        do m=1,mxc
-         if(cdabs(Zcoeff(m,iii)).gt.zmax) then
-         zmax=cdabs(Zcoeff(m,iii))
-         m_max(iii)=m
-         endif
-        enddo
 
 ************************************************
 **** wgp_nh = (H-Eref) * wgp_n0
@@ -182,13 +154,23 @@ cccccccccccccccccccccccccccccccccccccccccccc
 ************************************************
 **** begin conjugate gradient
 ************************************************
+      zg=pg
+      call orth_comp_N(zg,ug_n,mxc,2,kpt,Zcoeff)
+      do i=1,ng_n
+        zg(i)=prec(i)*zg(i)
+      enddo
+      do m=1,mxc
+      do i=1,ng_n
+        zg(i)=zg(i)+coeff(m)*Zcoeff(m)*ug_n(i,m)
+      enddo
+      enddo
+
       rr1=0.d0
       rr00=0.d0
       do i=1,ng_n
-      rr00=rr00+cdabs(pg(i))**2*dble(prec(i))
-      rr1=rr1+dble(prec(i))*(pg(i)-iopt*ughh_old(i))*
-     &      dconjg(pg(i))
-      ughh_old(i)=pg(i)
+      rr00=rr00+zg(i)*dconjg(pg(i))
+      rr1=rr1+(zg(i)-iopt*ughh_old(i))*dconjg(pg(i))
+      ughh_old(i)=zg(i)
       enddo
 
       call global_sumr(rr00)
@@ -201,7 +183,7 @@ cccccccccccccccccccccccccccccccccccccccccccc
 ***** pg(i) is the line minimization direction
 **********************************************
        do i=1,ng_n
-       pg(i)=-pg(i)*dble(prec(i))+beta*pg_old(i)
+       pg(i)=-zg(i)+beta*pg_old(i)
        enddo
 ************************************************
       call orth_comp(pg,ug_n,mxc,2,kpt)
@@ -287,13 +269,6 @@ cccccccccccccccccccccccccccccccccccccccccccc
      &  "  err=",E10.2)
 	write(6,*) 'nint2,E1',nint2,E1
       endif
-
-
-      do m=1,mxc
-      do i=1,ng_n
-      wgc_n(i)=wgc_n(i)-Zcoeff(m,iii)*ug_n(i,m)
-      enddo
-      enddo
 cccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccccccccccjjjjjjjjjj
 cccc output wgc_n in real space, including the phase factor 
