@@ -68,10 +68,10 @@ cccccccccccccccccccccccc
        prec(i)=1.d0/(1.d0+x)
        enddo
 
-       do i=1,mxc
+       do m=1,mxc
          dE=eigen(m)-Eref
          if(dE.lt.1.D-20) dE=1.D-20
-         coeff(m)=1.D0/(dE**2+err_st**2)
+         coeff(m)=1.D0/(dE**2+err_st(m)**2)
        enddo
 
        do 4000 iii=1,mstateT
