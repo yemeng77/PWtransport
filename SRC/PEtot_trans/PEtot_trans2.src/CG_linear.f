@@ -69,7 +69,7 @@ cccccccccccccccccccccccc
        enddo
 
        do m=1,mxc
-         dE=eigen(m)-Eref
+         dE=dabs(eigen(m)-Eref)
          if(dE.lt.1.D-20) dE=1.D-20
          coeff(m)=1.D0/(dE**2+err_st(m)**2)
        enddo
@@ -143,7 +143,6 @@ cccccccccccccccccccccccccccccccccccccccccccc
       if(err.lt.tol) goto 3001
  
 ************************************************
-      call orth_comp(pg,ug_n,mxc,2,kpt)
 ************************************************
       err2=0.d0
       do i=1,ng_n
@@ -168,9 +167,9 @@ cccccccccccccccccccccccccccccccccccccccccccc
       rr1=0.d0
       rr00=0.d0
       do i=1,ng_n
-      rr00=rr00+zg(i)*dconjg(pg(i))
-      rr1=rr1+(zg(i)-iopt*ughh_old(i))*dconjg(pg(i))
-      ughh_old(i)=zg(i)
+      rr00=rr00+dreal(pg(i)*dconjg(zg(i)))
+      rr1=rr1+dreal((pg(i)-iopt*ughh_old(i))*dconjg(zg(i)))
+      ughh_old(i)=pg(i)
       enddo
 
       call global_sumr(rr00)
@@ -219,7 +218,7 @@ cccccccccccccccccccccccccccccccccccccccccccc
       App=0.d0
 
         do i=1,ng_n
-        Zpu=Zpu+dconjg(pg(i))*(ughh(i)+wgp_nh(i,iii))
+        Zpu=Zpu+dconjg(pg(i))*ughh_old(i)
         App=App+dreal(pg(i)*dconjg(pghh(i)))
         enddo
 
