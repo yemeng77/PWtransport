@@ -482,6 +482,7 @@ cccc This is a fixed parameter!!
 
         write(10) ur_tmp
         enddo
+        write(10) 0
        close(10)
 
 
