@@ -54,6 +54,16 @@ c       complex*16 workr_n(mg_nx)
 cccccccccccccccccccccccc
 
        wgp_n=wgp_n0
+************************************************
+**** wgp_nh = (H-Eref) * wgp_n0
+************************************************
+       do iii=1,mstateT
+       call Hpsi_comp(wgp_n(1,iii),wgp_nh(1,iii),ilocal,vr,workr_n,kpt)
+       do i=1,ng_n
+       wgp_nh(i,iii)=wgp_nh(i,iii)-Eref*wgp_n(i,iii)
+       enddo
+       enddo
+
        Zcoeff=dcmplx(0.d0,0.d0)
 
        s=0.0d0
@@ -82,14 +92,6 @@ cccccccccccccccccccccccc
        iopt=1
        zbeta=dcmplx(0.d0,0.d0)
 
-************************************************
-**** wgp_nh = (H-Eref) * wgp_n0
-************************************************
-       call Hpsi_comp(wgp_n(1,iii),wgp_nh(1,iii),ilocal,vr,workr_n,kpt)
-       do i=1,ng_n
-       wgp_nh(i,iii)=wgp_nh(i,iii)-Eref*wgp_n(i,iii)
-       enddo
-
 cccccccccccccccccccccccccccccccccccccccccccc
 
        rr0=1.d+40
@@ -102,6 +104,7 @@ cccccccccccccccccccccccccccccccccccccccccccc
 **** ughh = (H-Eref)^2 * ug
 ************************************************
       if(nint2.eq.1) then
+c      if(mod(nint2,100).eq.1) then   ! explicit do this every 100 steps
         call Hpsi_comp(wgc_n,ugh,ilocal,vr,workr_n,kpt)
         do i=1,ng_n
         ugh(i)=ugh(i)-Eref*wgc_n(i)
@@ -127,6 +130,7 @@ cccccccccccccccccccccccccccccccccccccccccccc
 
       do i=1,ng_n
       pg(i)=ughh(i)+wgp_nh(i,iii)
+      !ughh_old(i)=pg(i)
       err=err+cdabs(ugh(i)+wgp_n(i,iii))**2
       E0=E0+dreal(dconjg(wgc_n(i))*(ughh(i)+2*wgp_nh(i,iii)))
       E1=E1+dreal((2*wgp_nh(i,iii)))
@@ -150,6 +154,7 @@ cccccccccccccccccccccccccccccccccccccccccccc
       enddo
       call global_sumr(err2)
       err2=dsqrt(dabs(err2*vol))
+c      if(err2.lt.tol) goto 3001
 ************************************************
 **** begin conjugate gradient
 ************************************************
@@ -237,22 +242,28 @@ cccccccccccccccccccccccccccccccccccccccccccc
 **********************************************
       Zbeta=-Zpu/App
 
-      pred_E=E0+2*dreal(Zpu*dconjg(Zbeta))+
-     &     cdabs(Zbeta)**2*App
+c      pred_E=E0+2*dreal(Zpu*dconjg(Zbeta))+
+c     &     cdabs(Zbeta)**2*App
 **********************************************
 **** update ug using theta
 **********************************************
+      s=0.d0
       do i=1,ng_n
       wgc_n(i)=wgc_n(i)+Zbeta*pg(i)
+      s=s+cdabs(wgc_n(i))**2
       enddo
-
+      call global_sumr(s)
+      s=dsqrt(s*vol)
 **********************************************
 ***** debugging:
 **********************************************
       if(inode.eq.1) then
-      write(6,777) nint2,E0,err,err2
+      write(6,777) nint2,E0,pred_E,s,err,err2
       endif
-777   format(i8,3(E20.12,2x))
+777   format(i8,5(E20.12,2x))
+
+      pred_E=E0+2*dreal(Zpu*dconjg(Zbeta))+
+     &     cdabs(Zbeta)**2*App
 **********************************************
 **** do 3000, is for the nline line minimization
 **********************************************
