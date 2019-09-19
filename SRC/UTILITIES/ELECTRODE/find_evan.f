@@ -1,10 +1,11 @@
-       subroutine find_evan()
+       program find_evan
 cccccc AL is the lattice of the large cell
 cccccc ALw is the lattice of the electrode unit cell
 
       implicit double precision (a-h,o-z)
 
-      parameter (nm=400)
+      parameter (nm=2000)
+      parameter (nevan=2000)
 
       real*8, allocatable, dimension (:,:,:) :: phase
 
@@ -15,9 +16,9 @@ cccccc ALw is the lattice of the electrode unit cell
       complex*16, allocatable, dimension (:) :: ur_tmp
 
 
-      real*8 E_evan(500),E_evanC(500)
-      integer ist_evan(500),ikpt_evan(500),iGX_evan(500),
-     &     iband_evan(500)
+      real*8 E_evan(nevan),E_evanC(nevan)
+      integer ist_evan(nevan),ikpt_evan(nevan),iGX_evan(nevan),
+     &     iband_evan(nevan)
        real*8 dE_dk(400),ak_w(400)
       integer nline_w(400)
 
@@ -46,11 +47,18 @@ cccccc ALw is the lattice of the electrode unit cell
       ALw(:,1)=AL(:,1)*n1w*1.d0/n1
  
       pi=4*datan(1.d0)
-
+      
+      open(10,file="connect.input")
+      rewind(10)
+      read(10,*) 
+      read(10,*) 
+      read(10,*) nintep
+      close(10)
 
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccc Real band structure in GX
       open(14,file="E_line_W2K2")
+      rewind(14)
       read(14,*) nstw,nkptw
       do j=1,nstw
       read(14,*) j1,numw(j)
@@ -63,9 +71,9 @@ ccc Real band structure in GX
 cccccc first, the evanescent state at the Gamma point
       num_evan=0
       do j=1,nstw
-      if(ikpt_linew(1,j).eq.1.and.numw(j).ge.3) then    ! Gamma point, forget about short lines
-      dEdk1=2*(E_linew(2,j)-E_linew(1,j))   ! curvature at Gamma (assuming a slop=0)
-      dEdk2=E_linew(1,j)+E_linew(3,j)-2*E_linew(2,j) ! curvature calculated at 2
+      if(ikpt_linew(1,j).eq.1.and.numw(j).ge.3*nintep) then    ! Gamma point, forget about short lines
+      dEdk1=2*(E_linew(nintep+1,j)-E_linew(1,j))   ! curvature at Gamma (assuming a slop=0)
+      dEdk2=E_linew(1,j)+E_linew(2*nintep+1,j)-2*E_linew(nintep+1,j) ! curvature calculated at 2
 
       if(dabs(dEdk1).lt.5*abs(dEdk2)) then       ! the Gamma curv similar to 2 curv, indeed, slop=0
       
@@ -86,10 +94,11 @@ cccccc second, the evanescent state at the X point
       do j=1,nstw
        numwt=numw(j)
       if(ikpt_linew(numwt,j).eq.nkptw.and.
-     & numwt.ge.3 ) then    ! X-point, forget about short lines
+     & numwt.ge.3*nintep) then    ! X-point, forget about short lines
 
-      dEdk1=2*(E_linew(numwt-1,j)-E_linew(numwt,j))   ! curvature at X (assuming a slop=0)
-      dEdk2=E_linew(numwt,j)+E_linew(numwt-2,j)-2*E_linew(numwt-1,j) ! curvature calculated at 2
+      dEdk1=2*(E_linew(numwt-nintep,j)-E_linew(numwt,j))   ! curvature at X (assuming a slop=0)
+      dEdk2=E_linew(numwt,j)+E_linew(numwt-2*nintep,j)
+     &     -2*E_linew(numwt-nintep,j) ! curvature calculated at 2
 
       if(dabs(dEdk1).lt.5*abs(dEdk2)) then       ! the Gamma curv similar to 2 curv, indeed, slop=0
 
@@ -149,5 +158,5 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
        enddo
        close(14)
 606   format(5(i4,1x),2(E18.10,1x))
-      return
+      stop
        end

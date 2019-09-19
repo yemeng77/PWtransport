@@ -4,7 +4,8 @@ cccccc ALw is the lattice of the electrode unit cell
 
       implicit double precision (a-h,o-z)
 
-      parameter (nm=400)
+      parameter (nm=1200)
+      parameter (nevan=2000)
 
       real*8, allocatable, dimension (:,:,:) :: phase
 
@@ -15,10 +16,10 @@ cccccc ALw is the lattice of the electrode unit cell
 
 
       complex*16 cphase_ucw(400)
-      real*8 E_evan(1000),E_evanC(1000)
-      integer ist_evan(1000),ikpt_evan(1000),iGX_evan(1000),
-     &     iband_evan(1000)
-      real*8 E_evan1(1000),E_evan2(1000)
+      real*8 E_evan(nevan),E_evanC(nevan)
+      integer ist_evan(nevan),ikpt_evan(nevan),iGX_evan(nevan),
+     &     iband_evan(nevan)
+      real*8 E_evan1(nevan),E_evan2(nevan)
       integer index(1000)
       real*8 dE_min1(1000),dE_min2(1000),dE_min12(1000)
        real*8 dE_dk(400),ak_w(400)
@@ -78,7 +79,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccc Real band structure in GX
       open(14,file="E_line_W2K2")
-      read(14,*) nstw,nkptw
+      read(14,*) nstw,nkptw,nintep
       do j=1,nstw
       read(14,*) j1,numw(j)
       read(14,*) (E_linew(i,j),i=1,numw(j))
@@ -256,6 +257,18 @@ cccccccc
       ak=ak2
       endif
 
+      if(num_st.gt.1.and.ist_linew(i1,j).eq.i_st1w(num_st-1).and.
+     &  ikpt_linew(i1,j).eq.ikpt_st1w(num_st-1).and.ist_linew(i2,j).eq.
+     &  i_st2w(num_st-1).and.ikpt_linew(i2,j).eq.ikpt_st2w(num_st-1)
+     &  .and.ist_linew(i3,j).eq.i_st3w(num_st-1).and.ikpt_linew(i3,j)
+     &  .eq.ikpt_st3w(num_st-1)) then
+         if(abs(ak1).gt.abs(ak2)) then
+         ak=ak1
+         else
+         ak=ak2
+         endif
+      endif
+
 204    format(3I5,3(e12.5,1x))	
 
 
@@ -365,7 +378,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
      &  iGX_evan(ii),E_evan(ii)
 
 501    format("evanescent state:ind,ist,ikpt,E,iGX: ",
-     & 	4(i3,1x),f9.6,1x)
+     & 	4(i4,1x),f9.6,1x)
 
       enddo !end loop over num_evan
 
@@ -401,7 +414,7 @@ cccccccccccccccccccccccccccccccccccccccccccccc
      & ikpt_st3w(istate),
      & i_st1w(istate),i_st2w(istate),i_st3w(istate),
      & x_st1w(istate),x_st2w(istate),x_st3w(istate),
-     & uc,n1w,n2,n3,fileh,1,cphase,phase)
+     & uc,n1w,n2,n3,fileh,1,cphase,phase,nintep)
 ccccccccccccccccccccccccccccccccccc
 
 
@@ -469,6 +482,7 @@ cccc This is a fixed parameter!!
 
         write(10) ur_tmp
         enddo
+        write(10) 0
        close(10)
 
 

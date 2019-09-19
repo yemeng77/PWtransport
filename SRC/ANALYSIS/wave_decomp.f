@@ -2,7 +2,7 @@
      & num_run,idble,iposit,nnposit,ucw,
      & n1w,n1,n2,n3,cphase_ucw,dE_dk,ak_w,nline_w,
      & numw,E_linew,ist_linew,ikpt_linew,nstw,nkptw,
-     & num_mx,imx,cphase,phase,num_stWell,uc,E_evan,E_evanC,
+     & num_mx,nintep,imx,cphase,phase,num_stWell,uc,E_evan,E_evanC,
      & ist_evan,ikpt_evan,iGX_evan,num_evan,weight,a11,
      & num_iter_evan,dE_evan,cc_R)
 
@@ -16,7 +16,8 @@ cccccccc
 
       implicit double precision (a-h,o-z)
 
-      parameter (nm=400)
+      parameter (nm=1200)
+      parameter (nevan=2000)
 
       complex*16, allocatable, dimension (:,:,:) :: uc_test,
      &   uc_test2
@@ -27,9 +28,9 @@ cccccccc
       complex*16 cphase(n1w,n2,n3)
       complex*16 uc(n1,n2,n3,50)
       real*8  phase(n1w,n2,n3)
-      real*8 E_evan(500),E_evanC(500)
-      integer ist_evan(500),ikpt_evan(500),iGX_evan(500),i
-     &     used_evan(500)
+      real*8 E_evan(nevan),E_evanC(nevan)
+      integer ist_evan(nevan),ikpt_evan(nevan),iGX_evan(nevan),i
+     &     used_evan(nevan)
        real*8 dE_dk(400),ak_w(400)
       real*8 weight(90),aI_tmp(400)
       integer nline_w(400)
@@ -124,6 +125,10 @@ ccccccccccccccccccccccccccc
 cccc Then solve Ew=a1*ak^2+a2*ak+a3 to find ak
 cccc ak is the kpoint distance from ikpt_linew(i2,j)
 cccccccc
+      if(a1.le.1.D-8) then ! It is linear!
+        ak=(Ew-a3)/a2
+        dE_dk3=a2/(pi/a11/(nkptw-1))
+      else
       ak1=(-a2+dsqrt(abs(a2**2-4*a1*(a3-Ew))))/(2*a1)
       ak2=(-a2-dsqrt(abs(a2**2-4*a1*(a3-Ew))))/(2*a1)
       if(abs(ak1).lt.abs(ak2)) then
@@ -132,12 +137,26 @@ cccccccc
       ak=ak2
       endif
 
+      if(num_st.gt.1.and.ist_linew(i1,j).eq.i_st1w(num_st-1).and.
+     &  ikpt_linew(i1,j).eq.ikpt_st1w(num_st-1).and.ist_linew(i2,j).eq.
+     &  i_st2w(num_st-1).and.ikpt_linew(i2,j).eq.ikpt_st2w(num_st-1)
+     &  .and.ist_linew(i3,j).eq.i_st3w(num_st-1).and.ikpt_linew(i3,j)
+     &  .eq.ikpt_st3w(num_st-1)) then
+         if(abs(ak1).gt.abs(ak2)) then
+         ak=ak1
+         else
+         ak=ak2
+         endif
+      endif
+
       if(abs(ak).gt.1) then
       write(6,*) "ak.gt.1, strange, stop",ak
       stop
       endif
 ccccccccccccccccccccccccccccccccccccccccccccccccc
       dE_dk3=(2*a1*ak+a2)/(pi/a11/(nkptw-1))
+      endif
+
       dE_dk(num_st)=dE_dk3
       w1=(ak**2-ak)/2
       w2=1.d0-ak**2
@@ -172,6 +191,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       write(6,*) "XXXXXXXXXXXXXXXXXXXXXX"
       write(6,*) "The number of running waves =", num_st
+c      do i=1,num_st
+c        write(6,*) i_st1w(i),ak_w(i),dE_dk(i)
+c      enddo
       write(6,301) (ikpt_st1w(i),i=1,num_st)
       write(6,302) (i_st1w(i),i=1,num_st)
       write(6,*) "XXXXXXXXXXXXXXXXXXXXXX"
@@ -271,11 +293,11 @@ ccccccccccccccccccccccccccccccccccccccccccccc
      & ikpt_st3w(ii),
      & i_st1w(ii),i_st2w(ii),i_st3w(ii),
      & x_st1w(ii),x_st2w(ii),x_st3w(ii),
-     & ucw(1,1,1,ii),n1w,n2,n3,fileh,1,cphase,phase)
+     & ucw(1,1,1,ii),n1w,n2,n3,fileh,1,cphase,phase,nintep)
       else
       call wave_electrode(ikpt_st1w(ii),ikpt_st2w(ii),
      & i_st1w(ii),i_st2w(ii),x_st1w(ii),x_st2w(ii),
-     & ucw(1,1,1,ii),n1w,n2,n3,fileh,1,cphase,phase)
+     & ucw(1,1,1,ii),n1w,n2,n3,fileh,1,cphase,phase,nintep)
       endif
 
         if(idble(ii).eq.1) then     ! make ucw real, Note, even for X-point evanescent states, we can make it real
@@ -519,7 +541,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccc
       sum2=sum2+abs(uc(i+nnposit,j,k,num1))**2
       diff=diff+abs(uc(i+nnposit,j,k,num1)-uc_test(i,j,k))**2
 ccccc THE CHANGE !
-      uc_R(i,j,k,num1)=uc(i+nnposit,j,k,num1)-uc_test2(i,j,k)      ! uc_test2 does not include the evanescent states
+      uc_R(i,j,k,num1)=uc(i+nnposit,j,k,num1)-uc_test(i,j,k)      ! uc_test2 does not include the evanescent states
       enddo
       enddo
       enddo

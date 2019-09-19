@@ -1,11 +1,45 @@
       program analyWaveM
-
       implicit double precision (a-h,o-z)
+
+      include "mpif.h"
+      integer status(MPI_STATUS_SIZE)
+
       parameter (nm=1200)
-      parameter (nevan=2000)
+      parameter (nevan=4000)
+      parameter (nstm=200)
+      parameter (nwellm=400)
+
       real*8 AL(3,3)
       real*8 E_line(nm,nm),E_linew(nm,nm)
-      real*8 dE_dk1(400),dE_dk2(400)
+      real*8 dE_dk1(nstm),dE_dk2(nstm)
+
+      integer  numw(nm),ist_linew(nm,nm),ikpt_linew(nm,nm)
+      integer ist_evan(nevan),ikpt_evan(nevan),iGX_evan(nevan),
+     &        iband_evan(nevan)
+      real*8 E_evan(nevan),E_evanC(nevan)
+
+      integer ind(nm,nm),iflag(nm,nm),jj_st(nm)
+      real*8 dE(nm,nm),overlap_max(nm,nm),E0(nm,nm)
+
+      integer i1_st1_ind(nstm),i1_st2_ind(nstm),
+     &  imx(10,nstm),num_mx(nstm),nline_w1(nstm),nline_w2(nstm)
+      integer i1_st1_ind0(nstm),i1_st1_ind1(nstm)
+      integer i1_st2_ind0(nstm),i1_st2_ind1(nstm)
+      integer ifl_evan1(nstm),ifl_evan2(nstm)
+      complex*16 cphase_ucw1(nstm),cphase_ucw2(nwellm)
+      real*8 ak_w1(nstm),ak_w2(nstm),E_w1(nstm),E_w2(nstm)
+     
+      integer idble1(nstm),idble2(nstm),iposit1(nstm),iposit2(nstm)
+
+      complex*16 ccy2_st1(nwellm,nwellm),ccy2_st2(nwellm,nwellm)
+      real*8 weight1(nwellm),weight2(nwellm),weight_st(nwellm)
+      integer ind_Well(nwellm)
+      complex*16 cc_R1(nwellm,nwellm),cc_R2(nwellm,nwellm)
+
+      complex*16 cc,cc1,cc2,cc3,cc_st
+
+      character*7 fileh
+
       complex*16, allocatable, dimension (:,:,:) :: uc_test,uc_test2,
      &   uc_test3
       complex*16, allocatable, dimension (:,:,:,:) :: uc
@@ -13,7 +47,8 @@
       complex*16, allocatable, dimension (:,:,:) :: cphase
       complex*16, allocatable, dimension (:,:) :: cc_matrix,cc_matrix0
       complex*16, allocatable, dimension (:,:) :: cc_matrix0_tmp
-      complex*16, allocatable, dimension (:) :: cc_y,cwork,uc_tmp2
+      complex*16, allocatable, dimension (:) :: cc_y,cwork
+      complex*16, allocatable, dimension (:) :: uc_tmp,uc_tmp2
       real*8, allocatable, dimension (:) :: ss,rwork
       real*8, allocatable, dimension (:,:,:) :: phase
       real*8, allocatable, dimension (:) :: sum_w1,sum_w2
@@ -27,45 +62,21 @@
       complex*16,allocatable,dimension(:) :: x_tmp,y_tmp,cwork_tmp
       real*8,allocatable,dimension(:) :: s_scale,rwork_tmp
 
-      complex*16 ccy2_st1(90,90),ccy2_st2(90,90)
-      complex*16 cphase_ucw1(400),cphase_ucw2(400)
-      real*8 weight1(90),weight2(90),weight_st(90)
-      integer ind_Well(90)
-      complex*16 cc_R1(90,90),cc_R2(90,90)
+      integer num_wr_dis(2)
+      integer inode,nnodes
 
-      complex*16 cc,cc1,cc2,cc3,cc_st
+      common /mpi_data/inode,nnodes
 
-
-      integer i1_st1_ind(400),i1_st2_ind(400),
-     &  imx(10,400),num_mx(400),nline_w1(400),nline_w2(400)
-      integer i1_st1_ind0(400),i1_st1_ind1(400)
-      integer i1_st2_ind0(400),i1_st2_ind1(400)
-      integer ifl_evan1(400),ifl_evan2(400)
-
-     
- 
-      integer ind(nm,nm),iflag(nm,nm),jj_st(nm)
-      real*8 dE(nm,nm),overlap_max(nm,nm),E0(nm,nm)
-
-      real*8 ak_w1(400),ak_w2(400),E_w1(400),E_w2(400)
-     
-      integer  numw(nm),ist_linew(nm,nm),ikpt_linew(nm,nm)
-
-      integer ist_evan(nevan),ikpt_evan(nevan),iGX_evan(nevan),
-     &        iband_evan(nevan)
-      real*8 E_evan(nevan),E_evanC(nevan)
-      integer idble1(400),idble2(400),iposit1(400),iposit2(400)
-
-      character*7 fileh
-
+      call mpi_init(ierr)
+      call mpi_comm_size(MPI_COMM_WORLD,nnodes,ierr)
+      call mpi_comm_rank(MPI_COMM_WORLD,inode,ierr)      
+      inode=inode+1
 cccccccccccccccccccccccccccccccccccccccccccccc
 cccc preprocessing for the system wavefunction information
 ccccccc  n1,n2,n3 are the grid points for the system
 ccccccc  n1w,n2,n3 are the grid points for one electrode unit cell
 ccccccc the current run in n1,n1w direction
-
-
-      write(6,*) "cccccc Start preprocessing  ccccc"
+      if(inode.eq.1) write(6,*) "cccccc Start preprocessing  ccccc"
 
       open(10,file="analyWave.input")
       rewind(10)
@@ -76,9 +87,9 @@ ccccccc the current run in n1,n1w direction
       read(10,*) AL(1,1)
       read(10,*) num_iter_evan,dE_evanL,dE_evanR
       close(10)
-      write(6,*) "Bias voltage in eV = ", dV
+      if(inode.eq.1) write(6,*) "Bias voltage in eV = ", dV
       a11=AL(1,1) 
-      if(num_iter_evan.eq.1) then
+      if(num_iter_evan.eq.1.and.inode.eq.1.) then
       write(6,*) 'ONLY RUNNING WAVES INCLUDED!!'
       endif
 ccccccccccccccccccccccccccccccccccccccccc
@@ -107,8 +118,8 @@ cccccccccccccccccccccccccccccccccc
       pi=4*datan(1.d0)
       allocate(cphase(n1w,n2,n3))
       allocate(phase(n1w,n2,n3))
-      allocate(ucw1(n1w,n2,n3,100))
-      allocate(ucw2(n1w,n2,n3,100))
+      allocate(ucw1(n1w,n2,n3,nstm))
+      allocate(ucw2(n1w,n2,n3,nstm))
 
       do k=1,n3
       do j=1,n2
@@ -118,16 +129,40 @@ cccccccccccccccccccccccccccccccccc
       enddo 
       enddo
       enddo
-      write(6,*) "cccccc End of preprocessing ccccc"
+      if(inode.eq.1) write(6,*) "cccccc End of preprocessing ccccc"
 cccccccccccccccccccccccccccccccccccccccc
 cccc end of preprocessing
 cccccccccccccccccccccccccccccccccccccccc
 
 
-       allocate(uc(n1,n2,n3,20))
+      allocate(uc(n1,n2,n3,10))
 cccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccc
+      if(inode.eq.1) write(6,*) "cccccc Start reading wr_real.E ccccc"
+
+      open(21,file="wr_real.E",form="unformatted")
+      rewind(21)
+      read(21) N_trans
+      read(21) n1t,n2t,n3t,mnodes
+
+      if(n1.ne.n1t.or.n2.ne.n2t.or.n3.ne.n3t) then
+      if(inode.eq.1) write(6,*) "n1,n2,n3 changed in wr_real.E,stop",
+     &  n1,n2,n3,n1t,n2t,n3t
+      call mpi_abort(MPI_COMM_WORLD,1,ierr)
+      endif
+
+      if(ist_init.gt.N_trans) then
+      if(inode.eq.1) write(6,*) "ist_init.gt.N_trans,stop",
+     &  ist_init,N_trans
+      call mpi_abort(MPI_COMM_WORLD,1,ierr)
+      endif
+
+      mr=n1*n2*n3
+      mr_n=mr/mnodes
+      allocate(uc_tmp(mr_n))
+
+      if(inode.eq.1) then
       open(17,file="T.report")
       rewind(17)
       write(17,607)
@@ -138,38 +173,22 @@ ccccccccccccccccccccccccccccccccccccccc
 
       open(42,file="scatte_st_3D.out",form="unformatted")
       rewind(42)
-      mnodes=16
-      mr=n1*n2*n3
-      mr_n=mr/mnodes
       allocate(uc_tmp2(mr_n))
       numE=ist_final-ist_init+1
       write(42) n1,n2,n3,mnodes
       write(42) numE
 
-      write(6,*) "cccccc Start reading wr_real.E ccccc"
-
-      open(21,file="wr_real.E",form="unformatted")
-      rewind(21)
-      read(21) N_trans
-      read(21) n1t,n2t,n3t,nnodes
-
-      if(n1.ne.n1t.or.n2.ne.n2t.or.n3.ne.n3t) then
-      write(6,*) "n1,n2,n3 changed in wr_real.E,stop",
-     & n1,n2,n3,n1t,n2t,n3t
-      stop
+      open(66,file="coefficients.out")
+      rewind(66)
+      write(66,*) 'Transmission and coefficients of system'//
+     & 'states for each scattering state'
+      
       endif
-
-      if(ist_init.gt.N_trans) then
-      write(6,*) "ist_init.gt.N_trans,stop",ist_init,N_trans
-      stop
-      endif
-
-
 ccccccccc  roll over to the starting position in the file 21
       do ist=1,ist_init-1
       read(21) ist_test,E_wave,mstate
       do ist1=1,mstate
-      do iread=1,nnodes
+      do iread=1,mnodes
       read(21)
       enddo
       enddo
@@ -180,16 +199,20 @@ ccccccccccccccccccccccccccccccccccccccccccccc
 6000  continue
       ist=ist+1
       if(ist.gt.N_trans.or.ist.gt.ist_final) then
+      if(inode.eq.1) then
       close(17)
       close(21)
       close(42)
+      close(66)
       deallocate(uc_tmp2)
+      endif
+      deallocate(uc_tmp)
       deallocate(cphase)
       deallocate(phase)
       deallocate(ucw1)
       deallocate(ucw2)
       deallocate(uc)
-      stop
+      call mpi_abort(MPI_COMM_WORLD,1,ierr)
       endif
 
 cccccccc  This subroutine reads in the system (to be also called "Well") wavefunction. 
@@ -197,25 +220,37 @@ cccccccc  These wavefuncitons in real space are the output from the special PEto
 
       read(21) ist_test,E_wave,mstate
       if(ist_test.ne.ist) then
-      write(6,*) "ist_test.ne.ist,stop",ist_test,ist
-      stop
+      if(inode.eq.1) write(6,*) "ist_test.ne.ist,stop",ist_test,ist
+      call mpi_abort(MPI_COMM_WORLD,1,ierr)
       endif
       num_stWell=mstate
       E=E_wave
+
+      if(inode.eq.1) then
       write(6,*) "*********************"
       write(6,*) "*********************"
       write(6,*) "ist,num_stWell,E_wave=",ist,num_stWell,E_wave
       write(6,*) "*********************"
       write(6,*) "*********************"
-
-!      if(mstate.gt.20) then
-!      write(6,*) "mstate.gt.20,stop",mstate
-      if(mstate.gt.100) then                       ! by xwjiang
-      write(6,*) "mstate.gt.100,stop",mstate
-      stop
       endif
 
-      call wave_system(uc,n1,n2,n3,nnodes,mstate)
+      n_tmp1=num_stWell/nnodes
+      n_tmp2=num_stWell-nnodes*n_tmp1
+      if(inode.le.n_tmp2) then
+        num_wr_dis(1)=(inode-1)*(n_tmp1+1)+1
+        num_wr_dis(2)=inode*(n_tmp1+1)
+      else
+        num_wr_dis(1)=(inode-1)*n_tmp1+n_tmp2+1
+        num_wr_dis(2)=inode*n_tmp1+n_tmp2
+      endif
+      nst1=num_wr_dis(2)-num_wr_dis(1)+1
+
+      if(nst1.gt.10) then                       ! by xwjiang
+      write(6,*) "nst.gt.10, stop",nst1
+      call mpi_abort(MPI_COMM_WORLD,1,ierr)
+      endif
+
+      call wave_system(uc,n1,n2,n3,mnodes,mstate,num_wr_dis)
 
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -240,39 +275,41 @@ cccccccccccccccccccccccccccccccccc
 cccccccc
 cccccccc  First: the left hand side electrode, the results are  ..ww1 
 cccccccc  The relative electrode energy is E+dV/2
+      if(inode.eq.1) then
       write(6,*) "***********************************************"
       write(6,*) "**** electrode decomposition for left hand side"
+      endif
       Ew0=E+dV/2
       call wave_decomp(ccy2_st1(1,1),Ew0,num_stw1,
      &  num_run1,idble1,iposit1,nnposit1,ucw1,
      &  n1w,n1,n2,n3,cphase_ucw1,dE_dk1,ak_w1,nline_w1,
-     &  numw,E_linew,ist_linew,ikpt_linew,nstw,nkptw,num_mx,nintep,
-     &  imx,cphase,phase,num_stWell,uc,E_evan,E_evanC,ist_evan,
+     &  numw,E_linew,ist_linew,ikpt_linew,nstw,nkptw,num_mx,nintep,imx,
+     &  cphase,phase,num_stWell,num_wr_dis,uc,E_evan,E_evanC,ist_evan,
      &  ikpt_evan,iGX_evan,num_evan,weight1,a11,num_iter_evan,dE_evanL,
      &  cc_R1)
-
 cccccccc  Second: the right hand side electrode, the results are  ..ww2 
 cccccccc  The relative electrode energy is E-dV/2
 cccccccc  The current flow from the left hand side to right hand side. 
-
-
+      if(inode.eq.1) then
       write(6,*) "************************************************"
       write(6,*) "**** electrode decomposition for right hand side"
+      endif
       Ew0=E-dV/2
       call wave_decomp(ccy2_st2(1,1),Ew0,num_stw2,
      &  num_run2,idble2,iposit2,nnposit2,ucw2,
      &  n1w,n1,n2,n3,cphase_ucw2,dE_dk2,ak_w2,nline_w2,
-     &  numw,E_linew,ist_linew,ikpt_linew,nstw,nkptw,num_mx,nintep,
-     &  imx,cphase,phase,num_stWell,uc,E_evan,E_evanC,ist_evan,
+     &  numw,E_linew,ist_linew,ikpt_linew,nstw,nkptw,num_mx,nintep,imx,
+     &  cphase,phase,num_stWell,num_wr_dis,uc,E_evan,E_evanC,ist_evan,
      &  ikpt_evan,iGX_evan,num_evan,weight2,a11,num_iter_evan,dE_evanR,
      &  cc_R2)
+      if(inode.eq.1) then
       write(6,*) "************************************************"
-
+      endif
 cccccccccccccccccccccccccccccccccccccccccccccccccccc
 cccccccccccccccccccccccccccccccccccccccccccccccccccc
 cccccccccccccccccccccccccccccccccccccccccccccccccccc
 cccccccccccccccccccccccccccccccccccccccccccccccccccc
-
+      
 cccccccccccccccccccccccccccccccccc
       call select_electrode()
 cccccccccccccccccccccccccccccccccccccccccccccc
@@ -313,12 +350,17 @@ ccccc  Well state.  Basically, if there are enough num_stWell to satisfy all the
 ccccc  we request:  sum_j1 |cc_x(j1)/weight_st(ind_Well(j1))|^2  to be minimum
 ccccc
 ccccccccccccccccccccccccccccccccccccccccccccccc
+      call mpi_barrier(MPI_COMM_WORLD,ierr)
+      call mpi_bcast(ind_Well,nwellm,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
+
+      if(inode.eq.1) then
       write(6,*) "n_stWell;n_wr1,n_we1(L);n_wr2,n_we2(R)",
      &     num_stWell,";", num_wr1,num_w1-num_wr1*2, ";",
      &     num_wr2,num_w2-num_wr2*2
+      endif
 
       if(2*num_stWell.lt.num_wr2+num_wr1) then
-      write(6,*) "have no solution"
+      if(inode.eq.1) write(6,*) "have no solution"
       goto 401
       endif
 cccccccccccccccccccccccccccccccccccc
@@ -333,7 +375,7 @@ cccccccccccccccccccccccccccccccccccc
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
-      write(6,*) "has a solution, icase=",icase
+      if(inode.eq.1) write(6,*) "has a solution, icase=",icase
 
       n_tmp=2*num_stWell
       
@@ -367,17 +409,13 @@ ccccc Those arrays are deallocated!! They are allocated here again.
       allocate(cwork_tmp(2*n_tmp))
       allocate(rwork_tmp(2*n_tmp))
 
-      
-      open(66,file="coefficients.out")
-      rewind(66)
-      write(66,*) 'Transmission and coefficients of system'//
-     & 'states for each scattering state'
+      if(inode.eq.1) then
+      write(42) ist,num_wr2
+      endif
 
-       write(42) ist,num_wr2
 
- 
       do 400 ii1=1,num_wr2    ! num_wr2 is the number of running waves from the right hand side
-
+      if(inode.eq.1) then
       write(6,*) "**********************************"
       write(6,*) "***** solving for incoming running wave:",ii1 
       write(6,*) "**********************************"
@@ -397,8 +435,7 @@ cccccccccccccccccccccccccccccccc
 **********************************************************************
 ccccc the index for ccy2_st1 is ind_Well(j1), index for cc_matrix is j1. 
 ******  index j1 is straight forward. 
-******  index i2 runs through num_wr1,evenascence state 1, num_wr2, evanescence state 2.  
-
+******  index i2 runs through num_wr1,evenascence state 1, num_wr2, evanescence state 2. 
       do j1=1,2*num_stWell    
 
       i2=0
@@ -462,8 +499,6 @@ cccccccccccccccccccccccccc
       U_s1(i,1:i-1)=dcmplx(0.d0,0.d0)
       enddo
       call zpotrf('U',n_tmp,U_s1,n_tmp,info)
-
-
 cccccccccccccccccccccccccccccccccccccccc
 
       x_tmp=dcmplx(1.d0,0.d0)
@@ -473,13 +508,11 @@ cccccccccccccccccccccccccccccccccccccccc
       U_s2(i,1:i-1)=dcmplx(0.d0,0.d0)
       enddo
       call zpotrf('U',n_tmp,U_s2,n_tmp,info)
-
 **********************************************************************
 **********************************************************************
 ***   Now, set up cc_y(i), i=1,num_st
 **********************************************************************
 **********************************************************************
-
       cc_y=dcmplx(0.d0,0.d0)
 
       i2=0
@@ -521,8 +554,6 @@ ccccc  \sum_(j=1,2*num_stWell) cc_matrix(i,j)*cc_x(j) = cc_y(i),   here i=1,num_
 cccccc  when 2*num_stWell > num_st, solve this equation by minimize ||cc_x(j)||
 cccccccccccccccc   put a weight in cc_matrix(i,j)*weight_st(j)*cc_x(j)/weight_st(j)
 cccccccc
-
-
        do j1=1,n_tmp       ! system states (number of coeff)
        do i1=1,num_st      ! electrode states
        cc_matrix0(i1,j1)=cc_matrix(i1,j1)
@@ -567,11 +598,8 @@ cccccccccccccccccccccccccccccc
        if(i1.gt.num_st+n_tmp) then
        fit_err3=fit_err3+abs(cc)**2/fact_right**2
        endif
-   
        enddo
-
 cccccccccccccccccccccccccccccccccccccccc
-
 ccccccccccccccccc  test, test
        fit_err22=0.d0
        fit_err33=0.d0
@@ -581,22 +609,75 @@ ccccccccccccccccc  test, test
        fit_err33=fit_err33+dconjg(cc_y(j1))*cc_s2(j1,j2)*cc_y(j2)
        enddo
        enddo
+      endif ! inode.eq.1
 
+      call mpi_barrier(MPI_COMM_WORLD,ierr)
+      call mpi_bcast(cc_y,num_st+2*n_tmp,MPI_DOUBLE_COMPLEX,0,
+     &  MPI_COMM_WORLD,ierr)
 c        write(6,799) fit_err1,fit_err2,fit_err3 
 c799    format("scatt state fit err(eq,left,right)",3(E11.3,1x))
 c        write(6,798) fit_err1,fit_err22,fit_err33 
 c798    format("scatt state fit err22(eq,left,right)",3(E11.3,1x))
 ccccc fit_err is the overall error of the fit. It should be used to decide how good is this
 ccccc scattering state
+cccccccccccccc   construct the scattering wavefunction state uc_test in the whole space
+cccccccccccccc   from the Well states
+      uc_test=dcmplx(0.d0,0.d0)
 
+      do j1=1,2*num_stWell
+      iist=ind_Well(j1)
+      if(iist.le.num_stWell0) then
+      if(iist.ge.num_wr_dis(1).and.iist.le.num_wr_dis(2)) then
+      iiist=iist-num_wr_dis(1)+1
+      do k=1,n3
+      do j=1,n2
+      do i=1,n1
+      uc_test(i,j,k)=uc_test(i,j,k)+uc(i,j,k,iiist)*cc_y(j1)
+      enddo
+      enddo
+      enddo
+      endif
+      else
+      iist=iist-num_stWell0
+      if(iist.ge.num_wr_dis(1).and.iist.le.num_wr_dis(2)) then
+      iiist=iist-num_wr_dis(1)+1
+      do k=1,n3
+      do j=1,n2
+      do i=1,n1
+      uc_test(i,j,k)=uc_test(i,j,k)+dconjg(uc(i,j,k,iiist))*cc_y(j1)     ! uc_test is the scattering state
+      enddo
+      enddo
+      enddo
+      endif
+      endif     
+      enddo    ! do j1
+
+      do iread=1,mnodes
+       do ii=1,mr_n
+       jj=ii+(iread-1)*mr_n
+       i=(jj-1)/(n2*n3)+1
+       j=(jj-1-(i-1)*n2*n3)/n3+1
+       k=jj-(i-1)*n2*n3-(j-1)*n3
+       uc_tmp(ii)=uc_test(i,j,k)
+       enddo
+       call mpi_barrier(MPI_COMM_WORLD,ierr)
+       call mpi_reduce(uc_tmp,uc_tmp2,mr_n,MPI_DOUBLE_COMPLEX,
+     &  MPI_SUM,0,MPI_COMM_WORLD,ierr)
+       if(inode.eq.1) then
+         do ii=1,mr_n
+         jj=ii+(iread-1)*mr_n
+         i=(jj-1)/(n2*n3)+1
+         j=(jj-1-(i-1)*n2*n3)/n3+1
+         k=jj-(i-1)*n2*n3-(j-1)*n3
+         uc_test(i,j,k)=uc_tmp2(ii)
+         enddo
+       endif
+      enddo
 
 ccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call output_result()
-
-
 400   continue
-       close(66)
 cccccccccccccccccccccccccccccccccccc
       deallocate(cc_matrix)
       deallocate(cc_matrix0)
@@ -621,10 +702,11 @@ cccccccccccccccccccccccccccccccccccc
       deallocate(sum_w2)
       deallocate(cc_w1)
       deallocate(cc_w2)
+      deallocate(uc_test)
 401   continue 
       goto 6000
+      call mpi_finalize(ierr)
 
-      stop
       contains
 
 
@@ -744,7 +826,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccc
       enddo
       
       if(num_tmp.ne.2*num_stWell) then
-      write(6,*) "num_tmp.ne.num_stWell, something wrong"
+      if(inode.eq.1) write(6,*) "num_tmp.ne.num_stWell, something wrong"
       stop
       endif
 
@@ -806,35 +888,6 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccc
       subroutine output_result()
       implicit double precision (a-h,o-z)
       real*8 T_store(100),abcc_store(100)
-
-
-cccccccccccccc   construct the scattering wavefunction state uc_test in the whole space
-cccccccccccccc   from the Well states
-
-      allocate(uc_test(n1,n2,n3))
-      uc_test=dcmplx(0.d0,0.d0)
-
-      do j1=1,2*num_stWell
-      if(ind_Well(j1).le.num_stWell0) then
-      do k=1,n3
-      do j=1,n2
-      do i=1,n1
-      uc_test(i,j,k)=uc_test(i,j,k)+uc(i,j,k,ind_Well(j1))*cc_y(j1)
-      enddo
-      enddo
-      enddo
-      else
-      do k=1,n3
-      do j=1,n2
-      do i=1,n1
-      uc_test(i,j,k)=uc_test(i,j,k)+
-     &       dconjg(uc(i,j,k,ind_Well(j1)-num_stWell0))*cc_y(j1)     ! uc_test is the scattering state
-      enddo
-      enddo
-      enddo
-      endif
-     
-      enddo    ! do j1
 cccccccccccccccccccccccccccccccc
 cccccccccccccccccccccccccccccccc
 cccc  construct the fitted states uc_test2 from the electrode states
@@ -1107,8 +1160,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 884    format("Right eltrd channels, c=:", 20(E8.2,1x))
 
 cccccccccccccccccccccccccccccccc
-
-      deallocate(uc_test)
       deallocate(uc_test2)
       deallocate(uc_test3)
 

@@ -1,6 +1,6 @@
       subroutine CG_linear(ilocal,nline,tol,
      &  wgp_n0,vr,workr_n,kpt,Eref,AL,eigen,
-     &  mxc,mstateT)
+     &  err_st,mxc,mstateT)
 ****************************************
 cc     Written by Lin-Wang Wang, March 30, 2001. 
 cc     Copyright 2001 The Regents of the University of California
@@ -22,6 +22,7 @@ cc     The United States government retains a royalty free license in this work
        complex*16 ugh(mg_nx),ughh(mg_nx)
        complex*16 pg(mg_nx),pgh(mg_nx),pghh(mg_nx)
        complex*16 pg_old(mg_nx),ughh_old(mg_nx)
+       complex*16 zg(mg_nx)
 
        complex*16 wgc_n(mg_nx),wgp_n0(mg_nx,mstateT)
        complex*16, allocatable, dimension (:,:) :: wgp_n,wgp_nh
@@ -31,13 +32,13 @@ cc     The United States government retains a royalty free license in this work
        real*8 AL(3,3)
 c       complex*16 workr_n(mg_nx)
        complex*16 workr_n(*)   ! original workr_n is of mr_n which is larger, xwjiang
-       complex*16 Zcoeff(mx,mstateT),zfac,cai,Vavg
+       complex*16 Zcoeff(mx),zfac,cai
 **********************************************
 **** if iopt=0 is used, pghh_old can be deleted
 **********************************************
        integer lin_st(mst),m_max(mstateT),mxc
        real*8 E_st(mst),err_st(mst),eigen(mst)
-       real*8 Ef,E_wind,occ(mst)
+       real*8 Eref,coeff(mst)
        complex*16 Zbeta,Zpu
 
        common /com123b/m1,m2,m3,ngb,nghb,ntype,rrcut,msb
@@ -53,79 +54,48 @@ c       complex*16 workr_n(mg_nx)
 cccccccccccccccccccccccc
 
        wgp_n=wgp_n0
-       Zcoeff=dcmplx(0.d0,0.d0)
-
-       do 4000 iii=1,mstateT
-
-       err2=1.d0
-       ughh_old = (0.0d0,0.0d0)
-       pg_old = (0.0d0,0.0d0)
-       iopt=1
-       zbeta=dcmplx(0.d0,0.d0)
-
-       call orth_comp_N(wgp_n(1,iii),ug_n,mxc,2,kpt,Zcoeff(1,iii))
-
-cccccccccccccccccccccccccccccccccccccccccccccccc
-
-        do m=1,mxc
-         dE=eigen(m)-Eref
-         if(dabs(dE).lt.1.D-20) dE=1.D-20
-         Zcoeff(m,iii)=Zcoeff(m,iii)/dE
-        enddo
-ccccccccccccccc
-
-         do iim=1,iii-1
-         zfac=Zcoeff(m_max(iim),iii)/Zcoeff(m_max(iim),iim)
-         if(zfac.ne.zfac) zfac=0
-         do i=1,ng_n
-         wgp_n(i,iii)=wgp_n(i,iii)-zfac*wgp_n(i,iim)
-         enddo
-         do m=1,mxc
-         Zcoeff(m,iii)=Zcoeff(m,iii)-zfac*Zcoeff(m,iim)
-         enddo
-         enddo
-         do iim=1,iii-1
-         Zcoeff(m_max(iim),iii)=dcmplx(0.d0,0.d0)
-         enddo
-
-
-        zmax=0.d0
-        m_max(iii)=0
-        do m=1,mxc
-         if(cdabs(Zcoeff(m,iii)).gt.zmax) then
-         zmax=cdabs(Zcoeff(m,iii))
-         m_max(iii)=m
-         endif
-        enddo
-
 ************************************************
 **** wgp_nh = (H-Eref) * wgp_n0
 ************************************************
+       do iii=1,mstateT
        call Hpsi_comp(wgp_n(1,iii),wgp_nh(1,iii),ilocal,vr,workr_n,kpt)
        do i=1,ng_n
        wgp_nh(i,iii)=wgp_nh(i,iii)-Eref*wgp_n(i,iii)
        enddo
+       enddo
 
-cccccccccccccccccccccccccccccccccccccccccccc
+       Zcoeff=dcmplx(0.d0,0.d0)
 
-       rr0=1.d+40
-       pi=4.0d0*datan(1.0d0)
-       akf=((32.0d0/10.26d0**3)*3.0d0*pi*2.0d0)**(1.d0/3.d0)
-       Ek=0.5d0*akf**2
        s=0.0d0
-
        do i=1,nr/nnodes
        s=s+vr(i)
        enddo
-
-       call mpi_allreduce(s,s1,1,MPI_REAL8,MPI_SUM,MPI_COMM_WORLD,ierr)
-       Vavg=s1/nr
+       call global_sumr(s)
+       Vavg=s/nr
 
        do i=1,ng_n
        x=((gkk_n(i,kpt)+Vavg-Eref)/Ek)**2
        prec(i)=1.d0/(1.d0+x)
-       wgc_n(i)=dcmplx(0.d0,0.d0)
        enddo
+
+       do m=1,mxc
+         dE=dabs(eigen(m)-Eref)
+         if(dE.lt.1.D-20) dE=1.D-20
+         coeff(m)=1.D0/(dE**2+err_st(m)**2)
+       enddo
+
+       do 4000 iii=1,mstateT
+
+       err2=1.d0
+       ughh_old=dcmplx(0.0d0,0.0d0)
+       pg_old=dcmplx(0.0d0,0.0d0)
+       iopt=1
+       zbeta=dcmplx(0.d0,0.d0)
+
+cccccccccccccccccccccccccccccccccccccccccccc
+
+       rr0=1.d+40
+       wgc_n=dcmplx(0.d0,0.d0)
 
 
       do 3000 nint2=1,nline
@@ -134,6 +104,7 @@ cccccccccccccccccccccccccccccccccccccccccccc
 **** ughh = (H-Eref)^2 * ug
 ************************************************
       if(nint2.eq.1) then
+c      if(mod(nint2,100).eq.1) then   ! explicit do this every 100 steps
         call Hpsi_comp(wgc_n,ugh,ilocal,vr,workr_n,kpt)
         do i=1,ng_n
         ugh(i)=ugh(i)-Eref*wgc_n(i)
@@ -159,6 +130,7 @@ cccccccccccccccccccccccccccccccccccccccccccc
 
       do i=1,ng_n
       pg(i)=ughh(i)+wgp_nh(i,iii)
+      !ughh_old(i)=pg(i)
       err=err+cdabs(ugh(i)+wgp_n(i,iii))**2
       E0=E0+dreal(dconjg(wgc_n(i))*(ughh(i)+2*wgp_nh(i,iii)))
       E1=E1+dreal((2*wgp_nh(i,iii)))
@@ -175,7 +147,6 @@ cccccccccccccccccccccccccccccccccccccccccccc
       if(err.lt.tol) goto 3001
  
 ************************************************
-      call orth_comp(pg,ug_n,mxc,2,kpt)
 ************************************************
       err2=0.d0
       do i=1,ng_n
@@ -183,15 +154,26 @@ cccccccccccccccccccccccccccccccccccccccccccc
       enddo
       call global_sumr(err2)
       err2=dsqrt(dabs(err2*vol))
+c      if(err2.lt.tol) goto 3001
 ************************************************
 **** begin conjugate gradient
 ************************************************
+      zg=pg
+      call orth_comp_N(zg,ug_n,mxc,2,kpt,Zcoeff)
+      do i=1,ng_n
+        zg(i)=prec(i)*zg(i)
+      enddo
+      do m=1,mxc
+      do i=1,ng_n
+        zg(i)=zg(i)+coeff(m)*Zcoeff(m)*ug_n(i,m)
+      enddo
+      enddo
+
       rr1=0.d0
       rr00=0.d0
       do i=1,ng_n
-      rr00=rr00+cdabs(pg(i))**2*dble(prec(i))
-      rr1=rr1+dble(prec(i))*(pg(i)-iopt*ughh_old(i))*
-     &      dconjg(pg(i))
+      rr00=rr00+dreal(pg(i)*dconjg(zg(i)))
+      rr1=rr1+dreal((pg(i)-iopt*ughh_old(i))*dconjg(zg(i)))
       ughh_old(i)=pg(i)
       enddo
 
@@ -205,11 +187,9 @@ cccccccccccccccccccccccccccccccccccccccccccc
 ***** pg(i) is the line minimization direction
 **********************************************
        do i=1,ng_n
-       pg(i)=-pg(i)*dble(prec(i))+beta*pg_old(i)
+       pg(i)=-zg(i)+beta*pg_old(i)
        enddo
 ************************************************
-      call orth_comp(pg,ug_n,mxc,2,kpt)
-
       s=0.d0
       do i=1,ng_n
       s=s+cdabs(pg(i))**2
@@ -243,7 +223,7 @@ cccccccccccccccccccccccccccccccccccccccccccc
       App=0.d0
 
         do i=1,ng_n
-        Zpu=Zpu+dconjg(pg(i))*(ughh(i)+wgp_nh(i,iii))
+        Zpu=Zpu+dconjg(pg(i))*ughh_old(i)
         App=App+dreal(pg(i)*dconjg(pghh(i)))
         enddo
 
@@ -262,22 +242,28 @@ cccccccccccccccccccccccccccccccccccccccccccc
 **********************************************
       Zbeta=-Zpu/App
 
-      pred_E=E0+2*dreal(Zpu*dconjg(Zbeta))+
-     &     cdabs(Zbeta)**2*App
+c      pred_E=E0+2*dreal(Zpu*dconjg(Zbeta))+
+c     &     cdabs(Zbeta)**2*App
 **********************************************
 **** update ug using theta
 **********************************************
+      s=0.d0
       do i=1,ng_n
       wgc_n(i)=wgc_n(i)+Zbeta*pg(i)
+      s=s+cdabs(wgc_n(i))**2
       enddo
-
+      call global_sumr(s)
+      s=dsqrt(s*vol)
 **********************************************
 ***** debugging:
 **********************************************
       if(inode.eq.1) then
-      write(6,777) nint2,E0,err,err2
+      write(6,777) nint2,E0,pred_E,s,err,err2
       endif
-777   format(i8,3(E20.12,2x))
+777   format(i8,5(E20.12,2x))
+
+      pred_E=E0+2*dreal(Zpu*dconjg(Zbeta))+
+     &     cdabs(Zbeta)**2*App
 **********************************************
 **** do 3000, is for the nline line minimization
 **********************************************
@@ -291,13 +277,6 @@ cccccccccccccccccccccccccccccccccccccccccccc
      &  "  err=",E10.2)
 	write(6,*) 'nint2,E1',nint2,E1
       endif
-
-
-      do m=1,mxc
-      do i=1,ng_n
-      wgc_n(i)=wgc_n(i)-Zcoeff(m,iii)*ug_n(i,m)
-      enddo
-      enddo
 cccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccccccccccjjjjjjjjjj
 cccc output wgc_n in real space, including the phase factor 
