@@ -1,3 +1,5 @@
+all: PEtot_trans1
+
 #include makefile.bassi
 include makefile.intel
 

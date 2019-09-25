@@ -1,11 +1,10 @@
-#Makefile for PEtot on x86 CPU using Intel compiler and MKL
+#Makefile for PEtot on IBM Power CPU using PGI compiler
 
-FC=ftn
-LDR=ftn
-#FFLAGS = -g -traceback
-FFLAGS = -O1
+FC=mpif90
+LDR=mpif90
+FFLAGS = -fast
 F90FLAGS = $(FFLAGS)
-LIB = -mkl libfftf_intel.a
+LIB = -L${OLCF_ESSL_ROOT}/lib64 -lessl -L${OLCF_NETLIB_LAPACK_ROOT}/lib64 -llapack
 
 EXEC_PETOT = PEtot_trans1
 EXEC_PMOMENT = Pmoment_CRAY
@@ -13,7 +12,7 @@ EXEC_PMOMENT = Pmoment_CRAY
 system_time.o: system_time.cray.f
 	$(FC) $(FFLAGS) -o system_time.o  -c $<
 
-system_scfft.o: system_scfft.intel.f
+system_scfft.o: system_scfft.ibm.f
 	$(FC) $(FFLAGS) -o system_scfft.o -c $<
 
 system_flush.o: system_flush.cray.f
@@ -25,10 +24,10 @@ system_czheev.o: system_czheev.cray.f
 #system_czheev.o: system_czheev.scalapack.f
 #	$(FC) $(FFLAGS) -o system_czheev.o -c $<
 
-system_csfft.o: system_csfft.intel.f
+system_csfft.o: system_csfft.ibm.f
 	$(FC) $(FFLAGS) -o system_csfft.o -c $<
 
-system_ccfft.o: system_ccfft.intel.f
+system_ccfft.o: system_ccfft.ibm.f
 	$(FC) $(FFLAGS) -o system_ccfft.o -c $<
 
 getewald.o: getewald.cray.f

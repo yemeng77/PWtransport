@@ -1,15 +1,7 @@
-#Makefile for PEtot on franklin 
+all: PEtot_trans2
 
-
-FC=ftn
-LDR=ftn
-#FFLAGS = -g -traceback
-FFLAGS = -O3
-F90FLAGS = $(FFLAGS)
-#LIB = -L/opt/acml/3.6.1/pgi64/lib -lacml 
-#LIB = -lacml
-LIB = libfftf_intel.a -mkl
-
+#include makefile.franklin
+include makefile.ibm
 
 MODULES=load_data.f \
 fft_data.f \
@@ -90,14 +82,11 @@ dens_outWG.f\
 dens_outWGsp.f\
 system_orth_comp.f\
 system_orth_comp_N.f\
-system_ccfft.intel.f\
-system_csfft.intel.f\
-system_scfft.intel.f\
 system_czheev.f\
 system_flush.f\
 system_time.f
 
-OBJL=$(SRCL:.f=.o)
+OBJL=$(SRCL:.f=.o) $(SRC_obj)
 
 OBJL0=$(SRCL0:.f=.o)
 

@@ -1,0 +1,22 @@
+#Makefile for PEtot on x86 CPU using Intel compiler and MKL
+
+FC=ftn
+LDR=ftn
+#FFLAGS = -g -traceback
+FFLAGS = -O3
+F90FLAGS = $(FFLAGS)
+LIB = libfftf_intel.a -mkl
+
+system_scfft.o: system_scfft.intel.f
+	$(FC) $(FFLAGS) -o system_scfft.o -c $<
+
+system_csfft.o: system_csfft.intel.f
+	$(FC) $(FFLAGS) -o system_csfft.o -c $<
+
+system_ccfft.o: system_ccfft.intel.f
+	$(FC) $(FFLAGS) -o system_ccfft.o -c $<
+
+SRC_obj=\
+system_ccfft.o\
+system_csfft.o\
+system_scfft.o
