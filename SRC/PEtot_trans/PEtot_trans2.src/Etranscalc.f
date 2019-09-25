@@ -33,8 +33,7 @@ cccccc and write the converged wavefunction to           ugIO(ug_n,kpt,1,0,iisld
 
        real*8,allocatable,dimension(:)  :: xyzmaptmp
        real*8,allocatable,dimension(:,:)  :: wmasktmp
-       complex*16,allocatable,dimension(:)  :: v_dv
-c       real*8,allocatable,dimension(:)  :: v_dv
+       real*8,allocatable,dimension(:)  :: v_dv
        integer,allocatable,dimension(:) :: indmtmp
 
        real*8 xatom(3,matom)
@@ -44,9 +43,7 @@ c       real*8,allocatable,dimension(:)  :: v_dv
        integer iiatom(mtype),icore(mtype),numref(matom)
        integer is_ref(mtype),ip_ref(mtype),id_ref(mtype)
 
-       complex*16,allocatable,dimension(:,:) :: wgp_n,fg_n
-       complex*16,allocatable,dimension(:,:) :: pfp_matrix
-       complex*16,allocatable,dimension(:) :: pw_matrix
+       complex*16,allocatable,dimension(:,:) :: wgp_n
 
        integer nmap(matom)
 
@@ -87,8 +84,8 @@ c
        complex*16 workr_n(mr_n)
        complex*16 cc
 
-       integer mxc,mxc2
-       integer index_st(mst),index_st2(mst)
+       integer mxc
+       integer index_st(mst)
 
 **************************************************
 c initialize mpi and number each node
@@ -170,6 +167,7 @@ ccccccc are located inside one processor
        mrb2=2*(4*pi/3*rcut**3)/(vol/(n1*n2*n3))
 ccccc special version, for not equally distributed systems
        mrb2=3*mrb2
+      !mrb2=4*mrb2
 
        mrb2_matom_node=mrb2*natom/nnodes
 
@@ -296,8 +294,6 @@ c       do 200 kpt=1,nkpt
        call wqIO(nkpt,kpt,2)
        endif
 
-
-
        dE=E2_trans-E1_trans
        if(N_trans.gt.1) then
        dE=dE/(N_trans-1)
@@ -334,7 +330,6 @@ c       do 200 kpt=1,nkpt
        endif
 ! end add by Meng Ye
 
-
        if(inode.eq.1) then
        open(17,file="wr_real.E",form="unformatted")
        rewind(17)
@@ -344,12 +339,8 @@ c       do 200 kpt=1,nkpt
 
        call mpi_barrier(MPI_COMM_WORLD,ierr)
 
-       dEmax=1.D-6
-       nd=5
-
        do 6000 iii=1,N_trans
        Eref=(E1_trans+dE*(iii-1))/27.211396d0
-
 
 cccc determine mstate
 cccccc write out the wave function first in file, then 
@@ -393,8 +384,7 @@ ccccccccccccccccccccccccccccccccccccccccccccc
 
        file_dV="wr_test."//char(48+ii1)//char(48+ii2)
 
-       call rhoIO_comp_ym(AL,workr_n,mr_n,2,file_dV,index_ug)
-
+       call rhoIO_comp(AL,workr_n,mr_n,2,file_dV)       
        call d3fft_comp(wgp_n(1,istate),workr_n,1,kpt)
 
        ng_n=ngtotnod(inode,kpt)
@@ -411,7 +401,6 @@ ccccccccc  Ecut is passed in from param.escan_real
        enddo 
 
        call d3fft_comp(wgp_n(1,istate),workr_n,-1,kpt)
-
 
 ccccccccccccccccccc
        i0=n1-12+1
@@ -432,101 +421,10 @@ ccccccccccccccccccc
        workr_n(ii)=workr_n(ii)*dexp(-(i-i0)**2*alpha)
        enddo
        call d3fft_comp(wgp_n(1,istate),workr_n,1,kpt)
-
-       if(inode.eq.1) then
-       mxc2=0
-       do ist=1,mxc
-        dE=dabs(eigen(ist)-Eref)
-        if(dE.le.dEmax.and.index_st(ist).ne.index_ug) then
-          mxc2=mxc2+1
-          index_st2(mxc2)=ist
-        endif
-       enddo
-       endif
-       call mpi_barrier(MPI_COMM_WORLD,ierr)
-       call mpi_bcast(mxc2,1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
-       call mpi_bcast(index_st2,mst,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
-
-       if(mxc2.ne.0) then
-       allocate(fg_n(mg_nx,mxc2))
-       allocate(pfp_matrix(mxc2,mxc2))
-       allocate(pw_matrix(mxc2))
-
-       do ist=1,mxc2
-        fg_n(:,ist)=ug_n(:,index_st2(ist))
-        call d3fft_comp(fg_n(1,ist),workr_n,-1,kpt)
-        do ii=1,nr_n
-          jj=ii+(inode-1)*nr_n
-          i=(jj-1)/(n2*n3)+1
-          fac=0.d0
-          if(i.ge.n1-n1w+1) then
-            iw=i-(n1-n1w)
-            fac=1.d0
-            if(iw.gt.n1w+1-nd) fac=(1.d0-dsin((iw-n1w-1)*pi/2.d0/nd))/2
-            if(iw.lt.nd+1) fac=(1.d0+dsin((iw-1)*pi/2.d0/nd))/2
-          else if(i.le.nd) then
-            iw=i+n1w
-            fac=(1.d0-dsin((iw-n1w-1)*pi/2.d0/nd))/2
-          else if(i.ge.n1-n1w-nd+2.and.i.le.n1-n1w) then
-            iw=i-n1+n1w
-            fac=(1.d0+dsin((iw-1)*pi/2.d0/nd))/2
-          endif
-          workr_n(ii)=workr_n(ii)*fac
-        enddo
-        call mpi_barrier(MPI_COMM_WORLD,ierr)
-        call d3fft_comp(fg_n(1,ist),workr_n,1,kpt)
-       enddo
-
-       pfp_matrix=dcmplx(0.d0,0.d0)
-       do m1=1,mxc2
-        do m2=m1,mxc2
-          cc=dcmplx(0.d0,0.d0)
-          do i=1,ng_n
-            cc=cc+dconjg(ug_n(i,index_st2(m1)))*fg_n(i,m2)
-          enddo
-          call global_sumc(cc)
-          pfp_matrix(m1,m2)=cc*vol
-        enddo
-       enddo
-
-       do m=1,mxc2
-         cc=dcmplx(0.d0,0.d0)
-         do i=1,ng_n
-          cc=cc+dconjg(ug_n(i,index_st2(m)))*wgp_n(i,istate)
-         enddo
-         call global_sumc(cc)
-         pw_matrix(m)=cc*vol
-       enddo
-
-       call mpi_barrier(MPI_COMM_WORLD,ierr)
-
-       call zpotrs('U',mxc2,1,pfp_matrix,mxc2,pw_matrix,mxc2,info)
-
-       if(info.ne.0) then
-         if(inode.eq.1) write(6,*) "Something wrong when call zpotrs."
-         call mpi_abort(MPI_COMM_WORLD,ierr)
-       endif
-
-       do m=1,mxc2
-        do i=1,ng_n
-          wgp_n(i,istate)=wgp_n(i,istate)-pw_matrix(m)*fg_n(i,m)
-        enddo
-       enddo
-
-       call mpi_barrier(MPI_COMM_WORLD,ierr)
-       deallocate(fg_n)
-       deallocate(pfp_matrix)
-       deallocate(pw_matrix)
-       endif  ! mxc2.ne.0
 ccccccccccccccccccccccccccccccccccccccccccccccccccc
        enddo    ! istate=1,mstate
 ccccccccccccccccccccccccccccccccccccccccccccc
-
-ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-
 ccccc Inside CG_linear, the wr_real.E has already been written in real space.
-
        call CG_linear(ilocal,nline,tolug,
      &   wgp_n,vr_in_n(1,iislda),workr_n,
      &   kpt,Eref,AL,eigen,err_st(1,1,1),mxc,mstate)
@@ -543,6 +441,7 @@ ccccc Inside CG_linear, the wr_real.E has already been written in real space.
        close(17)
        endif
 
+c       call mpi_finalize(ierr)
        stop
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
