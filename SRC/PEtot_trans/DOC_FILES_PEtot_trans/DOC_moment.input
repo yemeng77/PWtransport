@@ -1,2 +1,0 @@
-wg.out       ! wavefunction input file from previous calculations
-kpt.file     ! the corresponding kpoint file

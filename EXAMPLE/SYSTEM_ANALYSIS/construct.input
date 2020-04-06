@@ -1,6 +1,0 @@
- 1.0          ! dV (ev), to be the same as in etot.input for central region
- 181, 288      ! ipL, ipR cutoff position of the central region
- 6,  6, 0, 2.0        ! nnL, nnR, the electrode unit in Left and Right, connect to the cutoff positions ipL, ipR
- vr.central, vr.electrode
- xatom.central xatom.electrode
- 432
