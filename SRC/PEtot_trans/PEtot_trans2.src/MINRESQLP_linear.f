@@ -2,10 +2,9 @@
      &  wgp_n0,vr,workr_n,kpt,Eref,AL,eigen,
      &  err_st,mxc,mstateT)
 ****************************************
-cc     Use the quasi-minimal residual (QMR) method to slove linear equation (H-E)x=w_l
-cc     doi: 10.1016/0168-9274(95)00089-5, Algorithm 5.1
-cc     P(H-E)P is Hermitian, so J=I and q_n=p_n here (P^2 is the preconditoner).
-cc     Written by Lin-Wang Wang, March 30, 2001. 
+cc     Use the MINRES_QLP method to slove linear equation (H-E)x=w_l
+cc     doi: 10.1137/100787921
+cc     Written Meng Ye, April 19, 2022. 
 cc     Copyright 2001 The Regents of the University of California
 cc     The United States government retains a royalty free license in this work
 ****************************************
@@ -49,8 +48,9 @@ c       complex*16 workr_n(mg_nx)
        real*8 maxxnorm, trancond, Acondlim
 
        maxxnorm = 1.d7
-       trancond = 1
        Acondlim = 1.d15
+       trancond = Acondlim ! use MINRES for each step
+c       trancond = 1        ! use MINRES-QLP for each step
 
        ng_n=ngtotnod(inode,kpt)
 
@@ -104,10 +104,10 @@ cccccccccccccccccccccccccccccccccccccccccccc
        err = sqrt(err*vol)
 
       if(inode.eq.1) then
-      write(6,888) nint2,Eref*27.211396d0,E0,err
+      write(6,888) itn,Eref*27.211396d0,E0,err
 888   format(i4,"  Eref=",f12.5,"  Emin=",E10.4,1x,
      &  "  err=",E10.2)
-      write(6,*) 'nint2,istop',nint2,istop
+      write(6,*) 'nint2,istop',itn,istop
       endif
 cccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccccccccccjjjjjjjjjj
