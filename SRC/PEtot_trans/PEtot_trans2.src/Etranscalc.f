@@ -425,7 +425,19 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccc
        enddo    ! istate=1,mstate
 ccccccccccccccccccccccccccccccccccccccccccccc
 ccccc Inside CG_linear, the wr_real.E has already been written in real space.
-       call CG_linear(ilocal,nline,tolug,
+c       call lanczos_esti(ilocal,1000,
+c     &    vr_in_n(1,iislda),workr_n,kpt,Eref)
+c       stop
+
+c       call CG_linear(ilocal,nline,tolug,
+c     &   wgp_n,vr_in_n(1,iislda),workr_n,
+c     &   kpt,Eref,AL,eigen,err_st(1,1,1),mxc,mstate)
+
+c       call QMR_linear(ilocal,nline,tolug,
+c     &   wgp_n,vr_in_n(1,iislda),workr_n,
+c     &   kpt,Eref,AL,eigen,err_st(1,1,1),mxc,mstate)
+
+        call MINRESQLP_linear(ilocal,nline,tolug,
      &   wgp_n,vr_in_n(1,iislda),workr_n,
      &   kpt,Eref,AL,eigen,err_st(1,1,1),mxc,mstate)
 

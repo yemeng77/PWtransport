@@ -1,7 +1,8 @@
 all: PEtot_trans2
 
+.SUFFIXES : .o .f90 .f
 #include makefile.franklin
-include makefile.ibm
+include makefile.intel
 
 MODULES=load_data.f \
 fft_data.f \
@@ -84,23 +85,38 @@ system_orth_comp.f\
 system_orth_comp_N.f\
 system_czheev.f\
 system_flush.f\
-system_time.f
+system_time.f\
+lanczos_esti.f\
+QMR_linear.f
+
+MOD_MINRESQLP=zminresqlpModule.f90
+
+SRC_MINRESQLP=MINRESQLP_linear.f
 
 OBJL=$(SRCL:.f=.o) $(SRC_obj)
 
 OBJL0=$(SRCL0:.f=.o)
 
+OBJ_MINRESQLP=$(SRC_MINRESQLP:.f=.o)
+
 OBJMOD=$(MODULES:.f=.o)
 
-$(OBJL):param.escan_real $(MODULES)
+OBJMOD_MINRESQLP=$(MOD_MINRESQLP:.f90=.o)
 
-$(OBJL0):param.escan_real $(MODULES)
+$(OBJL):param.escan_real $(OBJMOD)
+
+$(OBJL0):param.escan_real $(OBJMOD)
+
+$(OBJ_MINRESQLP):param.escan_real $(OBJMOD) $(OBJMOD_MINRESQLP)
 
 .f.o:
 	$(FC) $(FFLAGS) -c $<
 
-PEtot_trans2: $(OBJMOD) $(OBJL0) $(OBJL) $(MODULES)
-	$(LDR)  -o PEtot_trans2 $(OBJL0) $(OBJMOD) $(OBJL) $(LIB)
+.f90.o:
+	$(FC) $(FFLAGS) -c $<
+
+PEtot_trans2: $(OBJL0) $(OBJMOD) $(OBJL) $(OBJ_MINRESQLP) $(OBJMOD_MINRESQLP)
+	$(LDR)  -o PEtot_trans2 $^ $(LIB)
 
 clean:
-	rm -f *.o
+	rm -f *.o *.mod

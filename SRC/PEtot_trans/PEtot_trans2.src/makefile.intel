@@ -1,7 +1,7 @@
 #Makefile for PEtot on x86 CPU using Intel compiler and MKL
 
-FC=ftn
-LDR=ftn
+FC=mpiifort
+LDR=mpiifort
 #FFLAGS = -g -traceback
 FFLAGS = -O3
 F90FLAGS = $(FFLAGS)
